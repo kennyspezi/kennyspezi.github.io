@@ -1,70 +1,45 @@
-/* ==========================================================================
-   Plum skin
-   ========================================================================== */
+/* ✨ Lumen-Goth Periwinkle Skin ✨ */
 
-/* Colors */
-$background-color: #521477 !default;
-$text-color: #fffd86 !default;
-$primary-color: #c327ab !default;
+/* Backgrounds & Base */
+$background-color: #3e105b !default; // deeper plum
+$text-color: #d6cbff !default;       // soft periwinkle white
+$primary-color: #9d5cff !default;    // vivid lavender/purple
+
+/* UI + Code Accents */
 $border-color: mix(#fff, $background-color, 20%) !default;
-$code-background-color: mix(#000, $background-color, 15%) !default;
-$code-background-color-dark: mix(#000, $background-color, 20%) !default;
-$form-background-color: mix(#000, $background-color, 15%) !default;
-$footer-background-color: mix(#000, $background-color, 25%) !default;
-$link-color: $primary-color !default;
-$link-color-hover: mix(#fff, $link-color, 25%) !default;
-$link-color-visited: mix(#000, $link-color, 25%) !default;
-$masthead-link-color: $text-color !default;
-$masthead-link-color-hover: mix(#000, $text-color, 20%) !default;
-$navicon-link-color-hover: mix(#000, $background-color, 30%) !default;
+$code-background-color: #2e0044 !default;
+$code-background-color-dark: #260038 !default;
+$form-background-color: #2a003c !default;
+$footer-background-color: #1a0029 !default;
 
-/* notices */
-$notice-background-mix: 70% !default;
-$code-notice-background-mix: 80% !default;
+/* Links */
+$link-color: #b197ff !default; // holographic indigo
+$link-color-hover: #e5d9ff !default;
+$link-color-visited: mix(#000, $link-color, 20%) !default;
 
-/* plum syntax highlighting (base16) */
-$base00: #ffffff !default;
-$base01: #e0e0e0 !default;
-$base02: #d0d0d0 !default;
-$base03: #b0b0b0 !default;
-$base04: #000000 !default;
-$base05: #101010 !default;
-$base06: #151515 !default;
-$base07: #202020 !default;
-$base08: #ff0086 !default;
-$base09: #fd8900 !default;
-$base0a: #aba800 !default;
-$base0b: #00c918 !default;
-$base0c: #1faaaa !default;
-$base0d: #3777e6 !default;
-$base0e: #ad00a1 !default;
-$base0f: #cc6633 !default;
+/* Nav + Masthead */
+$masthead-link-color: #fff1ff !default;
+$masthead-link-color-hover: #ffe3ff !default;
+$navicon-link-color-hover: #5e008e !default;
 
-.author__urls.social-icons i,
-.author__urls.social-icons .svg-inline--fa,
-.page__footer-follow .social-icons i,
-.page__footer-follow .social-icons .svg-inline--fa  {
-  color: inherit;
-}
+/* Notices */
+$notice-background-mix: 65% !default;
+$code-notice-background-mix: 75% !default;
 
-.page__content {
-  a,
-  a:visited {
-    color: inherit;
-  }
-}
-
-/* next/previous buttons */
-.pagination--pager {
-  color: $text-color;
-  background-color: $primary-color;
-  border-color: transparent;
-
-  &:visited {
-    color: $text-color;
-  }
-}
-
-.ais-search-box .ais-search-box--input {
-  background-color: $form-background-color;
-}
+/* Syntax Highlighting */
+$base00: #201020 !default;
+$base01: #302030 !default;
+$base02: #403040 !default;
+$base03: #605060 !default;
+$base04: #c3aaff !default;
+$base05: #eee0ff !default;
+$base06: #f8f0ff !default;
+$base07: #ffffff !default;
+$base08: #f58eff !default;
+$base09: #fca3ff !default;
+$base0a: #caa9ff !default;
+$base0b: #a3ffea !default;
+$base0c: #86aaff !default;
+$base0d: #9c8fff !default;
+$base0e: #ffb7ff !default;
+$base0f: #d486ff !default;
