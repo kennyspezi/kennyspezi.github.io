@@ -9,31 +9,78 @@ classes: wide
   <p>Loading your GitHub greatness...</p>
 </div>
 
+<style>
+.project-card {
+  display: flex;
+  gap: 2rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+  color: white;
+}
+.project-card:nth-child(even) {
+  background-color: #37003c;
+  flex-direction: row-reverse;
+}
+.project-card:nth-child(odd) {
+  background-color: #540066;
+  flex-direction: row;
+}
+.project-text {
+  flex: 1;
+}
+.project-preview {
+  width: 200px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 1rem;
+  border: 2px solid white;
+}
+</style>
+
+<div id="projects-feed">Loading...</div>
+
 <script>
 fetch("https://api.github.com/users/kennyspezi/repos")
   .then(response => response.json())
   .then(repos => {
     const container = document.getElementById("projects-feed");
-    container.innerHTML = ""; // clear loading text
+    container.innerHTML = "";
 
-    repos
-      .filter(repo => !repo.fork && !repo.archived) // skip forks & dead ones
-      .sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at)) // most recently updated first
-      .forEach(repo => {
+    // Group manually (we'll automate later)
+    const categories = {
+      "Robots & Hardware": ["bangboo-bot", "sprunki4lumen", "micromice"],
+      "School Projects": ["matlabRhythm", "heatindextracker"],
+      "Personal / Other": ["kennyspezi.github.io"]
+    };
+
+    for (const [category, repoNames] of Object.entries(categories)) {
+      container.innerHTML += `<h2 style="margin-top: 3rem; color: #ffccff;">${category}</h2>`;
+
+      repoNames.forEach(name => {
+        const repo = repos.find(r => r.name === name);
+        if (!repo) return;
+
         const updated = new Date(repo.updated_at).toLocaleDateString();
         const stars = repo.stargazers_count;
+        const previewURL = `https://raw.githubusercontent.com/kennyspezi/${repo.name}/main/preview.gif`;
+
         container.innerHTML += `
-          <div style="margin-bottom: 2rem;">
-            <h2>${repo.name}</h2>
-            <p>${repo.description || "No description provided."}</p>
-            <p><strong>Last updated:</strong> ${updated} | ⭐ ${stars}</p>
-            <a href="${repo.html_url}" target="_blank">View on GitHub →</a>
+          <div class="project-card">
+            <img class="project-preview" src="${previewURL}" onerror="this.style.display='none';">
+            <div class="project-text">
+              <h3>${repo.name}</h3>
+              <p>${repo.description || "No description provided."}</p>
+              <p><strong>Last updated:</strong> ${updated} | ⭐ ${stars}</p>
+              <a href="${repo.html_url}" target="_blank">View on GitHub →</a>
+            </div>
           </div>
         `;
       });
+    }
   })
   .catch(err => {
     document.getElementById("projects-feed").innerHTML = "<p>Error loading repos 💀</p>";
-    console.error("GitHub API error:", err);
+    console.error(err);
   });
 </script>
