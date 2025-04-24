@@ -2,13 +2,13 @@
 main:
   - title: "home"
     url: /
-   - title: "about"
-     url: /about-meee/
-   - title: "build log"
-     url: /engineering-projects/
-   - title: "essays"
-     url: /delusional-essays/
-   - title: "posts"
-     url: /spamming/
-   - title: "my goals"
-     url: /my-goals/
+  - title: "about"
+    url: /about-meee/
+  - title: "build log"
+    url: /engineering-projects/
+  - title: "essays"
+    url: /delusional-essays/
+  - title: "posts"
+    url: /spamming/
+  - title: "my goals"
+    url: /my-goals/
