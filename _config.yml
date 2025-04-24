@@ -124,7 +124,7 @@ author:
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      url: "kmadrigal@uh.edu"
+      url: "mailto:kmadrigal@uh.edu"
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
