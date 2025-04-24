@@ -124,22 +124,22 @@ author:
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      url: "kmadrigal1274@gmail.com"
+      url: "kmadrigal@uh.edu"
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
-      url: "you're looking at it"
+      # url: ""
     - label: "Facebook"
       icon: "fab fa-fw fa-facebook-square"
-      # url: "https://facebook.com/"
+      url: "https://www.facebook.com/people/Karla-Madrigal/pfbid0fr1UKjbv17BGRYnTgFwjSsd2WXnFWA4omUYxPSxyLmdWdGApnCB7BBtJWYj8FxYfl/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url: "https://github.com/kennyspezi"
+      url: "https://github.com/kennyspezi"
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
-      # url: "https://instagram.com/"
+      url: "https://www.instagram.com/kentrolysis"
 
 # Site Footer
 footer:
