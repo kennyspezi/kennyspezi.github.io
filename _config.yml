@@ -109,7 +109,10 @@ analytics:
   google:
     tracking_id          :
     anonymize_ip         : # true, false (default)
-
+    
+navigation:
+  enabled: true
+  name: main
 
 # Site Author
 author:
