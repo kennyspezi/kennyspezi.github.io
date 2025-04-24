@@ -48,7 +48,7 @@ iframe {
   <div class="essay-block">
     <div class="essay-title">Hydrogen on the Horizon</div>
     <div class="essay-meta">Written at age 16 after discovering you could extract hydrogen from plastic. Sparked one of my deepest engineering hyperfixations. Covers how fuel cells work, infrastructure gaps, and environmental potential.</div>
-    <iframe src="/assets/essays/hydrogen-on-the-horizon.pdf"></iframe>
+    <iframe src="/assets/essays/hydrogen-onthe-horizon.pdf"></iframe>
   </div>
 
   <div class="essay-block">
