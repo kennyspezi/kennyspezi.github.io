@@ -1,6 +1,6 @@
 ---
 title: "Delusional Essays"
-permalink: /essays/
+permalink: /delusional-essays/
 layout: single
 classes: wide
 ---
