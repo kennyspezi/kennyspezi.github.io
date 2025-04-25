@@ -14,10 +14,9 @@ header:
       url: /about-meee/
 ---
 
-<div class="home-blurb">
 hi gng wsp
 i made this so you guys could get to know me and i can share my projects. this is gonna be a digital home for me.
 so welcome to my digital house. please, get comfortable.
 this website includes essays, github links, social media posts, and information about who i am, what i've been up to, and what i'm really after.
 enjoy enjoy
-</div>
+
