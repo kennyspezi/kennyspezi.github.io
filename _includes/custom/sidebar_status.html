@@ -1,22 +1,39 @@
-<div class="sidebar-toc-combo">
-  <div class="status-block">
-    <p><strong>Status:</strong></p>
-    <p>🧠 biting fixation</p>
-    <p>🛠️ currently working on:</p>
-    <ul>
+<div class="sidebar__status">
+  <div class="sidebar__toc">
+    <p><strong>On this page:</strong></p>
+    {% include toc.html sanitize=true html=content h_min=2 h_max=3 class="toc__menu" skip_no_ids=true %}
+  </div>
+
+  <hr style="border-color: #aaa; margin: 1em 0;">
+
+  <p><strong>Status:</strong><br>
+    🧠 biting fixation<br>
+    🛠️ currently working on:
+    <ul style="margin-left: 1em;">
       <li>📌 making my website presentable</li>
       <li>🌐 procrastinating on finals</li>
       <li>✨ wishing this semester was over</li>
     </ul>
-  </div>
-
-  {% if page.toc %}
-    <nav class="toc">
-      <header><h4 class="nav__title">
-        <i class="fas fa-{{ page.toc_icon | default: 'file-alt' }}"></i> 
-        {{ page.toc_label | default: site.data.ui-text[site.locale].toc_label | default: "On this page" }}
-      </h4></header>
-      {% include toc.html sanitize=true html=content h_min=2 h_max=3 class="toc__menu" skip_no_ids=true %}
-    </nav>
-  {% endif %}
+  </p>
 </div>
+
+<style>
+  .sidebar__status {
+  background-color: #2e003e;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  color: white;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+.sidebar__toc {
+  margin-bottom: 1rem;
+}
+
+.sidebar__status ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+</style>
