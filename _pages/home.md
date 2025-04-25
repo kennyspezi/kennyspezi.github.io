@@ -3,58 +3,66 @@ layout: splash
 permalink: /
 title: null
 classes: wide
+sidebar:
+  nav: sidebar
 header:
   overlay_image: /assets/gif/my-gif.gif
+  overlay_filter: "0.4"
   overlay_color: "#000"
-  overlay_filter: "0.3"
-  height: full
+  actions:
+    - label: "get to know me"
+      url: /about-meee/
 ---
 
-<style>
-.overlay-box {
-  position: absolute;
-  top: 6rem;
-  left: 2rem;
-  background: rgba(30, 0, 40, 0.8);
-  padding: 1.5rem;
-  border-radius: 1rem;
-  max-width: 350px;
-  color: white;
-}
-
-.overlay-box h3 {
-  margin-top: 0;
-  color: #ffccff;
-}
-.overlay-box ul {
-  list-style: none;
-  padding-left: 0;
-}
-.overlay-box li {
-  margin-bottom: 0.5rem;
-}
-</style>
-
-<div class="overlay-box">
-  <h3>Status:</h3>
-  🧠 biting fixation<br>
-  🛠️ currently working on:
-  <ul>
-    <li>📌 making my website presentable</li>
-    <li>🌐 procrastinating on finals</li>
-    <li>✨ wishing this semester was over</li>
-  </ul>
-  <h3>Links:</h3>
-  <ul>
-    <li><a href="mailto:your@email.com">Email</a></li>
-    <li><a href="https://facebook.com/yourprofile" target="_blank">Facebook</a></li>
-    <li><a href="https://github.com/kennyspezi" target="_blank">GitHub</a></li>
-    <li><a href="https://instagram.com/yourinsta" target="_blank">Instagram</a></li>
-  </ul>
+<!-- Social media bar -->
+<div class="social-links">
+  <a href="mailto:kmadrigal@uh.edu" aria-label="Email"><i class="fas fa-envelope"></i></a>
+  <a href="https://github.com/kennyspezi" aria-label="GitHub"><i class="fab fa-github"></i></a>
+  <a href="https://instagram.com/kentrolysis" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+  <a href="https://www.facebook.com/profile.php?id=61558371479932" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+  <a href="https://pinterest.com/kleinekrinkldil" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
 </div>
 
----
-
+<!-- Blurb -->
 <div class="home-blurb">
   welcome to my digital house. it's where i post updates, projects, and random stuff i care about. get cozy.
 </div>
+
+<style>
+/* Splash layout fixes */
+.page__hero--overlay {
+  min-height: 85vh; /* takes up more vertical space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+/* Social icons bar */
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  font-size: 1.6rem;
+}
+
+.social-links a {
+  color: white;
+  transition: 0.2s ease-in-out;
+}
+
+.social-links a:hover {
+  color: #ff9fff;
+}
+
+/* Lower blurb spacing */
+.home-blurb {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: white;
+  max-width: 700px;
+  margin: 0 auto;
+}
+</style>
