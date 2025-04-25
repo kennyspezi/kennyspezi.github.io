@@ -2,8 +2,6 @@
 layout: single
 title: "Engineering Projects"
 permalink: /engineering-projects/
-toc: true
-toc_sticky: true
 sidebar:
   nav: sidebar
 ---
