@@ -8,12 +8,6 @@ sidebar:
   custom: sidebar_status
 ---
 
-## Robots & Hardware
-
-## School Projects
-
-## Personal / Other
-
 <div id="projects-feed">
   <p>Loading your GitHub greatness...</p>
 </div>
@@ -47,29 +41,34 @@ sidebar:
 }
 </style>
 
+<div id="projects-feed">Loading...</div>
+
+## Robots & Hardware
+<!-- This will be overwritten by JS visually, but still helps the TOC script -->
+
+## School Projects
+
+## Personal / Other
+
 <script>
 fetch("https://api.github.com/users/kennyspezi/repos")
   .then(response => response.json())
   .then(repos => {
-    // 👻 filter out your website repo
-    repos = repos.filter(r => r.name !== "kennyspezi.github.io");
+    const container = document.getElementById("projects-feed");
+    container.innerHTML = "";
 
+    // Group manually (we'll automate later)
     const categories = {
       "Robots & Hardware": ["bangboo-bot", "sprunki4lumen", "micromice"],
       "School Projects": ["matlabRhythm", "heatindextracker"],
-      "Personal / Other": []
+      "Personal / Other": ["kennyspezi.github.io"]
     };
 
     for (const [category, repoNames] of Object.entries(categories)) {
-      const sectionId = category.toLowerCase().replace(/[^a-z0-9]/g, "-");
-      const header = document.querySelector(`h2[id="${sectionId}"]`) || document.querySelector(`h2:contains("${category}")`);
+      const header = document.querySelector(`h2[id="${category.toLowerCase().replace(/[^a-z0-9]/g, "-")}"]`);
+      if (header) header.insertAdjacentHTML("afterend", '<div class="injected-group"></div>');
+      const section = container.querySelector(".injected-group:last-of-type");
 
-      let sectionEl = header?.nextElementSibling;
-      if (!sectionEl || !sectionEl.classList.contains("injected-group")) {
-        sectionEl = document.createElement("div");
-        sectionEl.className = "injected-group";
-        header?.insertAdjacentElement("afterend", sectionEl);
-      }
 
       repoNames.forEach(name => {
         const repo = repos.find(r => r.name === name);
@@ -79,7 +78,7 @@ fetch("https://api.github.com/users/kennyspezi/repos")
         const stars = repo.stargazers_count;
         const previewURL = `https://raw.githubusercontent.com/kennyspezi/${repo.name}/main/preview.gif`;
 
-        sectionEl.innerHTML += `
+        container.innerHTML += `
           <div class="project-card">
             <img class="project-preview" src="${previewURL}" onerror="this.style.display='none';">
             <div class="project-text">
