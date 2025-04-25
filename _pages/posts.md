@@ -2,8 +2,6 @@
 title: "Posts"
 permalink: /posts/
 layout: single
-toc: true
-toc_sticky: true
 sidebar:
   nav: sidebar
 ---
