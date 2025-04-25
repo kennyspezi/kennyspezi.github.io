@@ -5,7 +5,7 @@ permalink: /engineering-projects/
 toc: true
 toc_sticky: true
 sidebar:
-  custom: sidebar_status
+  nav: sidebar
 ---
 
 <!-- These IDs are required so JavaScript can target and inject correctly -->
