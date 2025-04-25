@@ -7,6 +7,7 @@ header:
   overlay_image: /assets/gif/my-gif.gif
   overlay_color: "#000"
   overlay_filter: "0.3"
+  height: full
 ---
 
 <style>
