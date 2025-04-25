@@ -5,7 +5,7 @@ layout: single
 toc: true
 toc_sticky: true
 sidebar:
-  custom: sidebar_status
+  nav: sidebar
 ---
 
 ## LinkedIn
