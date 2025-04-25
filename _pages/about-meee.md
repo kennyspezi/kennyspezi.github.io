@@ -41,13 +41,13 @@ hi! i'm <strong>kenny madrigal</strong>, a future electrical engineer and full-t
 
 this space is for my thoughts, my projects, and the weird little digital world i want to carve out for myself.
 
-### what i care about:
+<h3>what i care about:</h3>
 <ul>
   <li>building expressive, high-voltage tech that looks cool and feels alive</li>
   <li>bringing innovation and tech education  to laredo, texas</li>
 </ul>
 
-### okay but also:
+<h3>okay but also:</h3>
 <ul>
   <li>btw i'm so delusional. i think i'm gonna build [top secret projects...dont copy my ideas y'all]</li>
   <li>i loooove will wood and mitski and dazey and the scouts.</li>
