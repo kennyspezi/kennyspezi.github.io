@@ -123,7 +123,7 @@ body.home .site-nav {
 }
 </style>
 <script>
-  fetch("https://gist.githubusercontent.com/kennyspezi/284ecb2f2d8d9181b1ed0d33c9695798/raw/d9c200e9fbf8927a1bf22c002e775c7de1e2755e/homestatus.json")
+  fetch("https://gist.github.com/284ecb2f2d8d9181b1ed0d33c9695798.git")
     .then(res => res.json())
     .then(data => {
       const statusElement = document.querySelector(".splash-status");
