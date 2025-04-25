@@ -1,7 +1,8 @@
 ---
 layout: splash
 permalink: /
-title: null
+title: kenny madrigal
+excerpt: "electrical engineer in progress | laredo–houston, tx"
 classes: wide home
 sidebar:
   nav: sidebar
@@ -9,8 +10,8 @@ header:
   overlay_image: /assets/gif/my-gif.gif
   overlay_filter: "0.3"
   overlay_color: "#000"
-  caption: ""  # disables the default text under "Home"
-  actions: []  # removes the top button & extra caption
+  caption: ""
+  actions: []  # no extra buttons or captions
 ---
 
 <!-- Splash Overlay Content -->
