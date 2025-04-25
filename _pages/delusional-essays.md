@@ -50,7 +50,8 @@ iframe {
 
 <div class="essay-block">
   
-## Hydrogen on the Horizon {.essay-title}
+## Hydrogen on the Horizon
+{.essay-title}
 
 <div class="essay-meta">
 Written at age 16 after discovering you could extract hydrogen from plastic. Sparked one of my deepest engineering hyperfixations. Covers how fuel cells work, infrastructure gaps, and environmental potential.
@@ -62,7 +63,8 @@ Written at age 16 after discovering you could extract hydrogen from plastic. Spa
 
 <div class="essay-block">
 
-## Post-Genderist Rhetoric {.essay-title}
+## Post-Genderist Rhetoric
+{.essay-title}
 
 <div class="essay-meta">
 Junior year assignment. I picked apart ethos/pathos/logos in an academic article on gender-neutral relationships. Stefan Hirschauer is my goat.
@@ -74,7 +76,8 @@ Junior year assignment. I picked apart ethos/pathos/logos in an academic article
 
 <div class="essay-block">
 
-## Rudimentary Electrolytic Cell {.essay-title}
+## Rudimentary Electrolytic Cell
+{.essay-title}
 
 <div class="essay-meta">
 From my Technical Communications class. Messy but endearing science experiment. Wanted to learn about quantum dots and ended up biting off way too much.
