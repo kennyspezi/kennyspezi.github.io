@@ -327,3 +327,19 @@ defaults:
       comments: # true
       share: true
       related: true
+
+  # _pages
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+
+# Homepage override
+collections:
+  pages:
+    output: true
+    permalink: /:title/
+
+paginate: 5
+paginate_path: /page:num/
