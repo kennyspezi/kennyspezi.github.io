@@ -29,7 +29,7 @@ author_profile: true
 }
 
 .about-me li::before {
-  content: "🌱 ";
+  content: "🕹️ ";
   margin-right: 0.5rem;
   color: #a0ffea;
 }
@@ -48,8 +48,12 @@ this space is for my thoughts, my projects, and the weird little digital world i
 </ul>
 
 ### okay but also:
-- btw im delusional
-- i love will wood and mitski
-- im a gemini in case you couldnt tell
+<ul>
+  <li>btw i'm so delusional. i think i'm gonna build [top secret projects...dont copy my ideas y'all]</li>
+  <li>i loooove will wood and mitski and dazey and the scouts.</li>
+  <li>top 3 uhh relatable characters are jinx (arcane), luz noceda (the owl house), and pidge (voltron legendary defender)</li>
+  <li>speaking of which... KLANCE IS CANON KING!!</li>
+  <li>i'm a gemini, in case you couldn't tell</li>
+</ul>
 
 </div>
