@@ -122,3 +122,19 @@ body.home .site-nav {
   pointer-events: auto;
 }
 </style>
+<script>
+  fetch("https://gist.githubusercontent.com/yourUsername/gistID/raw/status.json")
+    .then(res => res.json())
+    .then(data => {
+      const statusElement = document.querySelector(".splash-status");
+      if (statusElement) {
+        statusElement.textContent = data.status;
+      }
+    })
+    .catch(() => {
+      const statusElement = document.querySelector(".splash-status");
+      if (statusElement) {
+        statusElement.textContent = "🕸️ status offline";
+      }
+    });
+</script>
