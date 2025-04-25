@@ -10,13 +10,15 @@ header:
   overlay_filter: "0.3"
   overlay_color: "#000"
   caption: ""  # disables the default text under "Home"
-  actions:
-    - label: "get to know me"
-      url: /about-meee/
+  actions: []  # removes the top button & extra caption
 ---
 
-<!-- Overlay Content -->
+<!-- Splash Overlay Content -->
 <div class="splash-overlay">
+  <div class="splash-welcome">
+    welcome to my digital house. it's where i post updates, projects, and random stuff i care about. get cozy.
+  </div>
+
   <div class="splash-status">🌩️ currently overthinking the universe</div>
 
   <div class="splash-socials">
@@ -38,13 +40,8 @@ header:
   </iframe>
 </div>
 
-<!-- Welcome Blurb -->
-<div class="splash-welcome">
-  <p>welcome to my digital house. it's where i post updates, projects, and random stuff i care about. get cozy.</p>
-</div>
-
 <style>
-/* Stop horizontal scroll and overflow chaos */
+/* General cleanup */
 body, html {
   overflow-x: hidden;
   max-width: 100%;
@@ -55,13 +52,16 @@ body, html {
   min-height: 100vh !important;
 }
 
-/* Semi-transparent nav on homepage ONLY */
-body.home nav#site-nav {
+/* Semi-transparent nav on homepage only */
+body.home .greedy-nav,
+body.home nav,
+body.home .site-nav {
   background-color: rgba(18, 0, 26, 0.85) !important;
   backdrop-filter: blur(8px);
+  transition: background-color 0.3s ease;
 }
 
-/* Center overlay content on splash */
+/* Overlay content in center of splash */
 .splash-overlay {
   position: absolute;
   top: 50%;
@@ -72,7 +72,16 @@ body.home nav#site-nav {
   pointer-events: none;
 }
 
-/* Status one-liner */
+/* Welcome blurb */
+.splash-welcome {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 1.2rem;
+  pointer-events: auto;
+}
+
+/* Status */
 .splash-status {
   background: rgba(0, 0, 0, 0.5);
   display: inline-block;
@@ -103,22 +112,12 @@ body.home nav#site-nav {
   transform: scale(1.2);
 }
 
-/* Spotify in bottom right corner */
+/* Spotify pinned */
 .splash-spotify {
   position: fixed;
   bottom: 1rem;
   right: 1rem;
-  z-index: 100;
+  z-index: 999;
   pointer-events: auto;
-}
-
-/* Welcome Blurb */
-.splash-welcome {
-  margin-top: 4rem;
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: #eee;
-  padding: 0 2rem;
 }
 </style>
