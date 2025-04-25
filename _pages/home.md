@@ -14,11 +14,11 @@ header:
       url: /about-meee/
 ---
 
-<!-- splash overlay section -->
+<!-- splash overlay goes here to sit *inside* header zone -->
 <div class="splash-overlay-container">
 
   <div class="splash-status">
-    <p>a-a-a-among us a-a-a-among us</p>
+    <p>🌩️ currently overthinking the universe</p>
   </div>
 
   <div class="splash-socials">
@@ -29,6 +29,10 @@ header:
     <a href="https://pinterest.com/kleinekrinkldil" target="_blank"><i class="fa-brands fa-pinterest"></i></a>
   </div>
 
+  <div class="splash-blurb">
+    welcome to my digital house. it's where i post updates, projects, and random stuff i care about. get cozy.
+  </div>
+
   <div class="splash-spotify">
     <iframe style="border-radius:12px"
       src="https://open.spotify.com/embed/playlist/03AV66ETCcJNXWXbQiWWTq?utm_source=generator&theme=0"
@@ -36,32 +40,26 @@ header:
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
     </iframe>
   </div>
-
-</div>
-
-<!-- welcome blurb below splash -->
-<div class="home-blurb">
-  welcome to my digital house. it's where i post updates, projects, and random stuff i care about. get cozy.
 </div>
 
 <style>
-/* main container */
+/* full overlay container inside splash */
 .splash-overlay-container {
   position: absolute;
-  bottom: 2rem;
+  bottom: 1.5rem;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  pointer-events: none;
   z-index: 10;
+  pointer-events: none;
 }
 
 /* status text */
 .splash-status p {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
-  padding: 0.6rem 1rem;
+  padding: 0.6rem 1.2rem;
   border-radius: 1rem;
   font-weight: bold;
   font-size: 1rem;
@@ -72,9 +70,8 @@ header:
 /* social icons */
 .splash-socials {
   display: flex;
-  justify-content: center;
   gap: 1.5rem;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   margin-bottom: 1rem;
   pointer-events: auto;
 }
@@ -89,22 +86,34 @@ header:
   transform: scale(1.2);
 }
 
-/* spotify cube */
-.splash-spotify {
-  position: fixed;
-  bottom: 1.25rem;
-  right: 1.25rem;
-  width: 280px;
+/* splash text blurb */
+.splash-blurb {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0.8rem 1.5rem;
+  border-radius: 1rem;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
   pointer-events: auto;
-  z-index: 11;
+  text-align: center;
+  max-width: 800px;
 }
 
-/* welcome text */
-.home-blurb {
-  text-align: center;
-  margin-top: 2rem;
-  padding: 0 2rem;
-  font-size: 1.1rem;
-  color: white;
+/* spotify player */
+.splash-spotify {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 1rem;
+  width: 280px;
+  pointer-events: auto;
+}
+</style>
+
+<style>
+/* transparent header ONLY on the homepage */
+body[data-page-url="/"] .masthead {
+  background-color: rgba(18, 0, 36, 0.5) !important;
+  backdrop-filter: blur(4px);
+  border-bottom: none;
 }
 </style>
