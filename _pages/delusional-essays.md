@@ -26,7 +26,7 @@ sidebar:
   box-sizing: border-box;
 }
 
-.essay-title {
+h2.essay-title {
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
@@ -48,22 +48,40 @@ iframe {
 
 <div class="essay-grid">
 
-  <div class="essay-block">
-    ## Hydrogen on the Horizon {.essay-title}
-    <div class="essay-meta">Written at age 16 after discovering you could extract hydrogen from plastic. Sparked one of my deepest engineering hyperfixations. Covers how fuel cells work, infrastructure gaps, and environmental potential.</div>
-    <iframe src="/assets/essays/hydrogen-onthe-horizon.pdf"></iframe>
-  </div>
+<div class="essay-block">
+  
+## Hydrogen on the Horizon {.essay-title}
 
-  <div class="essay-block">
-    ## Post-Genderist Rhetoric {.essay-title}
-    <div class="essay-meta">Junior year assignment. I picked apart ethos/pathos/logos in an academic article on gender-neutral relationships. Stefan Hirschauer is my goat.</div>
-    <iframe src="/assets/essays/rhetoric_on_postgenderist_relationships.pdf"></iframe>
-  </div>
+<div class="essay-meta">
+Written at age 16 after discovering you could extract hydrogen from plastic. Sparked one of my deepest engineering hyperfixations. Covers how fuel cells work, infrastructure gaps, and environmental potential.
+</div>
 
-  <div class="essay-block">
-    ## Rudimentary Electrolytic Cell {.essay-title}
-    <div class="essay-meta">From my Technical Communications class. Messy but endearing science experiment. Wanted to learn about quantum dots and ended up biting off way too much.</div>
-    <iframe src="/assets/essays/rudimentary-electrolytic-cell.pdf"></iframe>
-  </div>
+<iframe src="/assets/essays/hydrogen-onthe-horizon.pdf"></iframe>
+
+</div>
+
+<div class="essay-block">
+
+## Post-Genderist Rhetoric {.essay-title}
+
+<div class="essay-meta">
+Junior year assignment. I picked apart ethos/pathos/logos in an academic article on gender-neutral relationships. Stefan Hirschauer is my goat.
+</div>
+
+<iframe src="/assets/essays/rhetoric_on_postgenderist_relationships.pdf"></iframe>
+
+</div>
+
+<div class="essay-block">
+
+## Rudimentary Electrolytic Cell {.essay-title}
+
+<div class="essay-meta">
+From my Technical Communications class. Messy but endearing science experiment. Wanted to learn about quantum dots and ended up biting off way too much.
+</div>
+
+<iframe src="/assets/essays/rudimentary-electrolytic-cell.pdf"></iframe>
+
+</div>
 
 </div>
