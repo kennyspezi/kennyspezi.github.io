@@ -2,7 +2,10 @@
 layout: single
 title: "Engineering Projects"
 permalink: /engineering-projects/
-classes: wide
+toc: true
+toc_sticky: true
+sidebar:
+  custom: sidebar_status
 ---
 
 <div id="projects-feed">
@@ -40,6 +43,13 @@ classes: wide
 
 <div id="projects-feed">Loading...</div>
 
+## Robots & Hardware
+<!-- This will be overwritten by JS visually, but still helps the TOC script -->
+
+## School Projects
+
+## Personal / Other
+
 <script>
 fetch("https://api.github.com/users/kennyspezi/repos")
   .then(response => response.json())
@@ -55,7 +65,10 @@ fetch("https://api.github.com/users/kennyspezi/repos")
     };
 
     for (const [category, repoNames] of Object.entries(categories)) {
-      container.innerHTML += `<h2 style="margin-top: 3rem; color: #ffccff;">${category}</h2>`;
+      const header = document.querySelector(`h2[id="${category.toLowerCase().replace(/[^a-z0-9]/g, "-")}"]`);
+      if (header) header.insertAdjacentHTML("afterend", '<div class="injected-group"></div>');
+      const section = container.querySelector(".injected-group:last-of-type");
+
 
       repoNames.forEach(name => {
         const repo = repos.find(r => r.name === name);
