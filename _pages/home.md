@@ -14,10 +14,11 @@ header:
       url: /about-meee/
 ---
 
-<!-- Social media bar -->
+<!-- splash overlay section -->
 <div class="splash-overlay-container">
+
   <div class="splash-status">
-    <p>🌩️ currently overthinking the universe</p>
+    <p>a-a-a-among us a-a-a-among us</p>
   </div>
 
   <div class="splash-socials">
@@ -29,15 +30,22 @@ header:
   </div>
 
   <div class="splash-spotify">
-    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/03AV66ETCcJNXWXbQiWWTq?utm_source=generator&theme=0" 
+    <iframe style="border-radius:12px"
+      src="https://open.spotify.com/embed/playlist/03AV66ETCcJNXWXbQiWWTq?utm_source=generator&theme=0"
       width="100%" height="80" frameBorder="0" allowfullscreen=""
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
     </iframe>
   </div>
+
+</div>
+
+<!-- welcome blurb below splash -->
+<div class="home-blurb">
+  welcome to my digital house. it's where i post updates, projects, and random stuff i care about. get cozy.
 </div>
 
 <style>
-/* Container */
+/* main container */
 .splash-overlay-container {
   position: absolute;
   bottom: 2rem;
@@ -45,13 +53,13 @@ header:
   display: flex;
   flex-direction: column;
   align-items: center;
-  pointer-events: none; /* avoids blocking button clicks */
+  pointer-events: none;
   z-index: 10;
 }
 
-/* One-liner status */
+/* status text */
 .splash-status p {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.5);
   color: white;
   padding: 0.6rem 1rem;
   border-radius: 1rem;
@@ -61,18 +69,19 @@ header:
   pointer-events: auto;
 }
 
-/* Social icons */
+/* social icons */
 .splash-socials {
   display: flex;
+  justify-content: center;
   gap: 1.5rem;
   font-size: 1.5rem;
-  color: white;
   margin-bottom: 1rem;
   pointer-events: auto;
 }
 
 .splash-socials a {
   color: white;
+  text-shadow: 0 0 6px #000;
   transition: transform 0.2s ease;
 }
 
@@ -80,12 +89,22 @@ header:
   transform: scale(1.2);
 }
 
-/* Spotify cube */
+/* spotify cube */
 .splash-spotify {
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  width: 300px;
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  width: 280px;
   pointer-events: auto;
+  z-index: 11;
+}
+
+/* welcome text */
+.home-blurb {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 0 2rem;
+  font-size: 1.1rem;
+  color: white;
 }
 </style>
