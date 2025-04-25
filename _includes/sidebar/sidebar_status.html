@@ -1,26 +1,18 @@
-<!-- _includes/sidebar/sidebar_status.html -->
-
-<div class="sidebar__status" style="margin-bottom: 1rem;">
-  <p><strong>Status:</strong><br>
+<div class="sidebar__status-container" style="margin-bottom: 2rem;">
+  <div class="sidebar__status" style="margin-bottom: 1rem;">
+    <p><strong>Status:</strong><br>
     🧠 biting fixation<br>
-    🔧 currently working on:<br>
+    🛠️ currently working on:<br>
     <ul style="margin-left: 1em;">
       <li>📌 making my website presentable</li>
       <li>🌐 procrastinating on finals</li>
       <li>✨ wishing this semester was over</li>
     </ul>
-  </p>
+    </p>
+  </div>
+
+  <!-- this is where we *manually* call toc.html below the status -->
+  <div class="sidebar__toc">
+    {% include toc.html %}
+  </div>
 </div>
-
-<!-- Inject the table of contents (TOC) underneath -->
-{% include toc.html %}
-
-<style>
-.custom-status-box {
-  background-color: #2e003e;
-  color: white;
-  padding: 1rem;
-  border-radius: 1rem;
-  margin-bottom: 2rem;
-}
-</style>
