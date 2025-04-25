@@ -2,8 +2,6 @@
 title: "Delusional Essays"
 permalink: /delusional-essays/
 layout: single
-toc: true
-toc_sticky: true
 sidebar:
   nav: sidebar
 ---
