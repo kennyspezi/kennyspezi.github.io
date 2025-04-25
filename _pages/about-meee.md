@@ -1,68 +1,55 @@
 ---
-layout: splash
-permalink: /
-title: null
+title: "About Me"
+permalink: /about-meee/
+layout: single
 classes: wide
 sidebar:
   nav: sidebar
-header:
-  overlay_image: /assets/gif/my-gif.gif
-  overlay_filter: "0.4"
-  overlay_color: "#000"
-  actions:
-    - label: "get to know me"
-      url: /about-meee/
+author_profile: true
 ---
 
-<!-- Social media bar -->
-<div class="social-links">
-  <a href="mailto:kmadrigal@uh.edu" aria-label="Email"><i class="fas fa-envelope"></i></a>
-  <a href="https://github.com/kennyspezi" aria-label="GitHub"><i class="fab fa-github"></i></a>
-  <a href="https://instagram.com/kentrolysis" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-  <a href="https://www.facebook.com/profile.php?id=61558371479932" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-  <a href="https://pinterest.com/kleinekrinkldil" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
-</div>
-
-<!-- Blurb -->
-<div class="home-blurb">
-  welcome to my digital house. it's where i post updates, projects, and random stuff i care about. get cozy.
-</div>
-
 <style>
-/* Splash layout fixes */
-.page__hero--overlay {
-  min-height: 85vh; /* takes up more vertical space */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-}
-
-/* Social icons bar */
-.social-links {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 1rem;
-  font-size: 1.6rem;
-}
-
-.social-links a {
+.about-me {
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+  line-height: 1.75;
   color: white;
-  transition: 0.2s ease-in-out;
+  padding: 1.5rem;
 }
 
-.social-links a:hover {
+.about-me strong {
   color: #ff9fff;
 }
 
-/* Lower blurb spacing */
-.home-blurb {
-  text-align: center;
-  padding: 2rem;
-  font-size: 1.1rem;
-  color: white;
-  max-width: 700px;
-  margin: 0 auto;
+.about-me ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1rem;
+}
+
+.about-me li::before {
+  content: "🌱 ";
+  margin-right: 0.5rem;
+  color: #a0ffea;
 }
 </style>
+
+<div class="about-me">
+
+hi! i'm <strong>kenny madrigal</strong>, a future electrical engineer and full-time autist... i’m currently studying at the university of houston and building robots, plasma weapons, emotionally intelligent ai plushies, and sometimes my sanity back. it’s a work in progress.
+
+this space is for my thoughts, my projects, and the weird little digital world i want to carve out for myself.
+
+### what i care about:
+<ul>
+  <li>building expressive, high-voltage tech that looks cool and feels alive</li>
+  <li>bringing innovation and tech education  to laredo, texas</li>
+</ul>
+
+### okay but also:
+- btw im delusional
+- i love will wood and mitski
+- im a gemini in case you couldnt tell
+
+</div>
