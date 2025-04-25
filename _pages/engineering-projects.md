@@ -8,12 +8,17 @@ sidebar:
   custom: sidebar_status
 ---
 
+<!-- These IDs are required so JavaScript can target and inject correctly -->
 ## Robots & Hardware
+{: #robots--hardware }
 
 ## School Projects
+{: #school-projects }
 
 ## Personal / Other
+{: #personal--other }
 
+<!-- Empty container JS will populate -->
 <div id="projects-feed">
   <p>Loading your GitHub greatness...</p>
 </div>
@@ -51,25 +56,24 @@ sidebar:
 fetch("https://api.github.com/users/kennyspezi/repos")
   .then(response => response.json())
   .then(repos => {
-    // 👻 filter out your website repo
+    // 🧹 Filter out the website repo
     repos = repos.filter(r => r.name !== "kennyspezi.github.io");
 
+    // 📁 Define project categories
     const categories = {
-      "Robots & Hardware": ["bangboo-bot", "sprunki4lumen", "micromice"],
-      "School Projects": ["matlabRhythm", "heatindextracker"],
-      "Personal / Other": []
+      "robots--hardware": ["bangboo-bot", "sprunki4lumen", "micromice"],
+      "school-projects": ["matlabRhythm", "heatindextracker"],
+      "personal--other": [] // Add if needed
     };
 
-    for (const [category, repoNames] of Object.entries(categories)) {
-      const sectionId = category.toLowerCase().replace(/[^a-z0-9]/g, "-");
-      const header = document.querySelector(`h2[id="${sectionId}"]`) || document.querySelector(`h2:contains("${category}")`);
+    for (const [id, repoNames] of Object.entries(categories)) {
+      const header = document.querySelector(`h2#${id}`);
+      if (!header) continue;
 
-      let sectionEl = header?.nextElementSibling;
-      if (!sectionEl || !sectionEl.classList.contains("injected-group")) {
-        sectionEl = document.createElement("div");
-        sectionEl.className = "injected-group";
-        header?.insertAdjacentElement("afterend", sectionEl);
-      }
+      // 💡 Create a container right after the header
+      const sectionEl = document.createElement("div");
+      sectionEl.className = "injected-group";
+      header.insertAdjacentElement("afterend", sectionEl);
 
       repoNames.forEach(name => {
         const repo = repos.find(r => r.name === name);
