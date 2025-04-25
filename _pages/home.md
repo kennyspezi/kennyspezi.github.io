@@ -15,54 +15,77 @@ header:
 ---
 
 <!-- Social media bar -->
-<div class="social-links">
-  <a href="mailto:kmadrigal@uh.edu" aria-label="Email"><i class="fas fa-envelope"></i></a>
-  <a href="https://github.com/kennyspezi" aria-label="GitHub"><i class="fab fa-github"></i></a>
-  <a href="https://instagram.com/kentrolysis" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-  <a href="https://www.facebook.com/profile.php?id=61558371479932" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-  <a href="https://pinterest.com/kleinekrinkldil" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
-</div>
+<div class="splash-overlay-container">
+  <div class="splash-status">
+    <p>🌩️ currently overthinking the universe</p>
+  </div>
 
-<!-- Blurb -->
-<div class="home-blurb">
-  welcome to my digital house. it's where i post updates, projects, and random stuff i care about. get cozy.
+  <div class="splash-socials">
+    <a href="mailto:youremail@example.com"><i class="fa-solid fa-envelope"></i></a>
+    <a href="https://github.com/kennyspezi" target="_blank"><i class="fa-brands fa-github"></i></a>
+    <a href="https://instagram.com/kentrolysis" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://facebook.com/profile.php?id=61558371479932" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+    <a href="https://pinterest.com/kleinekrinkldil" target="_blank"><i class="fa-brands fa-pinterest"></i></a>
+  </div>
+
+  <div class="splash-spotify">
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/03AV66ETCcJNXWXbQiWWTq?utm_source=generator&theme=0" 
+      width="100%" height="80" frameBorder="0" allowfullscreen=""
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+    </iframe>
+  </div>
 </div>
 
 <style>
-/* Splash layout fixes */
-.page__hero--overlay {
-  min-height: 85vh; /* takes up more vertical space */
+/* Container */
+.splash-overlay-container {
+  position: absolute;
+  bottom: 2rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  position: relative;
+  align-items: center;
+  pointer-events: none; /* avoids blocking button clicks */
+  z-index: 10;
 }
 
-/* Social icons bar */
-.social-links {
+/* One-liner status */
+.splash-status p {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 1rem;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  pointer-events: auto;
+}
+
+/* Social icons */
+.splash-socials {
   display: flex;
-  justify-content: center;
   gap: 1.5rem;
-  margin-top: 1rem;
-  font-size: 1.6rem;
-}
-
-.social-links a {
+  font-size: 1.5rem;
   color: white;
-  transition: 0.2s ease-in-out;
+  margin-bottom: 1rem;
+  pointer-events: auto;
 }
 
-.social-links a:hover {
-  color: #ff9fff;
-}
-
-/* Lower blurb spacing */
-.home-blurb {
-  text-align: center;
-  padding: 2rem;
-  font-size: 1.1rem;
+.splash-socials a {
   color: white;
-  max-width: 700px;
-  margin: 0 auto;
+  transition: transform 0.2s ease;
+}
+
+.splash-socials a:hover {
+  transform: scale(1.2);
+}
+
+/* Spotify cube */
+.splash-spotify {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  width: 300px;
+  pointer-events: auto;
 }
 </style>
