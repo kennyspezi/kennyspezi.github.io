@@ -1,18 +1,17 @@
-<div class="sidebar__status-container" style="margin-bottom: 2rem;">
-  <div class="sidebar__status" style="margin-bottom: 1rem;">
-    <p><strong>Status:</strong><br>
-    🧠 biting fixation<br>
-    🛠️ currently working on:<br>
-    <ul style="margin-left: 1em;">
-      <li>📌 making my website presentable</li>
-      <li>🌐 procrastinating on finals</li>
-      <li>✨ wishing this semester was over</li>
-    </ul>
-    </p>
-  </div>
+<!-- _includes/sidebar/sidebar_status.html -->
 
-  <!-- this is where we *manually* call toc.html below the status -->
-  <div class="sidebar__toc">
-    {% include toc.html %}
-  </div>
+<!-- Inject the Table of Contents first -->
+{% include toc.html %}
+
+<!-- Then add your custom status box -->
+<div class="sidebar__status" style="margin-top: 1rem;">
+  <p><strong>Status:</strong><br>
+  🧠 biting fixation<br>
+  🛠️ currently working on:<br>
+  <ul style="margin-left: 1em;">
+    <li>📌 making my website presentable</li>
+    <li>🌐 procrastinating on finals</li>
+    <li>✨ wishing this semester was over</li>
+  </ul>
+  </p>
 </div>
