@@ -26,7 +26,7 @@ header:
     <a href="https://instagram.com/kentrolysis" target="_blank"><i class="fa-brands fa-instagram"></i></a>
     <a href="https://facebook.com/profile.php?id=61558371479932" target="_blank"><i class="fa-brands fa-facebook"></i></a>
     <a href="https://pinterest.com/kleinekrinkldil" target="_blank"><i class="fa-brands fa-pinterest"></i></a>
-    <a href="https://www.linkedin.com/in/karla-kenny-madrigal" target="_blank"><i class="fa-brands fa-linkedin"></i>i></a>
+    <a href="https://www.linkedin.com/in/karla-kenny-madrigal" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
   </div>
 </div>
 
