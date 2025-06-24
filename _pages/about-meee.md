@@ -29,7 +29,7 @@ author_profile: true
 }
 
 .about-me li::before {
-  content: "🕹️ ";
+  content: "✪ ";
   margin-right: 0.5rem;
   color: #a0ffea;
 }
@@ -37,23 +37,18 @@ author_profile: true
 
 <div class="about-me">
 
-hi! i'm <strong>kenny madrigal</strong>, a future electrical engineer and full-time autist... i’m currently studying at the university of houston and building robots, plasma weapons, emotionally intelligent ai plushies, and sometimes my sanity back. it’s a work in progress.
+hi! i'm <strong>karla madrigal</strong>, have mostly gone by kenny for the past couple of years, but i think i can be both. anyway, i really want to share my ambitions with you all and carve out a space for myself to be understood :). feel free to browse if you're curious hehh.
 
-this space is for my thoughts, my projects, and the weird little digital world i want to carve out for myself.
-
-<h3>what i care about:</h3>
+here are some fun facts about me:
 <ul>
-  <li>building expressive, high-voltage tech that looks cool and feels alive</li>
-  <li>bringing innovation and tech education  to laredo, texas</li>
+  <li>i was born on may 21st, 2006! i'm a gemini! (used to have an astrology hyperfixation: gemini sun, pisces moon, sag rising :P)</li>
+  <li>i'm interested in analog, power, and microwave electronics :)</li>
+  <li>my hobbies include rollerskating, learning to skateboard, electric guitar, playing fps games, and doodling</li>
+  <li>i'm a first-gen american, high-school graduate, and college student</li>
+  <li>i've struggled with mental disorders my whole life, but SSRIs make it all more bearable!</li>
+  <li>some things i like are rock music (my mom's 80s playlist, will wood, dazey and the scounts), iced boba and caramel macchiatos, and tangy flavors</li>
+  <li>lol i also miss being a part of fandom culture (VLD, Webtoons, BTS, TWICE, Genshin Impact)
+  <li>some things i DON'T like are when people are rude for no reason... or assume things about me due to my sex/gender.... ewww</li>
+  <li>i HAVE to keep instagram and youtube uninstalled/disabled or else i will spend 10 hrs on them haha</li>
 </ul>
-
-<h3>okay but also:</h3>
-<ul>
-  <li>btw i'm so delusional. i think i'm gonna build [top secret projects...dont copy my ideas y'all]</li>
-  <li>i loooove will wood and mitski and dazey and the scouts.</li>
-  <li>top 3 uhh relatable characters are jinx (arcane), luz noceda (the owl house), and pidge (voltron legendary defender)</li>
-  <li>speaking of which... KLANCE IS CANON KING!!</li>
-  <li>i'm a gemini, in case you couldn't tell</li>
-</ul>
-
 </div>
