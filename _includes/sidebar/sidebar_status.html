@@ -10,53 +10,17 @@
   
 <div class="sidebar-status" style="margin-top: 0.5rem;">
   <strong>Status:</strong>
-  <div id="sidebarStatusText" style="margin-top: 0.4rem;">⏳ loading status...</div>
+  <div id="sidebarStatusText" style="margin-top: 0.4rem;">🎸 living my software intern life @ SDE Amazon. thanks AFE DEI!</div>
 
   <div style="margin-top: 0.8rem;">
-    <strong>Currently working on:</strong>
+    <strong>also working on:</strong>
     <ul id="sidebarStatusList" style="margin-left: 1em; list-style-type: disc;">
-      <li>⌛ loading...</li>
+      <li>feeding myself!</li>
+      <li>socializing!</li>
+      <li>depraved projects only the rephrensible can muster!</li>
+      <li>listening to will wood!</li>
     </ul>
   </div>
 </div>
 
 </div>
-
-<script>
-  // 🔗 Replace these with your actual gist raw URLs
-  const statusURL = "https://gist.github.com/284ecb2f2d8d9181b1ed0d33c9695798.git";
-  const tasksURL  = "https://gist.github.com/kennyspezi/74d4928a3016b04ab7d9ad16ae3f81a9.js";
-
-  // Fetch and inject main status
-  fetch(statusURL)
-    .then(res => res.json())
-    .then(data => {
-      const sidebar = document.querySelector("#sidebarStatusText");
-      if (sidebar) sidebar.textContent = data.status;
-    })
-    .catch(() => {
-      const sidebar = document.querySelector("#sidebarStatusText");
-      if (sidebar) sidebar.textContent = "🕸️ status offline";
-    });
-
-  // Fetch and inject task list
-  fetch(tasksURL)
-    .then(res => res.json())
-    .then(data => {
-      const taskList = document.querySelector("#sidebarStatusList");
-      if (taskList && Array.isArray(data.tasks)) {
-        taskList.innerHTML = "";
-        data.tasks.forEach(task => {
-          const li = document.createElement("li");
-          li.textContent = task;
-          taskList.appendChild(li);
-        });
-      }
-    })
-    .catch(() => {
-      const taskList = document.querySelector("#sidebarStatusList");
-      if (taskList) {
-        taskList.innerHTML = "<li>🕸️ couldn't load tasks</li>";
-      }
-    });
-</script>
