@@ -50,7 +50,7 @@ iframe {
 {: .essay-title}
 
 <div class="essay-meta">
-Written at age 16 after discovering you could extract hydrogen from plastic. Sparked one of my deepest engineering hyperfixations. Covers how fuel cells work, infrastructure gaps, and environmental potential.
+i was 16 when i wrote this. one thing led to another and i hyperfixated on how fuel cells, electrolyzers, innovations in storage, and environmental potential.
 </div>
 
 <div class="essay-frame-container">
@@ -61,7 +61,7 @@ Written at age 16 after discovering you could extract hydrogen from plastic. Spa
 {: .essay-title}
 
 <div class="essay-meta">
-Junior year assignment. I picked apart ethos/pathos/logos in an academic article on gender-neutral relationships. Stefan Hirschauer is my goat.
+i think i was also 16 for this one? it was an assignment about analyzing ethos/pathos/logos in an academic article. one of my OCD obsessions is about gender inequality. this article is talking about dynamics within gender-neutral relationships. Stefan Hirschauer is my goat.
 </div>
 
 <div class="essay-frame-container">
@@ -72,7 +72,7 @@ Junior year assignment. I picked apart ethos/pathos/logos in an academic article
 {: .essay-title}
 
 <div class="essay-meta">
-From my Technical Communications class. Messy but endearing science experiment. Wanted to learn about quantum dots and ended up biting off way too much.
+not my proudest work... i bit off more than i could chew in my Tech Comms class. babygirl wants/wanted to be a researcher so bad...
 </div>
 
 <div class="essay-frame-container">
