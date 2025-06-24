@@ -21,7 +21,7 @@ title                    : "kenny madrigal"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "Karla 'Kenny' Madrigal"
-description              : "My digital shrine to all the projects I've made and everything about me :>"
+description              : "karla + blog = klog"
 url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
