@@ -8,7 +8,7 @@ main:
     url: /engineering-projects/
   - title: "essays"
     url: /delusional-essays/
-  - title: "posts"
-    url: /posts/
+#  - title: "posts"
+#    url: /posts/
   - title: "my goals"
     url: /my-goals/
