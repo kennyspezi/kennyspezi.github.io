@@ -59,8 +59,8 @@ fetch("https://api.github.com/users/kennyspezi/repos")
 
     // 📁 Define project categories
     const categories = {
-      "robots--hardware": ["bangboo-bot", "sprunki4lumen", "micromice"],
-      "school-projects": ["matlabRhythm", "heatindextracker"],
+      "robots--hardware": ["sprunki4lumen", "micromice", "rit-drone"],
+      "school-projects": ["heatindextracker"],
       "personal--other": [] // Add if needed
     };
 
