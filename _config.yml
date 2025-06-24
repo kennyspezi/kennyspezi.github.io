@@ -116,11 +116,11 @@ navigation:
 
 # Site Author
 author:
-  name             : "Kenny Madrigal"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "future electrical engineer - giddy child making her dreams come true one anti-depressant at a time"
-  location         : "laredo/houston texas || puro 956"
-  email            :
+  name             : "karla madrigal"
+  avatar           : "assets/images/avatar.jpg"
+  bio              : "i burst into song the second you loaded this website"
+  location         : "laredo/houston texas"
+  email            : "kmadrigal@uh.edu"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
