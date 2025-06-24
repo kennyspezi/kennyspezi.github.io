@@ -20,14 +20,13 @@ header:
     hi! i'm kenny, and i'm making sense of myself by diving into my curiousities and projects :) welcome to my very unpolished website;;
   </div>
 
-  <div class="splash-status">🌩️ currently overthinking the universe</div>
-
   <div class="splash-socials">
     <a href="mailto:kmadrigal@uh.edu"><i class="fa-solid fa-envelope"></i></a>
     <a href="https://github.com/kennyspezi" target="_blank"><i class="fa-brands fa-github"></i></a>
     <a href="https://instagram.com/kentrolysis" target="_blank"><i class="fa-brands fa-instagram"></i></a>
     <a href="https://facebook.com/profile.php?id=61558371479932" target="_blank"><i class="fa-brands fa-facebook"></i></a>
     <a href="https://pinterest.com/kleinekrinkldil" target="_blank"><i class="fa-brands fa-pinterest"></i></a>
+    <a href="https://www.linkedin.com/in/karla-kenny-madrigal" target="_blank"><i class="fa-brands fa-linkedin"></i>i></a>
   </div>
 </div>
 
