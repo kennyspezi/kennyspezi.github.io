@@ -50,5 +50,3 @@ here are some fun facts about me:
   <li>lol i also miss being a part of fandom culture (VLD, Webtoons, BTS, TWICE, Genshin Impact)
   <li>some things i DON'T like are when people are rude for no reason... or assume things about me due to my sex/gender.... ewww</li>
   <li>i HAVE to keep instagram and youtube uninstalled/disabled or else i will spend 10 hrs on them haha</li>
-</ul>
-</div>
