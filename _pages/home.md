@@ -17,7 +17,7 @@ header:
 <!-- Splash Overlay Content -->
 <div class="splash-overlay">
   <div class="splash-welcome">
-    welcome to my digital house. it's where i post updates, projects, and random stuff i care about. get cozy.
+    hi! i'm kenny, and i'm making sense of myself by diving into my curiousities and projects :) welcome to my very unpolished website;;
   </div>
 
   <div class="splash-status">🌩️ currently overthinking the universe</div>
