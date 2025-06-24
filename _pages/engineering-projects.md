@@ -13,9 +13,6 @@ sidebar:
 ## School Projects
 {: #school-projects }
 
-## Personal / Other
-{: #personal--other }
-
 <!-- Empty container JS will populate -->
 <div id="projects-feed">
   <p>Loading your GitHub greatness...</p>
@@ -61,7 +58,6 @@ fetch("https://api.github.com/users/kennyspezi/repos")
     const categories = {
       "robots--hardware": ["sentience4samantha", "battlebot", "micromice", "rit-drone"],
       "school-projects": ["heatindextracker"],
-      "personal--other": [] // Add if needed
     };
 
     for (const [id, repoNames] of Object.entries(categories)) {
