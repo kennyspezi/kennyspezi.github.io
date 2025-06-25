@@ -120,7 +120,7 @@ author:
   avatar           : "assets/images/avatar.jpg"
   bio              : "i burst into song the second you loaded this website"
   location         : "laredo/houston texas"
-  email            : "kmadrigal@uh.edu"
+  email            : 
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
