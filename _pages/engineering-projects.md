@@ -5,7 +5,7 @@ permalink: /engineering-projects/
 sidebar:
   nav: sidebar
 ---
-
+<p>Please forgive how sporadic and empty my repos are... one day they will not be. All the files exist...in either my brain or the digital void. I'm just pre-gaming my portfolio...😎</p>
 <!-- These IDs are required so JavaScript can target and inject correctly -->
 ## Robots & Hardware
 {: #robots--hardware }
@@ -15,7 +15,7 @@ sidebar:
 
 <!-- Empty container JS will populate -->
 <div id="projects-feed">
-  <p>Loading your GitHub greatness...</p>
+  <p>yay!</p>
 </div>
 
 <style>
