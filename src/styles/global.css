@@ -2,7 +2,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
 @import url('https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css');
 
-
 @import "tailwindcss";
 
-
+@theme {
+  --color-primary-purple: #540066;
+  --color-dark-purple: #37003c;
+  --color-darker-purple: #1a0033;
+  --color-darkest-purple: #2e003e;
+  --color-pink-accent: #ff9fff;
+  --color-cyan-accent: #a0ffea;
+  --color-text-light: #ffffff;
+  --color-text-muted: #cccccc;
+}

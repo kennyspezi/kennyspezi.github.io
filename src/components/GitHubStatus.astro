@@ -1,0 +1,147 @@
+---
+const username = 'kennyspezi';
+
+let status = null;
+let error = null;
+
+try {
+  // Fetch user's recent activity from GitHub Events API
+  const response = await fetch(`https://api.github.com/users/${username}/events/public?per_page=5`);
+  if (response.ok) {
+    const events = await response.json();
+    
+    if (events.length > 0) {
+      const latestEvent = events[0];
+      const eventDate = new Date(latestEvent.created_at);
+      const now = new Date();
+      const diffHours = Math.floor((now.getTime() - eventDate.getTime()) / (1000 * 60 * 60));
+      
+      let activityText = '';
+      switch (latestEvent.type) {
+        case 'PushEvent':
+          activityText = `Pushed to ${latestEvent.repo.name}`;
+          break;
+        case 'PullRequestEvent':
+          activityText = `${latestEvent.payload.action} PR in ${latestEvent.repo.name}`;
+          break;
+        case 'IssuesEvent':
+          activityText = `${latestEvent.payload.action} issue in ${latestEvent.repo.name}`;
+          break;
+        case 'CreateEvent':
+          activityText = `Created ${latestEvent.payload.ref_type} in ${latestEvent.repo.name}`;
+          break;
+        default:
+          activityText = `Active on ${latestEvent.repo.name}`;
+      }
+      
+      status = {
+        activity: activityText,
+        timeAgo: diffHours < 1 ? 'Just now' : diffHours < 24 ? `${diffHours}h ago` : `${Math.floor(diffHours / 24)}d ago`,
+        link: `https://github.com/${latestEvent.repo.name}`
+      };
+    }
+  }
+} catch (e) {
+  error = 'Unable to fetch status';
+  console.error('GitHub status error:', e);
+}
+---
+
+<aside class="status-widget">
+  <h3>🚀 current status</h3>
+  {status ? (
+    <div class="status-content">
+      <div class="status-indicator">
+        <span class="pulse"></span>
+        <span class="status-label">Active</span>
+      </div>
+      <a href={status.link} target="_blank" rel="noopener noreferrer" class="status-activity">
+        {status.activity}
+      </a>
+      <span class="status-time">{status.timeAgo}</span>
+    </div>
+  ) : error ? (
+    <p class="status-error">{error}</p>
+  ) : (
+    <p class="status-idle">Currently offline</p>
+  )}
+</aside>
+
+<style>
+  .status-widget {
+    background: var(--darkest-purple);
+    border: 2px solid var(--primary-purple);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .status-widget h3 {
+    margin: 0 0 1rem 0;
+    color: var(--pink-accent);
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .status-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .pulse {
+    width: 10px;
+    height: 10px;
+    background: var(--cyan-accent);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.5;
+      transform: scale(1.1);
+    }
+  }
+
+  .status-label {
+    color: var(--cyan-accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .status-activity {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    padding: 0.5rem;
+    background: var(--dark-purple);
+    border-radius: 6px;
+    transition: background 0.3s ease;
+  }
+
+  .status-activity:hover {
+    background: var(--primary-purple);
+    color: var(--pink-accent);
+  }
+
+  .status-time {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+
+  .status-error, .status-idle {
+    color: var(--text-muted);
+    font-style: italic;
+    margin: 0;
+  }
+</style>

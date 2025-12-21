@@ -1,0 +1,106 @@
+---
+// Social Feed Component - Displays posts from LinkedIn, YouTube, Instagram
+// Using Juicer.io for aggregated social feed
+const juicerFeedName = 'kennyspezi'; // Replace with your Juicer feed name if different
+---
+
+<section class="social-feed">
+  <h2>📱 recent posts</h2>
+  <p class="feed-description">
+    my latest updates from linkedin, youtube, and instagram
+  </p>
+  
+  <div class="juicer-feed" data-feed-id={juicerFeedName}>
+    <p class="loading">Loading social feed...</p>
+  </div>
+</section>
+
+<script is:inline>
+  // Load Juicer script dynamically
+  if (typeof window !== 'undefined') {
+    const script = document.createElement('script');
+    script.src = 'https://assets.juicer.io/embed.js';
+    script.async = true;
+    document.head.appendChild(script);
+  }
+</script>
+
+<style is:global>
+  .social-feed {
+    padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .social-feed h2 {
+    color: var(--pink-accent);
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .feed-description {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .juicer-feed {
+    min-height: 400px;
+  }
+
+  .loading {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 3rem;
+    font-style: italic;
+  }
+
+  /* Custom Juicer styling to match purple theme */
+  ul.juicer-feed {
+    background: transparent !important;
+  }
+
+  ul.juicer-feed li.feed-item {
+    background: var(--darkest-purple) !important;
+    border: 2px solid var(--primary-purple) !important;
+    border-radius: 12px !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+  }
+
+  ul.juicer-feed li.feed-item:hover {
+    transform: translateY(-4px) !important;
+    border-color: var(--pink-accent) !important;
+    box-shadow: 0 8px 24px rgba(255, 159, 255, 0.3) !important;
+  }
+
+  ul.juicer-feed li.feed-item .j-text {
+    color: var(--text-light) !important;
+  }
+
+  ul.juicer-feed li.feed-item .j-text a {
+    color: var(--cyan-accent) !important;
+  }
+
+  ul.juicer-feed li.feed-item .j-text a:hover {
+    color: var(--pink-accent) !important;
+  }
+
+  ul.juicer-feed li.feed-item .j-meta {
+    color: var(--text-muted) !important;
+  }
+
+  .j-paginate a {
+    background: var(--primary-purple) !important;
+    color: var(--cyan-accent) !important;
+    border: 2px solid var(--primary-purple) !important;
+    border-radius: 8px !important;
+  }
+
+  .j-paginate a:hover {
+    background: var(--dark-purple) !important;
+    border-color: var(--pink-accent) !important;
+    color: var(--pink-accent) !important;
+  }
+</style>

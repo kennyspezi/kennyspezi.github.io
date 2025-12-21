@@ -1,27 +1,602 @@
 ---
 import '../styles/global.css'
 import Layout from "../layouts/Layout.astro"
-
 import Header from '../components/Header.astro'
-import Hero from '../components/Hero.astro'
-import Tools from '../components/Tools.astro'
-import Footer from '../components/Footer.astro'
-import Reviews from '../components/Reviews.astro'
-import CallToAction from '../components/CallToAction.astro'
-import Works from '../components/Works.astro'
-import Service from '../components/Service.astro'
+import SpotifyPlayer from '../components/SpotifyPlayer.astro'
 
+// Fetch GitHub activity to highlight active/recent repo
+const username = 'kennyspezi';
+let featuredRepo = null;
+
+try {
+  const eventsResponse = await fetch(`https://api.github.com/users/${username}/events/public?per_page=10`);
+  if (eventsResponse.ok) {
+    const events = await eventsResponse.json();
+    
+    // Find the most recent push or activity event
+    const relevantEvent = events.find(e => 
+      e.type === 'PushEvent' || 
+      e.type === 'CreateEvent' || 
+      e.type === 'PullRequestEvent'
+    );
+    
+    if (relevantEvent) {
+      const repoName = relevantEvent.repo.name.split('/')[1];
+      const repoResponse = await fetch(`https://api.github.com/repos/${relevantEvent.repo.name}`);
+      if (repoResponse.ok) {
+        featuredRepo = await repoResponse.json();
+      }
+    }
+  }
+} catch (e) {
+  console.error('Failed to fetch featured repo:', e);
+}
+
+// Organizations data
+const organizations = [
+  {
+    name: "IEEE@UH",
+    description: "Student chapter of IEEE at University of Houston",
+    link: "https://www.instagram.com/ieee_uh/",
+    icon: "⚡"
+  },
+  {
+    name: "ForkTheCity",
+    description: "Houston-based civic tech organization",
+    link: "https://www.instagram.com/forkthecity/",
+    icon: "🍴"
+  }
+];
 ---
-
 
 <Layout>
   <Header />
-  <Hero />
-  <Tools />
-  <Service />
-  <Works />
-  <Reviews />
-  <CallToAction />
-  <Footer />
+  
+  <main class="home-page">
+    <!-- Hero Splash Section -->
+    <section class="hero-splash">
+      <div class="hero-background">
+        <img src="/assets/gif/my-gif.gif" alt="background" />
+        <div class="hero-overlay"></div>
+      </div>
+      
+      <div class="hero-content">
+        <h1 class="hero-title">kenny madrigal</h1>
+        <p class="hero-subtitle">electrical engineer in progress | laredo–houston, tx</p>
+        
+        <div class="hero-welcome">
+          <p>
+            hi! i'm kenny, and i'm making sense of myself by diving into my curiousities and projects :) 
+            welcome to my very unpolished website;;
+          </p>
+        </div>
+
+        <div class="hero-socials">
+          <a href="mailto:kmadrigal@uh.edu" aria-label="Email" title="Email">
+            <i class="ri-mail-line"></i>
+          </a>
+          <a href="https://github.com/kennyspezi" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+            <i class="ri-github-fill"></i>
+          </a>
+          <a href="https://instagram.com/kentrolysis" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+            <i class="ri-instagram-line"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/karla-kenny-madrigal" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+            <i class="ri-linkedin-box-fill"></i>
+          </a>
+          <a href="https://www.youtube.com/@kennyspezi" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
+            <i class="ri-youtube-fill"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Preview Sections -->
+    <div class="preview-sections">
+      <!-- 1. About Me Preview -->
+      <section class="preview-section about-preview">
+        <div class="preview-content">
+          <div class="preview-icon">👋</div>
+          <h2>about me</h2>
+          <p>
+            I'm a second-year electrical engineering student at UH, interested in analog, power, 
+            and microwave electronics. Currently serving as Project and Workshops Co-Chair of IEEE@UH.
+          </p>
+          <a href="/about/" class="explore-button">
+            <span>get to know me</span>
+            <i class="ri-arrow-right-line"></i>
+          </a>
+        </div>
+      </section>
+
+      <!-- 2. Featured Project / Arts & Crafts Preview -->
+      <section class="preview-section project-preview">
+        <div class="section-badge">
+          <i class="ri-github-fill"></i>
+          <span>currently working on</span>
+        </div>
+        <div class="preview-content">
+          {featuredRepo ? (
+            <div class="featured-repo">
+              <div class="repo-header">
+                <h2>{featuredRepo.name}</h2>
+                <span class="active-badge">🟢 active</span>
+              </div>
+              <p>{featuredRepo.description || 'A project in active development'}</p>
+              <div class="repo-stats">
+                <span class="stat">
+                  <i class="ri-star-fill"></i>
+                  {featuredRepo.stargazers_count}
+                </span>
+                {featuredRepo.language && (
+                  <span class="stat">
+                    <i class="ri-code-line"></i>
+                    {featuredRepo.language}
+                  </span>
+                )}
+                <span class="stat">
+                  <i class="ri-git-commit-line"></i>
+                  updated recently
+                </span>
+              </div>
+              <div class="button-group">
+                <a href={featuredRepo.html_url} target="_blank" rel="noopener noreferrer" class="explore-button secondary">
+                  <span>view on github</span>
+                  <i class="ri-external-link-line"></i>
+                </a>
+                <a href="/arts-n-crafts/" class="explore-button">
+                  <span>explore arts-n-crafts</span>
+                  <i class="ri-arrow-right-line"></i>
+                </a>
+              </div>
+            </div>
+          ) : (
+            <div class="featured-repo">
+              <h2>check out my projects</h2>
+              <p>Explore my collection of personal projects, essays, and organizational work.</p>
+              <a href="/arts-n-crafts/" class="explore-button">
+                <span>explore arts-n-crafts</span>
+                <i class="ri-arrow-right-line"></i>
+              </a>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <!-- 3. Organizations Preview -->
+      <section class="preview-section orgs-preview">
+        <div class="preview-content">
+          <h2>organizations i'm part of</h2>
+          <div class="orgs-grid">
+            {organizations.map(org => (
+              <a href={org.link} target="_blank" rel="noopener noreferrer" class="org-card-preview">
+                <div class="org-icon-large">{org.icon}</div>
+                <h3>{org.name}</h3>
+                <p>{org.description}</p>
+                <span class="visit-link">
+                  visit <i class="ri-arrow-right-up-line"></i>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Recent Post Preview -->
+      <section class="preview-section posts-preview">
+        <div class="preview-content">
+          <div class="preview-icon">📱</div>
+          <h2>recent posts</h2>
+          <p>
+            Follow my journey through LinkedIn, YouTube, and Instagram. 
+            I share updates about projects, workshops, and tech explorations.
+          </p>
+          <div class="social-platforms">
+            <span class="platform"><i class="ri-linkedin-box-fill"></i> LinkedIn</span>
+            <span class="platform"><i class="ri-youtube-fill"></i> YouTube</span>
+            <span class="platform"><i class="ri-instagram-line"></i> Instagram</span>
+          </div>
+          <a href="/posts/" class="explore-button">
+            <span>explore posts</span>
+            <i class="ri-arrow-right-line"></i>
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <SpotifyPlayer />
 </Layout>
 
+<style>
+  .home-page {
+    min-height: 100vh;
+  }
+
+  .hero-splash {
+    position: relative;
+    min-height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .hero-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.3;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(26, 0, 51, 0.7) 0%,
+      rgba(26, 0, 51, 0.9) 100%
+    );
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 2rem;
+    max-width: 800px;
+    animation: fadeInUp 1s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 700;
+    color: var(--pink-accent);
+    margin: 0 0 1rem 0;
+    text-shadow: 0 4px 12px rgba(255, 159, 255, 0.5);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    color: var(--cyan-accent);
+    margin: 0 0 2rem 0;
+    font-weight: 400;
+  }
+
+  .hero-welcome {
+    background: rgba(46, 0, 62, 0.8);
+    border: 2px solid var(--primary-purple);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+    backdrop-filter: blur(10px);
+  }
+
+  .hero-welcome p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .hero-socials {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  .hero-socials a {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--darkest-purple);
+    border: 2px solid var(--primary-purple);
+    border-radius: 50%;
+    color: var(--cyan-accent);
+    font-size: 1.8rem;
+    transition: all 0.3s ease;
+  }
+
+  .hero-socials a:hover {
+    transform: scale(1.15);
+    border-color: var(--pink-accent);
+    background: var(--primary-purple);
+    color: var(--pink-accent);
+    box-shadow: 0 8px 24px rgba(255, 159, 255, 0.4);
+  }
+
+  /* Preview Sections */
+  .preview-sections {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .preview-section {
+    background: var(--darkest-purple);
+    border: 2px solid var(--primary-purple);
+    border-radius: 16px;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .preview-section:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(255, 159, 255, 0.2);
+  }
+
+  .preview-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .preview-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .preview-section h2 {
+    color: var(--pink-accent);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    margin: 0 0 1rem 0;
+    font-weight: 700;
+  }
+
+  .preview-section p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin: 1rem 0;
+  }
+
+  /* Buttons */
+  .explore-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    background: var(--primary-purple);
+    border: 2px solid var(--pink-accent);
+    border-radius: 8px;
+    color: var(--pink-accent);
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+    text-transform: lowercase;
+  }
+
+  .explore-button:hover {
+    background: var(--pink-accent);
+    color: var(--darker-purple);
+    transform: translateX(4px);
+    box-shadow: 0 4px 16px rgba(255, 159, 255, 0.4);
+  }
+
+  .explore-button.secondary {
+    background: var(--dark-purple);
+    border-color: var(--cyan-accent);
+    color: var(--cyan-accent);
+  }
+
+  .explore-button.secondary:hover {
+    background: var(--cyan-accent);
+    color: var(--darker-purple);
+  }
+
+  .button-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+
+  /* Featured Project */
+  .section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--dark-purple);
+    border: 1px solid var(--primary-purple);
+    border-radius: 20px;
+    color: var(--cyan-accent);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+
+  .featured-repo {
+    margin-top: 1rem;
+  }
+
+  .repo-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .active-badge {
+    padding: 0.4rem 0.8rem;
+    background: rgba(0, 255, 127, 0.1);
+    border: 1px solid rgba(0, 255, 127, 0.3);
+    border-radius: 20px;
+    color: #00ff7f;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .repo-stats {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .stat i {
+    color: var(--cyan-accent);
+  }
+
+  /* Organizations */
+  .orgs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .org-card-preview {
+    background: var(--dark-purple);
+    border: 2px solid var(--primary-purple);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s ease;
+    color: inherit;
+  }
+
+  .org-card-preview:hover {
+    transform: translateY(-8px);
+    border-color: var(--pink-accent);
+    box-shadow: 0 12px 24px rgba(255, 159, 255, 0.3);
+  }
+
+  .org-icon-large {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .org-card-preview h3 {
+    color: var(--cyan-accent);
+    margin: 0 0 0.75rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .org-card-preview p {
+    color: var(--text-muted);
+    margin: 0 0 1rem 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .visit-link {
+    color: var(--pink-accent);
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: gap 0.3s ease;
+  }
+
+  .org-card-preview:hover .visit-link {
+    gap: 0.6rem;
+  }
+
+  /* Social Platforms */
+  .social-platforms {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+
+  .platform {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--dark-purple);
+    border: 1px solid var(--primary-purple);
+    border-radius: 8px;
+    color: var(--cyan-accent);
+    font-size: 0.9rem;
+  }
+
+  .platform i {
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 768px) {
+    .hero-content {
+      padding: 1rem;
+    }
+
+    .hero-welcome {
+      padding: 1rem 1.5rem;
+    }
+
+    .hero-socials a {
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+    }
+
+    .preview-sections {
+      padding: 2rem 1rem;
+      gap: 2rem;
+    }
+
+    .preview-section {
+      padding: 2rem 1.5rem;
+    }
+
+    .button-group {
+      flex-direction: column;
+    }
+
+    .explore-button {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .orgs-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

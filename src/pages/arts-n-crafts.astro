@@ -1,0 +1,102 @@
+---
+import '../styles/global.css'
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import GitHubProjects from '../components/GitHubProjects.astro';
+import Essays from '../components/Essays.astro';
+import Organizations from '../components/Organizations.astro';
+---
+
+<Layout>
+  <Header />
+  
+  <main class="arts-page">
+    <div class="page-header">
+      <h1>✨ arts-n-crafts</h1>
+      <p>projects, essays, and organizations that keep me busy</p>
+    </div>
+
+    <section class="section-divider">
+      <h2 class="section-title">🚀 personal projects</h2>
+      <GitHubProjects />
+    </section>
+
+    <section class="section-divider">
+      <Organizations />
+    </section>
+
+    <section class="section-divider">
+      <Essays />
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .arts-page {
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .page-header {
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .page-header h1 {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    color: var(--pink-accent);
+    margin: 0 0 1rem 0;
+    font-weight: 700;
+  }
+
+  .page-header p {
+    font-size: 1.25rem;
+    color: var(--cyan-accent);
+    margin: 0;
+  }
+
+  .section-divider {
+    margin: 4rem 0;
+    position: relative;
+  }
+
+  .section-divider::before {
+    content: '';
+    display: block;
+    width: 100%;
+    max-width: 1200px;
+    height: 2px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--primary-purple) 20%,
+      var(--primary-purple) 80%,
+      transparent
+    );
+    margin: 0 auto 3rem;
+  }
+
+  .section-divider:first-of-type::before {
+    display: none;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--pink-accent);
+    margin: 0 0 2rem 0;
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 1rem;
+    }
+
+    .section-divider {
+      margin: 3rem 0;
+    }
+  }
+</style>

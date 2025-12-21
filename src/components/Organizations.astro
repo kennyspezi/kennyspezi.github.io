@@ -1,0 +1,101 @@
+---
+const organizations = [
+  {
+    name: "IEEE@UH",
+    description: "Student chapter of the Institute of Electrical and Electronics Engineers at the University of Houston",
+    link: "https://www.instagram.com/ieee_uh/",
+    icon: "⚡"
+  },
+  {
+    name: "ForkTheCity",
+    description: "Houston-based civic tech and community development organization",
+    link: "https://www.instagram.com/forkthecity/",
+    icon: "🍴"
+  }
+];
+---
+
+<section class="organizations-section">
+  <h2>🏛️ organizations</h2>
+  <div class="organizations-grid">
+    {organizations.map(org => (
+      <a href={org.link} target="_blank" rel="noopener noreferrer" class="org-card">
+        <div class="org-icon">{org.icon}</div>
+        <h3>{org.name}</h3>
+        <p>{org.description}</p>
+        <span class="visit-link">visit →</span>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .organizations-section {
+    padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .organizations-section h2 {
+    color: var(--pink-accent);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .organizations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+
+  .org-card {
+    background: var(--darkest-purple);
+    border: 2px solid var(--primary-purple);
+    border-radius: 12px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    color: inherit;
+  }
+
+  .org-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--pink-accent);
+    box-shadow: 0 12px 24px rgba(255, 159, 255, 0.3);
+  }
+
+  .org-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  .org-card h3 {
+    color: var(--cyan-accent);
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .org-card p {
+    color: var(--text-muted);
+    margin: 0 0 1.5rem 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    flex-grow: 1;
+  }
+
+  .visit-link {
+    color: var(--pink-accent);
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+
+  .org-card:hover .visit-link {
+    color: var(--cyan-accent);
+  }
+</style>

@@ -1,0 +1,57 @@
+---
+// Spotify Player Component - Fixed bottom-right floating widget
+const playlistUrl = "https://open.spotify.com/embed/playlist/5AB8mSwney3HHC8f9MTFJ8?utm_source=generator";
+---
+
+<div class="spotify-widget">
+  <iframe
+    src={playlistUrl}
+    width="300"
+    height="380"
+    frameborder="0"
+    allowfullscreen
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+    loading="lazy"
+  ></iframe>
+</div>
+
+<style>
+  .spotify-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .spotify-widget:hover {
+    transform: scale(1.02);
+  }
+
+  .spotify-widget iframe {
+    display: block;
+    border-radius: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .spotify-widget {
+      bottom: 10px;
+      right: 10px;
+      width: 280px;
+    }
+
+    .spotify-widget iframe {
+      width: 280px;
+      height: 352px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .spotify-widget {
+      display: none;
+    }
+  }
+</style>

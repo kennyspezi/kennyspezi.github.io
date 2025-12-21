@@ -1,0 +1,109 @@
+---
+const essays = [
+  {
+    title: "Hydrogen on the Horizon",
+    description: "An exploration of hydrogen energy and its future potential",
+    pdf: "/assets/essays/hydrogen-onthe-horizon.pdf"
+  },
+  {
+    title: "Post-Genderist Rhetoric",
+    description: "Examining rhetoric in post-genderist relationships",
+    pdf: "/assets/essays/rhetoric_on_postgenderist_relationships.pdf"
+  },
+  {
+    title: "Rudimentary Electrolytic Cell",
+    description: "Technical analysis of basic electrolytic cell design",
+    pdf: "/assets/essays/rudimentary-electrolytic-cell.pdf"
+  },
+  {
+    title: "Among Us",
+    description: "A collection of thoughts and essays",
+    pdf: "/assets/essays/amongus.pdf"
+  }
+];
+---
+
+<section class="essays-section">
+  <h2>📝 essays</h2>
+  <div class="essays-grid">
+    {essays.map(essay => (
+      <a href={essay.pdf} target="_blank" rel="noopener noreferrer" class="essay-card">
+        <div class="essay-icon">📄</div>
+        <h3>{essay.title}</h3>
+        <p>{essay.description}</p>
+        <span class="read-link">read pdf →</span>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .essays-section {
+    padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .essays-section h2 {
+    color: var(--pink-accent);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .essays-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .essay-card {
+    background: var(--darkest-purple);
+    border: 2px solid var(--primary-purple);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    color: inherit;
+  }
+
+  .essay-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--cyan-accent);
+    box-shadow: 0 12px 24px rgba(160, 255, 234, 0.3);
+  }
+
+  .essay-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .essay-card h3 {
+    color: var(--cyan-accent);
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .essay-card p {
+    color: var(--text-muted);
+    margin: 0 0 1rem 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    flex-grow: 1;
+  }
+
+  .read-link {
+    color: var(--pink-accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+  }
+
+  .essay-card:hover .read-link {
+    color: var(--cyan-accent);
+  }
+</style>

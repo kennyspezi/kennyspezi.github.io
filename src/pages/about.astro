@@ -1,0 +1,268 @@
+---
+import '../styles/global.css'
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import GitHubStatus from '../components/GitHubStatus.astro';
+---
+
+<Layout>
+  <Header />
+  
+  <main class="about-page">
+    <div class="about-container">
+      <div class="about-header">
+        <img src="/assets/images/avatar.jpg" alt="Kenny Madrigal" class="avatar" />
+        <div class="header-text">
+          <h1>karla "kenny" madrigal</h1>
+          <p class="bio">i burst into song the second you loaded this website</p>
+          <p class="location">📍 laredo/houston texas</p>
+        </div>
+      </div>
+
+      <div class="about-content">
+        <section class="intro">
+          <p>
+            Hey! I'm <strong>Karla "Kenny" Madrigal</strong>, a second-year electrical engineering 
+            student at the University of Houston. At the moment, I'm interested in analog, power, 
+            and microwave electronics. I'm shooting for a role in hardware prototyping and testing 
+            in the future.
+          </p>
+        </section>
+
+        <section class="current-work">
+          <h2>✨ what i'm working on</h2>
+          <p>
+            I spend a lot of my time as <strong>Project and Workshops Co-Chair of IEEE@UH</strong>. 
+            I organize workshops and facilitate projects with my co-chair. You can learn more at{' '}
+            <a href="https://ieee-universityofhouston.github.io/pw-page/" target="_blank" rel="noopener noreferrer">
+              our website
+            </a>.
+          </p>
+        </section>
+
+        <section class="interests">
+          <h2>🎸 beyond engineering</h2>
+          <ul class="star-list">
+            <li>learning guitar</li>
+            <li>rollerskating</li>
+            <li>doing karaoke</li>
+            <li>learning more about Linux</li>
+          </ul>
+        </section>
+
+        <section class="social-links">
+          <h2>📬 connect with me</h2>
+          <div class="social-grid">
+            <a href="mailto:kmadrigal@uh.edu" class="social-card">
+              <i class="ri-mail-line"></i>
+              <span>Email</span>
+            </a>
+            <a href="https://www.linkedin.com/in/karla-kenny-madrigal" target="_blank" rel="noopener noreferrer" class="social-card">
+              <i class="ri-linkedin-box-fill"></i>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://github.com/kennyspezi" target="_blank" rel="noopener noreferrer" class="social-card">
+              <i class="ri-github-fill"></i>
+              <span>GitHub</span>
+            </a>
+            <a href="https://instagram.com/kentrolysis" target="_blank" rel="noopener noreferrer" class="social-card">
+              <i class="ri-instagram-line"></i>
+              <span>Instagram</span>
+            </a>
+            <a href="https://www.youtube.com/@kennyspezi" target="_blank" rel="noopener noreferrer" class="social-card">
+              <i class="ri-youtube-fill"></i>
+              <span>YouTube</span>
+            </a>
+          </div>
+        </section>
+      </div>
+
+      <aside class="sidebar">
+        <GitHubStatus />
+      </aside>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .about-page {
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 968px) {
+    .about-container {
+      grid-template-columns: 1fr 300px;
+      grid-template-rows: auto 1fr;
+    }
+
+    .about-header {
+      grid-column: 1 / -1;
+    }
+
+    .sidebar {
+      grid-column: 2;
+      grid-row: 2;
+    }
+  }
+
+  .about-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    background: var(--darkest-purple);
+    border: 2px solid var(--primary-purple);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+  }
+
+  .avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid var(--pink-accent);
+    object-fit: cover;
+    box-shadow: 0 8px 24px rgba(255, 159, 255, 0.3);
+  }
+
+  .header-text h1 {
+    margin: 0 0 0.5rem 0;
+    color: var(--cyan-accent);
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .bio {
+    margin: 0.5rem 0;
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 1rem;
+  }
+
+  .location {
+    margin: 0.5rem 0 0 0;
+    color: var(--text-light);
+    font-size: 1rem;
+  }
+
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .about-content section {
+    background: var(--darkest-purple);
+    border: 2px solid var(--primary-purple);
+    border-radius: 12px;
+    padding: 2rem;
+  }
+
+  .about-content h2 {
+    color: var(--pink-accent);
+    font-size: 1.5rem;
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-purple);
+  }
+
+  .about-content p {
+    color: var(--text-light);
+    line-height: 1.8;
+    margin: 0.5rem 0;
+  }
+
+  .about-content strong {
+    color: var(--cyan-accent);
+  }
+
+  .star-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0 0;
+  }
+
+  .star-list li {
+    color: var(--text-light);
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+  }
+
+  .star-list li::before {
+    content: "⭐";
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+  }
+
+  .social-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .social-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem 1rem;
+    background: var(--dark-purple);
+    border: 2px solid var(--primary-purple);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    color: var(--cyan-accent);
+  }
+
+  .social-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--pink-accent);
+    background: var(--primary-purple);
+    color: var(--pink-accent);
+    box-shadow: 0 8px 24px rgba(255, 159, 255, 0.3);
+  }
+
+  .social-card i {
+    font-size: 2rem;
+  }
+
+  .social-card span {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .about-header {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+    }
+
+    .header-text h1 {
+      font-size: 1.75rem;
+    }
+
+    .about-content section {
+      padding: 1.5rem;
+    }
+
+    .social-grid {
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
+  }
+</style>
