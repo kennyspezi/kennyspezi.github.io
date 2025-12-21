@@ -67,8 +67,8 @@ try {
         return {
           ...repo,
           parentOwner,
-          previewImage: await getPreviewImage(repo.name, parentOwner, repo.default_branch),
-          commits: await getRecentCommits(repo.name, parentOwner)
+          previewImage: await getPreviewImage(repo.name, username, repo.default_branch),
+          commits: await getRecentCommits(repo.name, username)
         };
       })
     );
