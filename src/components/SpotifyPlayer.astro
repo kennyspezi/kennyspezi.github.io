@@ -1,57 +1,325 @@
 ---
-// Spotify Player Component - Fixed bottom-right floating widget
-const playlistUrl = "https://open.spotify.com/embed/playlist/5AB8mSwney3HHC8f9MTFJ8?utm_source=generator";
+const songs = [
+  { name: "Lonely Is the Night", artist: "Air Supply", file: "/music/Air Supply - Lonely Is the Night.mp3" },
+  { name: "Pied Piper", artist: "BTS", file: "/music/BTS - Pied Piper.mp3" },
+  { name: "In Too Deep", artist: "Genesis", file: "/music/Genesis - In Too Deep.mp3" },
+  { name: "P.U.N.K. Girl", artist: "Heavenly", file: "/music/Heavenly - P.U.N.K. Girl.mp3" },
+  { name: "Devuélveme a mi chica", artist: "Hombres G", file: "/music/Hombres G - Devuélveme a mi chica.mp3" },
+  { name: "Puppy Princess", artist: "Hot Freaks", file: "/music/Hot Freaks - Puppy Princess (Lyrics).mp3" },
+  { name: "Mariposa Traicionera", artist: "MANÁ", file: "/music/MANÁ - Mariposa Traicionera [ Letra ].mp3" },
+  { name: "Jupiter", artist: "Matt Maltese", file: "/music/Matt Maltese - Jupiter.mp3" },
+  { name: "Heaven", artist: "RM", file: "/music/RM - Heaven.mp3" },
+  { name: "Heaven", artist: "Solya", file: "/music/Solya - Heaven.mp3" },
+];
 ---
 
-<div class="spotify-widget">
-  <iframe
-    src={playlistUrl}
-    width="300"
-    height="380"
-    frameborder="0"
-    allowfullscreen
-    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-    loading="lazy"
-  ></iframe>
+<div class="jukebox-widget" id="jukebox" transition:persist="jukebox">
+  <div class="jukebox-display">
+    <div class="radio-icon">📻</div>
+    <div class="now-playing">
+      <div class="label">now playing:</div>
+      <div class="song-title" id="songTitle"></div>
+      <div class="artist-name" id="artistName"></div>
+    </div>
+  </div>
+  <div class="jukebox-controls">
+    <button id="prevBtn" class="control-btn nav-btn">⏮</button>
+    <button id="playBtn" class="control-btn play-btn">▶ Play</button>
+    <button id="nextBtn" class="control-btn nav-btn">⏭</button>
+  </div>
 </div>
 
+<script define:vars={{ songs }}>
+  // Fix corrupted state - if jukebox exists but properties are undefined
+  if (window.jukebox && (
+    window.jukebox.isPlaying === undefined || 
+    window.jukebox.currentIndex === undefined ||
+    window.jukebox.songs === undefined
+  )) {
+    // Preserve only the audio if it exists
+    const existingAudio = window.jukebox.audio;
+    // Reset to proper initial state
+    window.jukebox = {
+      songs: songs,
+      currentIndex: window.jukebox.currentIndex ?? Math.floor(Math.random() * songs.length),
+      isPlaying: existingAudio ? !existingAudio.paused : false,
+      audio: existingAudio || null,
+    };
+  }
+
+  function getRoot() {
+    return document.getElementById("jukebox");
+  }
+
+  function ensureState() {
+    if (!window.jukebox) {
+      const initialIndex = Math.floor(Math.random() * songs.length);
+      window.jukebox = {
+        songs,
+        currentIndex: initialIndex,
+        isPlaying: false,
+        audio: null,
+      };
+
+    } else if (songs && songs.length > 0) {
+      // Preserve existing audio object if it exists
+      const existingAudio = window.jukebox.audio;
+      const existingIsPlaying = existingAudio ? !existingAudio.paused : false;
+      
+      window.jukebox.songs = songs; // in case HMR reloads this module
+      
+      // Always ensure audio and isPlaying have proper values
+      if (existingAudio) {
+        window.jukebox.audio = existingAudio;
+        window.jukebox.isPlaying = existingIsPlaying;
+      } else {
+        // Ensure defaults if no audio exists
+        window.jukebox.audio = null;
+        window.jukebox.isPlaying = false;
+      }
+      
+      // Fix if currentIndex is invalid (undefined, null, or out of range)
+      if (window.jukebox.currentIndex == null || window.jukebox.currentIndex >= songs.length || window.jukebox.currentIndex < 0) {
+        window.jukebox.currentIndex = 0;
+      }
+
+    }
+  }
+
+  function updateDisplay(root) {
+    if (!root) return;
+    const title = root.querySelector("#songTitle");
+    const artist = root.querySelector("#artistName");
+    const playBtn = root.querySelector("#playBtn");
+    if (!title || !artist || !playBtn) return;
+
+    const jb = window.jukebox;
+    if (!jb || !jb.songs || jb.songs.length === 0) return;
+    
+    // Sync isPlaying state with actual audio state only if audio exists
+    if (jb.audio) {
+      jb.isPlaying = !jb.audio.paused;
+    }
+    
+    const song = jb.songs[jb.currentIndex];
+    title.textContent = song?.name ?? "";
+    artist.textContent = song?.artist ?? "";
+    
+    // Force the button to show pause if audio is actively playing
+    const shouldShowPause = jb.audio && !jb.audio.paused;
+    playBtn.textContent = shouldShowPause ? "⏸" : "▶";
+    playBtn.classList.toggle("playing", shouldShowPause);
+  }
+
+  function getRandomSong() {
+    const jb = window.jukebox;
+    if (!jb || !jb.songs || jb.songs.length === 0) return 0;
+    let idx;
+    do idx = Math.floor(Math.random() * jb.songs.length);
+    while (idx === jb.currentIndex && jb.songs.length > 1);
+    return idx;
+  }
+
+  function playSong(index, root) {
+    const jb = window.jukebox;
+    if (!jb || !jb.songs || !jb.songs[index]) {
+      console.error('❌ Cannot play song:', { jb, index, hasJukebox: !!jb, hasSongs: !!jb?.songs });
+      return;
+    }
+
+    if (jb.audio) jb.audio.pause();
+
+    jb.currentIndex = index;
+    
+    jb.audio = new Audio(jb.songs[index].file);
+    jb.audio.preload = "auto";
+    jb.audio.load();
+
+    jb.isPlaying = true;
+    jb.audio.play().catch((err) => {
+      console.error('❌ Audio play failed:', err);
+      console.error('File path:', jb.songs[index].file);
+    });
+    jb.audio.onended = () => playSong(getRandomSong(), root);
+
+    updateDisplay(root);
+  }
+
+  function bind() {
+    const root = getRoot();
+    if (!root) return;
+
+    ensureState();
+    updateDisplay(root);
+
+    // IMPORTANT: avoid duplicate bindings after swaps/HMR
+    if (root.dataset.bound === "1") return;
+    root.dataset.bound = "1";
+
+    root.addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+
+      const jb = window.jukebox;
+
+      if (btn.id === "playBtn") {
+        if (!jb.audio) return playSong(jb.currentIndex, root);
+
+        if (jb.audio.paused) {
+          jb.audio.play().catch(console.error);
+          jb.isPlaying = true;
+        } else {
+          jb.audio.pause();
+          jb.isPlaying = false;
+        }
+        updateDisplay(root);
+      }
+
+      if (btn.id === "nextBtn" || btn.id === "prevBtn") {
+        const newIndex = getRandomSong();
+        jb.isPlaying ? playSong(newIndex, root) : (jb.currentIndex = newIndex, updateDisplay(root));
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", bind);
+  document.addEventListener("astro:page-load", bind);
+  document.addEventListener("astro:after-swap", bind);
+</script>
+
 <style>
-  .spotify-widget {
+  .jukebox-widget {
     position: fixed;
     bottom: 20px;
     right: 20px;
     z-index: 1000;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(135deg, #2d1b4e 0%, #1a0f2e 100%);
+    border: 3px solid var(--pink-accent);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(255, 159, 255, 0.4), 0 0 20px rgba(160, 255, 234, 0.2);
+    min-width: 280px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .jukebox-widget:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(255, 159, 255, 0.5), 0 0 30px rgba(160, 255, 234, 0.3);
+  }
+
+  .jukebox-display {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .radio-icon {
+    font-size: 2.5rem;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  .now-playing {
+    flex: 1;
+  }
+
+  .label {
+    color: var(--cyan-accent);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.25rem;
+  }
+
+  .song-title {
+    color: var(--pink-accent);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
     overflow: hidden;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  .spotify-widget:hover {
-    transform: scale(1.02);
+  .artist-name {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  .spotify-widget iframe {
-    display: block;
-    border-radius: 12px;
+  .jukebox-controls {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .control-btn {
+    background: var(--primary-purple);
+    border: 2px solid var(--cyan-accent);
+    color: var(--cyan-accent);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .play-btn {
+    flex: 2;
+  }
+
+  .nav-btn {
+    flex: 1;
+    font-size: 1.1rem;
+  }
+
+  .control-btn:hover {
+    background: var(--cyan-accent);
+    color: var(--darkest-purple);
+    transform: scale(1.05);
+  }
+
+  .control-btn.playing {
+    border-color: var(--pink-accent);
+    color: var(--pink-accent);
+  }
+
+  .control-btn.playing:hover {
+    background: var(--pink-accent);
+    color: var(--darkest-purple);
   }
 
   @media (max-width: 768px) {
-    .spotify-widget {
+    .jukebox-widget {
       bottom: 10px;
       right: 10px;
-      width: 280px;
+      min-width: 260px;
+      padding: 1rem;
     }
 
-    .spotify-widget iframe {
-      width: 280px;
-      height: 352px;
+    .radio-icon {
+      font-size: 2rem;
+    }
+
+    .song-title {
+      font-size: 0.9rem;
     }
   }
 
   @media (max-width: 480px) {
-    .spotify-widget {
-      display: none;
+    .jukebox-widget {
+      bottom: 10px;
+      right: 10px;
+      left: 10px;
+      min-width: auto;
     }
   }
 </style>

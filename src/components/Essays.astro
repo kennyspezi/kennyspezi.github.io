@@ -2,23 +2,15 @@
 const essays = [
   {
     title: "Hydrogen on the Horizon",
-    description: "An exploration of hydrogen energy and its future potential",
-    pdf: "/assets/essays/hydrogen-onthe-horizon.pdf"
+    description: "Analysis of hydrogen fuel cell vehicles as a sustainable transportation solution, examining their environmental benefits, technological advancements, and potential for heavy-duty applications",
+    pdf: "/assets/essays/hydrogen-onthe-horizon.pdf",
+    date: "April 2023"
   },
   {
     title: "Post-Genderist Rhetoric",
-    description: "Examining rhetoric in post-genderist relationships",
-    pdf: "/assets/essays/rhetoric_on_postgenderist_relationships.pdf"
-  },
-  {
-    title: "Rudimentary Electrolytic Cell",
-    description: "Technical analysis of basic electrolytic cell design",
-    pdf: "/assets/essays/rudimentary-electrolytic-cell.pdf"
-  },
-  {
-    title: "Among Us",
-    description: "A collection of thoughts and essays",
-    pdf: "/assets/essays/amongus.pdf"
+    description: "Rhetorical analysis of Stefan Hirschauer's work on gender dynamics in intimate relationships, exploring how couples navigate gender (in)difference in an evolving social landscape",
+    pdf: "/assets/essays/rhetoric_on_postgenderist_relationships.pdf",
+    date: "November 2022"
   }
 ];
 ---
@@ -30,6 +22,7 @@ const essays = [
       <a href={essay.pdf} target="_blank" rel="noopener noreferrer" class="essay-card">
         <div class="essay-icon">📄</div>
         <h3>{essay.title}</h3>
+        <p class="essay-date">{essay.date}</p>
         <p>{essay.description}</p>
         <span class="read-link">read pdf →</span>
       </a>
@@ -94,6 +87,13 @@ const essays = [
     font-size: 0.9rem;
     line-height: 1.5;
     flex-grow: 1;
+  }
+
+  .essay-date {
+    color: var(--pink-accent);
+    font-size: 0.85rem;
+    font-style: italic;
+    margin: 0 0 0.5rem 0;
   }
 
   .read-link {

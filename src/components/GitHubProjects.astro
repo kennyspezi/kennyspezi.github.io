@@ -5,13 +5,40 @@ const excludeRepo = 'kennyspezi.github.io';
 let repos = [];
 let error = null;
 
+// Function to check for preview image in repo
+async function getPreviewImage(repoName: string, defaultBranch: string) {
+  const extensions = ['png', 'jpg', 'jpeg', 'gif'];
+  
+  for (const ext of extensions) {
+    try {
+      const url = `https://raw.githubusercontent.com/${username}/${repoName}/${defaultBranch}/preview.${ext}`;
+      const response = await fetch(url, { method: 'HEAD' });
+      if (response.ok) {
+        return url;
+      }
+    } catch (e) {
+      // Continue to next extension
+    }
+  }
+  
+  return '/assets/gif/nyan-cat.gif';
+}
+
 try {
   const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
   if (response.ok) {
     const allRepos = await response.json();
-    repos = allRepos
+    const filteredRepos = allRepos
       .filter(repo => repo.name !== excludeRepo && !repo.fork)
       .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+    
+    // Fetch preview images for each repo
+    repos = await Promise.all(
+      filteredRepos.map(async (repo) => ({
+        ...repo,
+        previewImage: await getPreviewImage(repo.name, repo.default_branch)
+      }))
+    );
   }
 } catch (e) {
   error = 'Failed to load projects';
@@ -25,11 +52,7 @@ try {
       repos.map(repo => (
         <a href={repo.html_url} target="_blank" rel="noopener noreferrer" class="project-card">
           <div class="project-image">
-            {repo.homepage && repo.homepage.includes('imgur') ? (
-              <img src={repo.homepage} alt={repo.name} />
-            ) : (
-              <img src="/assets/gif/nyan-cat.gif" alt="nyan cat" />
-            )}
+            <img src={repo.previewImage} alt={repo.name} />
           </div>
           <div class="project-content">
             <h3>{repo.name}</h3>
