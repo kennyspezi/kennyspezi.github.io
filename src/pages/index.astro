@@ -2,8 +2,10 @@
 import '../styles/global.css'
 import Layout from "../layouts/Layout.astro"
 import Header from '../components/Header.astro'
-import SpotifyPlayer from '../components/MusicPlayer.astro'
+import Footer from '../components/Footer.astro'
+import MusicPlayer from '../components/MusicPlayer.astro'
 import Organizations from '../components/Organizations.astro'
+import Stickers from '../components/Stickers.astro'
 
 // Fetch GitHub activity to highlight active/recent repo
 const username = 'kennyspezi';
@@ -38,6 +40,8 @@ try {
   <Header />
   
   <main class="home-page">
+    <Stickers page="home" />
+    
     <!-- Hero Splash Section -->
     <section class="hero-splash">
       <div class="hero-background">
@@ -46,7 +50,7 @@ try {
       </div>
       
       <div class="hero-content">
-        <h1 class="hero-title">kenny madrigal</h1>
+        <h1 class="hero-title gradient-text">kenny madrigal</h1>
         <p class="hero-subtitle">electrical engineer in progress | laredo–houston, tx</p>
         
         <div class="hero-welcome">
@@ -56,38 +60,41 @@ try {
           </p>
         </div>
 
-        <div class="hero-socials">
-          <a href="mailto:kennyspezi@proton.me" aria-label="Email" title="Email">
+        <div class="hero-socials social-container">
+          <a href="mailto:kennyspezi@proton.me" class="social-icon social-icon-lg" aria-label="Email" title="Email">
             <i class="ri-mail-line"></i>
           </a>
-          <a href="https://github.com/kennyspezi" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+          <a href="https://github.com/kennyspezi" class="social-icon social-icon-lg" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
             <i class="ri-github-fill"></i>
           </a>
-          <a href="https://instagram.com/kentrolysis" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+          <a href="https://instagram.com/kentrolysis" class="social-icon social-icon-lg" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
             <i class="ri-instagram-line"></i>
           </a>
-          <a href="https://www.linkedin.com/in/karla-kenny-madrigal" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+          <a href="https://www.linkedin.com/in/karla-kenny-madrigal" class="social-icon social-icon-lg" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
             <i class="ri-linkedin-box-fill"></i>
           </a>
-          <a href="https://www.youtube.com/@kennyspezi" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
+          <a href="https://www.youtube.com/@kennyspezi" class="social-icon social-icon-lg" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
             <i class="ri-youtube-fill"></i>
           </a>
         </div>
       </div>
     </section>
 
+    <!-- Music Player Banner -->
+    <MusicPlayer />
+
     <!-- Preview Sections -->
     <div class="preview-sections">
       <!-- 1. About Me Preview -->
-      <section class="preview-section about-preview">
+      <section class="preview-section about-preview tilted-card">
         <div class="preview-content">
-          <div class="preview-icon">👋</div>
+          <div class="preview-icon animate-wiggle">🐯</div>
           <h2>about me</h2>
           <p>
-            I'm a second-year electrical engineering student at UH, interested in analog, power, 
-            and microwave electronics. Currently serving as Project and Workshops Co-Chair of IEEE@UH.
+            I'm a second-year electrical engineering student at UH. I'm interested in analog, power, 
+            and microwave electronics, but ultimately I'm a hobbyist working my way up!
           </p>
-          <a href="/about/" class="explore-button">
+          <a href="/about/" class="explore-button btn-primary">
             <span>get to know me</span>
             <i class="ri-arrow-right-line"></i>
           </a>
@@ -95,7 +102,7 @@ try {
       </section>
 
       <!-- 2. Featured Project / Arts & Crafts Preview -->
-      <section class="preview-section project-preview">
+      <section class="preview-section project-preview tilted-card-reverse">
         <div class="section-badge">
           <i class="ri-github-fill"></i>
           <span>currently working on</span>
@@ -124,12 +131,12 @@ try {
                   updated recently
                 </span>
               </div>
-              <div class="button-group">
-                <a href={featuredRepo.html_url} target="_blank" rel="noopener noreferrer" class="explore-button secondary">
+              <div class="btn-group">
+                <a href={featuredRepo.html_url} target="_blank" rel="noopener noreferrer" class="explore-button btn-primary btn-secondary">
                   <span>view on github</span>
                   <i class="ri-external-link-line"></i>
                 </a>
-                <a href="/arts-n-crafts/" class="explore-button">
+                <a href="/arts-n-crafts/" class="explore-button btn-primary">
                   <span>explore arts-n-crafts</span>
                   <i class="ri-arrow-right-line"></i>
                 </a>
@@ -139,7 +146,7 @@ try {
             <div class="featured-repo">
               <h2>check out my projects</h2>
               <p>Explore my collection of personal projects, essays, and organizational work.</p>
-              <a href="/arts-n-crafts/" class="explore-button">
+              <a href="/arts-n-crafts/" class="explore-button btn-primary">
                 <span>explore arts-n-crafts</span>
                 <i class="ri-arrow-right-line"></i>
               </a>
@@ -149,14 +156,35 @@ try {
       </section>
 
       <!-- 3. Organizations Preview -->
-      <section class="preview-section orgs-preview">
+      <section class="preview-section orgs-preview tilted-card">
         <Organizations title="organizations i'm part of" />
+      </section>
+
+      <!-- 4. Nyan Cat -->
+      <section class="preview-section nyan-preview">
+        <img src="/assets/gif/nyan-cat.gif" alt="nyan cat" class="nyan-cat" />
+      </section>
+
+      <!-- 5. Second Gif -->
+      <section class="preview-section gif-preview">
+        <img src="/assets/gif/my-gif.gif" alt="animated gif" class="gif-image" />
       </section>
     </div>
   </main>
 
-  <SpotifyPlayer />
+  <Footer />
 </Layout>
+
+<script>
+fo  import { initScrollReveal } from '../lib/scrollReveal';
+  
+  // Initialize scroll reveal for bento box sections
+  initScrollReveal('.preview-section', {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px',
+    once: false
+  });
+</script>
 
 <style>
   .home-page {
@@ -207,32 +235,55 @@ try {
     text-align: center;
     padding: 2rem;
     max-width: 800px;
-    animation: fadeInUp 1s ease-out;
   }
 
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-content {
+      animation: fadeInUp 1s ease-out;
     }
   }
 
   .hero-title {
-    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-size: clamp(1.05rem, 6vw, 2.1rem);
     font-weight: 700;
     color: var(--pink-accent);
-    margin: 0 0 1rem 0;
+    margin: 0 0 0.45rem 0;
     text-shadow: 0 4px 12px rgba(255, 159, 255, 0.5);
   }
 
+  /* Gradient text animation */
+  .gradient-text {
+    background: linear-gradient(
+      90deg,
+      var(--pink-accent),
+      var(--cyan-accent),
+      var(--pink-accent)
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .gradient-text {
+      animation: gradientShift 4s ease infinite;
+    }
+  }
+
+  @keyframes gradientShift {
+    0%, 100% {
+      background-position: 0% center;
+    }
+    50% {
+      background-position: 100% center;
+    }
+  }
+
   .hero-subtitle {
-    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-size: clamp(0.525rem, 2.5vw, 0.675rem);
     color: var(--cyan-accent);
-    margin: 0 0 2rem 0;
+    margin: 0 0 0.9rem 0;
     font-weight: 400;
   }
 
@@ -240,70 +291,212 @@ try {
     background: rgba(46, 0, 62, 0.8);
     border: 2px solid var(--primary-purple);
     border-radius: 12px;
-    padding: 1.5rem 2rem;
-    margin: 2rem 0;
+    padding: 0.75rem 0.9rem;
+    margin: 0.9rem 0;
     backdrop-filter: blur(10px);
   }
 
   .hero-welcome p {
     color: var(--text-light);
-    font-size: 1.1rem;
+    font-size: 0.87rem;
+    line-height: 1.6;
+    margin: 0;
     line-height: 1.6;
     margin: 0;
   }
 
   .hero-socials {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    margin-top: 2rem;
+    gap: 1rem;
   }
 
   .hero-socials a {
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background: var(--darkest-purple);
-    border: 2px solid var(--primary-purple);
-    border-radius: 50%;
-    color: var(--cyan-accent);
-    font-size: 1.8rem;
-    transition: all 0.3s ease;
   }
 
   .hero-socials a:hover {
     transform: scale(1.15);
-    border-color: var(--pink-accent);
-    background: var(--primary-purple);
-    color: var(--pink-accent);
-    box-shadow: 0 8px 24px rgba(255, 159, 255, 0.4);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-socials a:nth-child(1) { animation: fadeInUp 0.6s ease-out 0.2s both; }
+    .hero-socials a:nth-child(2) { animation: fadeInUp 0.6s ease-out 0.3s both; }
+    .hero-socials a:nth-child(3) { animation: fadeInUp 0.6s ease-out 0.4s both; }
+    .hero-socials a:nth-child(4) { animation: fadeInUp 0.6s ease-out 0.5s both; }
+    .hero-socials a:nth-child(5) { animation: fadeInUp 0.6s ease-out 0.6s both; }
   }
 
   /* Preview Sections */
   .preview-sections {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 4rem 1rem;
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 1.2rem;
+    padding: 1.8rem 0.6rem;
+    max-width: 1400px;
+    margin: 0 auto;
   }
 
+  @media (min-width: 968px) {
+    .preview-sections {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: minmax(130px, 0.9fr) minmax(180px, 1.1fr) minmax(150px, 0.8fr);
+      gap: 1.2rem;
+      min-height: calc(100vh - 240px);
+      max-height: none;
+    }
+
+    .about-preview {
+      grid-column: 2 / 4;
+      grid-row: 1;
+      min-height: 0;
+      overflow-y: auto;
+    }
+
+    .project-preview {
+      grid-column: 3;
+      grid-row: 2;
+      min-height: 0;
+      overflow-y: auto;
+    }
+
+    .orgs-preview {
+      grid-column: 1 / 3;
+      grid-row: 2 / 4;
+      overflow-y: auto;
+      min-height: 0;
+    }
+
+    .nyan-preview {
+      grid-column: 1;
+      grid-row: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--darkest-purple);
+      border: 2px solid var(--primary-purple);
+      border-radius: 12px;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .nyan-cat {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      image-rendering: pixelated;
+    }
+
+    .gif-preview {
+      grid-column: 3;
+      grid-row: 3;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--darkest-purple);
+      border: 2px solid var(--primary-purple);
+      border-radius: 12px;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .gif-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .preview-section {
+      opacity: 0.05;
+      transform: translateY(60px) scale(0.95);
+      filter: blur(10px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out, filter 0.8s ease-out;
+    }
+
+    .preview-section.revealed {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+
+    .about-preview.revealed {
+      transition-delay: 0.2s;
+    }
+
+    .project-preview.revealed {
+      transition-delay: 0.4s;
+    }
+
+    .orgs-preview.revealed {
+      transition-delay: 0.3s;
+    }
+
+    .nyan-preview.revealed {
+      transition-delay: 0.1s;
+    }
+
+    .gif-preview.revealed {
+      transition-delay: 0.5s;
+    }
+  }
+
+  /* Preview sections extend card-base with custom padding */
   .preview-section {
     background: var(--darkest-purple);
     border: 2px solid var(--primary-purple);
-    border-radius: 16px;
-    padding: 3rem;
+    border-radius: 12px;
+    padding: 0.9rem;
     position: relative;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform-origin: center center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .preview-section::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(
+      45deg,
+      var(--pink-accent),
+      var(--cyan-accent),
+      var(--pink-accent)
+    );
+    background-size: 200% 200%;
+    border-radius: 16px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .preview-section::before {
+      animation: gradientRotate 3s ease infinite;
+    }
+  }
+
+  .preview-section:hover::before {
+    opacity: 0.3;
+  }
+
+  @keyframes gradientRotate {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
   }
 
   .preview-section:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(255, 159, 255, 0.2);
+    box-shadow: 0 16px 40px rgba(255, 159, 255, 0.3);
   }
 
   .preview-content {
@@ -312,116 +505,118 @@ try {
   }
 
   .preview-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 1.35rem;
+    margin-bottom: 0.45rem;
+    display: inline-block;
   }
 
   .preview-section h2 {
     color: var(--pink-accent);
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    margin: 0 0 1rem 0;
+    font-size: clamp(0.825rem, 3.5vw, 1.125rem);
+    margin: 0 0 0.45rem 0;
     font-weight: 700;
+    position: relative;
+    display: inline-block;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .preview-section h2::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--pink-accent), var(--cyan-accent));
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+
+    .preview-section:hover h2::after {
+      width: 100%;
+    }
   }
 
   .preview-section p {
     color: var(--text-light);
-    font-size: 1.1rem;
-    line-height: 1.8;
-    margin: 1rem 0;
+    font-size: 0.75rem;
+    line-height: 1.7;
+    margin: 0.45rem 0;
   }
 
-  /* Buttons */
+  /* Buttons use btn-primary/btn-secondary from shared styles */
   .explore-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 1rem 2rem;
-    background: var(--primary-purple);
-    border: 2px solid var(--pink-accent);
-    border-radius: 8px;
-    color: var(--pink-accent);
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    margin-top: 1.5rem;
+    margin-top: 0.6rem;
     text-transform: lowercase;
-  }
-
-  .explore-button:hover {
-    background: var(--pink-accent);
-    color: var(--darker-purple);
-    transform: translateX(4px);
-    box-shadow: 0 4px 16px rgba(255, 159, 255, 0.4);
-  }
-
-  .explore-button.secondary {
-    background: var(--dark-purple);
-    border-color: var(--cyan-accent);
-    color: var(--cyan-accent);
-  }
-
-  .explore-button.secondary:hover {
-    background: var(--cyan-accent);
-    color: var(--darker-purple);
-  }
-
-  .button-group {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-top: 1.5rem;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.54rem;
   }
 
   /* Featured Project */
   .section-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
+    gap: 0.3rem;
+    padding: 0.24rem 0.51rem;
     background: var(--dark-purple);
     border: 1px solid var(--primary-purple);
     border-radius: 20px;
     color: var(--cyan-accent);
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
+    font-size: 0.48rem;
+    margin-bottom: 0.6rem;
     font-weight: 600;
   }
 
   .featured-repo {
-    margin-top: 1rem;
+    margin-top: 0.6rem;
   }
 
   .repo-header {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.45rem;
     flex-wrap: wrap;
-    margin-bottom: 1rem;
+    margin-bottom: 0.45rem;
   }
 
   .active-badge {
-    padding: 0.4rem 0.8rem;
+    padding: 0.18rem 0.39rem;
     background: rgba(0, 255, 127, 0.1);
     border: 1px solid rgba(0, 255, 127, 0.3);
     border-radius: 20px;
     color: #00ff7f;
-    font-size: 0.85rem;
+    font-size: 0.45rem;
     font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .active-badge::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: #00ff7f;
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
   }
 
   .repo-stats {
     display: flex;
-    gap: 1.5rem;
+    gap: 0.6rem;
     flex-wrap: wrap;
-    margin-top: 1rem;
+    margin-top: 0.45rem;
   }
 
   .stat {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.21rem;
     color: var(--text-muted);
-    font-size: 0.95rem;
+    font-size: 0.51rem;
   }
 
   .stat i {

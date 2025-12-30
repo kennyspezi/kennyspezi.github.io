@@ -1,0 +1,668 @@
+/* ========================================
+   SHARED COMPONENT STYLES
+   Consolidated styles used across multiple
+   pages and components
+   ======================================== */
+
+/* ========================================
+   BASE CARDS & CONTAINERS
+   ======================================== */
+
+.card-base {
+  background: var(--darkest-purple);
+  border: 2px solid var(--primary-purple);
+  border-radius: 12px;
+  padding: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card-small {
+  padding: 1.5rem;
+}
+
+.card-compact {
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+/* Hover Effects */
+.card-hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(255, 159, 255, 0.3);
+  border-color: var(--pink-accent);
+}
+
+.card-hover-subtle:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(255, 159, 255, 0.25);
+  border-color: var(--pink-accent);
+}
+
+/* ========================================
+   TILTED CARDS (Polaroid Effect)
+   ======================================== */
+
+.tilted-card {
+  transform: rotate(-1.5deg);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tilted-card:hover {
+  transform: rotate(0deg) translateY(-4px);
+  box-shadow: 0 12px 32px rgba(255, 159, 255, 0.4);
+}
+
+.tilted-card-reverse {
+  transform: rotate(1.5deg);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tilted-card-reverse:hover {
+  transform: rotate(0deg) translateY(-4px);
+  box-shadow: 0 12px 32px rgba(255, 159, 255, 0.4);
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: var(--primary-purple);
+  border: 2px solid var(--pink-accent);
+  border-radius: 8px;
+  color: var(--pink-accent);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: var(--pink-accent);
+  color: var(--darker-purple);
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(255, 159, 255, 0.4);
+}
+
+.btn-secondary {
+  background: var(--dark-purple);
+  border-color: var(--cyan-accent);
+  color: var(--cyan-accent);
+}
+
+.btn-secondary:hover {
+  background: var(--cyan-accent);
+  color: var(--darker-purple);
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(160, 255, 234, 0.4);
+}
+
+.btn-small {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+}
+
+/* ========================================
+   SOCIAL ICONS
+   ======================================== */
+
+.social-icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dark-purple);
+  border: 2px solid var(--primary-purple);
+  border-radius: 50%;
+  color: var(--cyan-accent);
+  font-size: 1.5rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  transform: translateY(-3px);
+  border-color: var(--pink-accent);
+  background: var(--primary-purple);
+  color: var(--pink-accent);
+  box-shadow: 0 8px 24px rgba(255, 159, 255, 0.4);
+}
+
+.social-icon-lg {
+  width: 60px;
+  height: 60px;
+  font-size: 1.8rem;
+}
+
+.social-icon-sm {
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+}
+
+/* ========================================
+   GRID LAYOUTS
+   ======================================== */
+
+.grid-auto-fit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.grid-auto-fill {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.grid-small {
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.grid-compact {
+  gap: 1rem;
+}
+
+/* ========================================
+   PAGE STRUCTURE
+   ======================================== */
+
+.page-header {
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+.page-header h1 {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--pink-accent);
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+}
+
+.page-header p {
+  font-size: 1.25rem;
+  color: var(--cyan-accent);
+  margin: 0;
+}
+
+.section-divider {
+  margin: 4rem 0;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--pink-accent);
+  margin: 0 0 2rem 0;
+  font-weight: 600;
+}
+
+/* ========================================
+   PROJECT CARDS (GitHub Projects)
+   ======================================== */
+
+.project-card {
+  background: var(--darkest-purple);
+  border: 2px solid var(--primary-purple);
+  border-radius: 12px;
+  overflow: visible;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+}
+
+.project-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(255, 159, 255, 0.3);
+  border-color: var(--pink-accent);
+}
+
+.project-image {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: var(--dark-purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-content {
+  padding: 1.5rem;
+}
+
+.project-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--pink-accent);
+  margin: 0 0 0.5rem 0;
+}
+
+.project-description {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+.project-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.project-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Small project cards (for forked projects) */
+.project-card-small {
+  min-width: 220px;
+}
+
+.project-card-small .project-image {
+  height: 120px;
+}
+
+.project-card-small .project-content {
+  padding: 1rem;
+}
+
+.project-card-small .project-title {
+  font-size: 1rem;
+}
+
+.project-card-small .project-description {
+  font-size: 0.875rem;
+}
+
+/* ========================================
+   TOOLTIPS (Commit Tooltips)
+   ======================================== */
+
+.tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  background: var(--dark-purple);
+  border: 2px solid var(--pink-accent);
+  border-radius: 8px;
+  padding: 1rem;
+  min-width: 300px;
+  max-width: 400px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 10;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  margin-bottom: 10px;
+  pointer-events: none;
+}
+
+.project-card:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.tooltip-header {
+  font-weight: 600;
+  color: var(--pink-accent);
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.commit-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--primary-purple);
+}
+
+.commit-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.commit-sha {
+  font-family: monospace;
+  color: var(--cyan-accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.commit-message {
+  color: var(--text-light);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.commit-date {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+/* ========================================
+   BADGES & LABELS
+   ======================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-active {
+  background: rgba(160, 255, 234, 0.2);
+  color: var(--cyan-accent);
+  border: 1px solid var(--cyan-accent);
+}
+
+.badge-fork {
+  background: rgba(255, 159, 255, 0.1);
+  color: var(--pink-accent);
+  border: 1px solid var(--primary-purple);
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.5;
+      transform: scale(1.1);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% { 
+      transform: translateY(0) rotate(var(--rotate, 0deg)); 
+    }
+    50% { 
+      transform: translateY(-15px) rotate(var(--rotate, 0deg)); 
+    }
+  }
+
+  @keyframes wiggle {
+    0%, 100% { 
+      transform: rotate(15deg); 
+    }
+    50% { 
+      transform: rotate(10deg) scale(1.05); 
+    }
+  }
+
+  @keyframes underlineDraw {
+    to { 
+      transform: scaleX(1); 
+    }
+  }
+
+  /* Animation utility classes */
+  .animate-fade-in-up {
+    animation: fadeInUp 1s ease-out;
+  }
+
+  .animate-pulse {
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-wiggle {
+    animation: wiggle 2s ease-in-out infinite;
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .animate-pulse,
+  .animate-float,
+  .animate-wiggle {
+    animation: none;
+  }
+
+  .tilted-card,
+  .tilted-card-reverse {
+    transform: none;
+  }
+
+  .tilted-card:hover,
+  .tilted-card-reverse:hover {
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ========================================
+   ADDITIONAL UTILITIES
+   ======================================== */
+
+/* Button Group */
+.btn-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.btn-group-center {
+  justify-content: center;
+}
+
+/* Social Icon Containers */
+.social-container {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* Social Links Grid (card-style social links) */
+.social-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.social-link-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem 1rem;
+  background: var(--dark-purple);
+  border: 2px solid var(--primary-purple);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  color: var(--cyan-accent);
+  text-decoration: none;
+}
+
+.social-link-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--pink-accent);
+  background: var(--primary-purple);
+  color: var(--pink-accent);
+  box-shadow: 0 8px 24px rgba(255, 159, 255, 0.3);
+}
+
+.social-link-card i {
+  font-size: 2rem;
+}
+
+.social-link-card span {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Emoji/Icon Lists */
+.emoji-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0 0;
+}
+
+.emoji-list li {
+  color: var(--text-light);
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.emoji-list li::before {
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+}
+
+.emoji-list.star-list li::before {
+  content: "⭐";
+}
+
+/* Page header tilt modifier */
+.page-header-tilted h1 {
+  display: inline-block;
+  transform: rotate(-1deg);
+  transition: transform 0.3s ease;
+}
+
+.page-header-tilted h1:hover {
+  transform: rotate(0deg) scale(1.02);
+}
+
+/* Section divider with gradient line */
+.section-divider::before {
+  content: '';
+  display: block;
+  width: 100%;
+  max-width: 1200px;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--primary-purple) 20%,
+    var(--primary-purple) 80%,
+    transparent
+  );
+  margin: 0 auto 3rem;
+}
+
+.section-divider:first-of-type::before {
+  display: none;
+}
+
+/* Content sections (about page pattern) */
+.content-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.content-section section {
+  background: var(--darkest-purple);
+  border: 2px solid var(--primary-purple);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.content-section h2 {
+  color: var(--pink-accent);
+  font-size: 1.5rem;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-purple);
+}
+
+.content-section p {
+  color: var(--text-light);
+  line-height: 1.8;
+  margin: 0.5rem 0;
+}
+
+/* ========================================
+   RESPONSIVE UTILITIES
+   ======================================== */
+
+@media (max-width: 768px) {
+  .page-header {
+    padding: 1rem;
+  }
+
+  .grid-auto-fit,
+  .grid-auto-fill {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .section-divider {
+    margin: 2rem 0;
+  }
+
+  .social-links-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+
+  .btn-group {
+    flex-direction: column;
+  }
+}

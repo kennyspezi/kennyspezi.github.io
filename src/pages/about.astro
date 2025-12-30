@@ -2,16 +2,24 @@
 import '../styles/global.css'
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import GitHubStatus from '../components/GitHubStatus.astro';
+import Stickers from '../components/Stickers.astro';
+import newBadge from '../assets/new.svg';
 ---
 
 <Layout>
   <Header />
   
   <main class="about-page">
+    <Stickers page="about" />
+    
     <div class="about-container">
       <div class="about-header">
-        <img src="/assets/images/avatar.jpg" alt="Kenny Madrigal" class="avatar" />
+        <div class="avatar-container">
+          <img src="/assets/images/avatar.jpg" alt="Kenny Madrigal" class="avatar" />
+          <img src={newBadge.src} alt="" class="new-badge" />
+        </div>
         <div class="header-text">
           <h1>karla "kenny" madrigal</h1>
           <p class="bio">i burst into song the second you loaded this website</p>
@@ -20,7 +28,7 @@ import GitHubStatus from '../components/GitHubStatus.astro';
       </div>
 
       <div class="about-content">
-        <section class="intro">
+        <section class="intro tilted-card">
           <p>
             Hey! I'm <strong>Karla "Kenny" Madrigal</strong>, a second-year electrical engineering 
             student at the University of Houston. At the moment, I'm interested in analog, power, 
@@ -29,7 +37,7 @@ import GitHubStatus from '../components/GitHubStatus.astro';
           </p>
         </section>
 
-        <section class="current-work">
+        <section class="current-work tilted-card-reverse">
           <h2>✨ what i'm working on</h2>
           <p>
             I spend a lot of my time as <strong>Vice President of IEEE@UH</strong>. 
@@ -46,9 +54,9 @@ import GitHubStatus from '../components/GitHubStatus.astro';
           </p>
         </section>
 
-        <section class="interests">
+        <section class="interests tilted-card">
           <h2>🎸 beyond engineering</h2>
-          <ul class="star-list">
+          <ul class="emoji-list star-list">
             <li>learning guitar</li>
             <li>rollerskating</li>
             <li>singing karaoke</li>
@@ -58,24 +66,24 @@ import GitHubStatus from '../components/GitHubStatus.astro';
 
         <section class="social-links">
           <h2>📬 connect with me</h2>
-          <div class="social-grid">
-            <a href="mailto:kennyspezi@proton.me" class="social-card">
+          <div class="social-links-grid">
+            <a href="mailto:kennyspezi@proton.me" class="social-link-card">
               <i class="ri-mail-line"></i>
               <span>Email</span>
             </a>
-            <a href="https://www.linkedin.com/in/karla-kenny-madrigal" target="_blank" rel="noopener noreferrer" class="social-card">
+            <a href="https://www.linkedin.com/in/karla-kenny-madrigal" target="_blank" rel="noopener noreferrer" class="social-link-card">
               <i class="ri-linkedin-box-fill"></i>
               <span>LinkedIn</span>
             </a>
-            <a href="https://github.com/kennyspezi" target="_blank" rel="noopener noreferrer" class="social-card">
+            <a href="https://github.com/kennyspezi" target="_blank" rel="noopener noreferrer" class="social-link-card">
               <i class="ri-github-fill"></i>
               <span>GitHub</span>
             </a>
-            <a href="https://instagram.com/kentrolysis" target="_blank" rel="noopener noreferrer" class="social-card">
+            <a href="https://instagram.com/kentrolysis" target="_blank" rel="noopener noreferrer" class="social-link-card">
               <i class="ri-instagram-line"></i>
               <span>Instagram</span>
             </a>
-            <a href="https://www.youtube.com/@kennyspezi" target="_blank" rel="noopener noreferrer" class="social-card">
+            <a href="https://www.youtube.com/@kennyspezi" target="_blank" rel="noopener noreferrer" class="social-link-card">
               <i class="ri-youtube-fill"></i>
               <span>YouTube</span>
             </a>
@@ -88,6 +96,7 @@ import GitHubStatus from '../components/GitHubStatus.astro';
       </aside>
     </div>
   </main>
+  <Footer />
 </Layout>
 
 <style>
@@ -191,61 +200,50 @@ import GitHubStatus from '../components/GitHubStatus.astro';
     color: var(--cyan-accent);
   }
 
-  .star-list {
-    list-style: none;
-    padding: 0;
-    margin: 1rem 0 0 0;
-  }
-
-  .star-list li {
-    color: var(--text-light);
-    padding: 0.5rem 0;
-    padding-left: 1.5rem;
+  /* Avatar with badge */
+  .avatar-container {
     position: relative;
+    display: inline-block;
   }
 
-  .star-list li::before {
-    content: "⭐";
+  .new-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 60px;
+    height: 60px;
+    transform: rotate(15deg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .new-badge {
+      animation: wiggle 2s ease-in-out infinite;
+    }
+  }
+
+  /* Add hand-drawn underline effect to h1 */
+  .header-text h1 {
+    position: relative;
+    display: inline-block;
+  }
+
+  .header-text h1::after {
+    content: '';
     position: absolute;
     left: 0;
-    top: 0.5rem;
+    bottom: -5px;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, var(--pink-accent), var(--cyan-accent));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
   }
 
-  .social-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-
-  .social-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 1.5rem 1rem;
-    background: var(--dark-purple);
-    border: 2px solid var(--primary-purple);
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    color: var(--cyan-accent);
-  }
-
-  .social-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--pink-accent);
-    background: var(--primary-purple);
-    color: var(--pink-accent);
-    box-shadow: 0 8px 24px rgba(255, 159, 255, 0.3);
-  }
-
-  .social-card i {
-    font-size: 2rem;
-  }
-
-  .social-card span {
-    font-size: 0.9rem;
-    font-weight: 600;
+  @media (prefers-reduced-motion: no-preference) {
+    .header-text h1::after {
+      animation: underlineDraw 1s ease-out 0.5s forwards;
+    }
   }
 
   @media (max-width: 768px) {
@@ -267,8 +265,9 @@ import GitHubStatus from '../components/GitHubStatus.astro';
       padding: 1.5rem;
     }
 
-    .social-grid {
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    .new-badge {
+      width: 40px;
+      height: 40px;
     }
   }
 </style>

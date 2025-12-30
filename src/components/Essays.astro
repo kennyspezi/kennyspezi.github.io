@@ -18,8 +18,8 @@ const essays = [
 <section class="essays-section">
   <h2>📝 essays</h2>
   <div class="essays-grid">
-    {essays.map(essay => (
-      <a href={essay.pdf} target="_blank" rel="noopener noreferrer" class="essay-card">
+    {essays.map((essay, index) => (
+      <a href={essay.pdf} target="_blank" rel="noopener noreferrer" class={`essay-card ${index % 2 === 0 ? 'tilted-card' : 'tilted-card-reverse'}`}>
         <div class="essay-icon">📄</div>
         <h3>{essay.title}</h3>
         <p class="essay-date">{essay.date}</p>
@@ -105,5 +105,26 @@ const essays = [
 
   .essay-card:hover .read-link {
     color: var(--cyan-accent);
+  }
+
+  /* Tilted polaroid-style cards */
+  .tilted-card {
+    transform: rotate(-1.5deg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .tilted-card:hover {
+    transform: rotate(0deg) translateY(-4px);
+    box-shadow: 0 12px 32px rgba(255, 159, 255, 0.4);
+  }
+
+  .tilted-card-reverse {
+    transform: rotate(1.5deg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .tilted-card-reverse:hover {
+    transform: rotate(0deg) translateY(-4px);
+    box-shadow: 0 12px 32px rgba(255, 159, 255, 0.4);
   }
 </style>

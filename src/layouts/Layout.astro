@@ -1,5 +1,7 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
+import heroIcon from '../assets/hero-content.svg';
+import '../styles/components.css';
 ---
 
 <!doctype html>
@@ -7,7 +9,7 @@ import { ViewTransitions } from 'astro:transitions';
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href={heroIcon.src} />
 		<meta name="generator" content={Astro.generator} />
 		<title>kenny madrigal</title>
 		<meta name="description" content="digi portfolio - karla 'kenny' madrigal" />

@@ -2,6 +2,7 @@
 import '../styles/global.css'
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import SocialFeed from '../components/SocialFeed.astro';
 ---
 
@@ -16,31 +17,12 @@ import SocialFeed from '../components/SocialFeed.astro';
 
     <SocialFeed />
   </main>
+  <Footer />
 </Layout>
 
 <style>
   .posts-page {
     min-height: 100vh;
     padding: 2rem 1rem;
-  }
-
-  .page-header {
-    max-width: 1200px;
-    margin: 0 auto 3rem;
-    text-align: center;
-    padding: 2rem;
-  }
-
-  .page-header h1 {
-    font-size: clamp(2rem, 6vw, 3.5rem);
-    color: var(--pink-accent);
-    margin: 0 0 1rem 0;
-    font-weight: 700;
-  }
-
-  .page-header p {
-    font-size: 1.25rem;
-    color: var(--cyan-accent);
-    margin: 0;
   }
 </style>

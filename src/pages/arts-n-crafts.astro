@@ -2,17 +2,21 @@
 import '../styles/global.css'
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import GitHubProjects from '../components/GitHubProjects.astro';
 import ForkedProjects from '../components/ForkedProjects.astro';
 import Essays from '../components/Essays.astro';
 import Organizations from '../components/Organizations.astro';
+import Stickers from '../components/Stickers.astro';
 ---
 
 <Layout>
   <Header />
   
   <main class="arts-page">
-    <div class="page-header">
+    <Stickers page="arts" />
+    
+    <div class="page-header page-header-tilted">
       <h1>🧰 arts-n-crafts 🔧</h1>
       <p>projects, essays, and organizations that keep me busy</p>
     </div>
@@ -24,7 +28,7 @@ import Organizations from '../components/Organizations.astro';
       <ForkedProjects />
     </section>
     <section class="section-divider">
-      <Organizations>
+      <Organizations class="two-column">
         <div class="org-body-text">
           <p>
             As Vice President and Former Technical Chair of IEEE at the University of Houston, I organize technical workshops,
@@ -40,6 +44,7 @@ import Organizations from '../components/Organizations.astro';
       <Essays />
     </section>
   </main>
+  <Footer />
 </Layout>
 
 <style>
@@ -48,65 +53,47 @@ import Organizations from '../components/Organizations.astro';
     padding: 2rem 1rem;
   }
 
-  .page-header {
-    max-width: 1200px;
-    margin: 0 auto 3rem;
-    text-align: center;
-    padding: 2rem;
-  }
-
-  .page-header h1 {
-    font-size: clamp(2rem, 6vw, 3.5rem);
-    color: var(--pink-accent);
-    margin: 0 0 1rem 0;
-    font-weight: 700;
-  }
-
-  .page-header p {
-    font-size: 1.25rem;
-    color: var(--cyan-accent);
-    margin: 0;
-  }
-
-  .section-divider {
-    margin: 4rem 0;
-    position: relative;
-  }
-
-  .section-divider::before {
-    content: '';
-    display: block;
-    width: 100%;
-    max-width: 1200px;
-    height: 2px;
-    background: linear-gradient(
-      to right,
-      transparent,
-      var(--primary-purple) 20%,
-      var(--primary-purple) 80%,
-      transparent
-    );
-    margin: 0 auto 3rem;
-  }
-
-  .section-divider:first-of-type::before {
-    display: none;
-  }
-
-  .section-title {
-    text-align: center;
-    font-size: 2rem;
-    color: var(--pink-accent);
-    margin: 0 0 2rem 0;
-    font-weight: 600;
-  }
-
   .org-body-text {
-    margin-top: 4rem;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-top: 0;
     text-align: left;
+  }
+
+  :global(.organizations-section.two-column) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  :global(.organizations-section.two-column h2) {
+    grid-column: 2;
+    text-align: left;
+    margin-bottom: 1.5rem;
+  }
+
+  :global(.organizations-section.two-column .organizations-grid) {
+    grid-column: 1;
+    grid-row: 1 / 3;
+  }
+
+  :global(.organizations-section.two-column .org-body-text) {
+    grid-column: 2;
+  }
+
+  @media (max-width: 968px) {
+    :global(.organizations-section.two-column) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    :global(.organizations-section.two-column .organizations-grid),
+    :global(.organizations-section.two-column .org-body-text) {
+      grid-column: 1;
+    }
+
+    .org-body-text {
+      margin-top: 2rem;
+    }
   }
 
   .org-body-text p {
@@ -117,10 +104,6 @@ import Organizations from '../components/Organizations.astro';
   }
 
   @media (max-width: 768px) {
-    .page-header {
-      padding: 1rem;
-    }
-
     .section-divider {
       margin: 3rem 0;
     }
