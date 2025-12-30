@@ -20,7 +20,7 @@ const { pathname } = Astro.url
             <a href="#" class="flex md:hidden text-cyan-accent" id="menu-open">
                 <i class="ri-menu-2-line text-2xl"></i>
             </a>
-            <ul class="hidden md:flex gap-2">
+            <ul class="hidden md:flex gap-2 items-center">
                 {links.map(item => ( 
                     <li>
                         <a 
@@ -37,6 +37,17 @@ const { pathname } = Astro.url
                         </a>
                     </li>
                 ))}
+                <li>
+                    <a 
+                        href="/assets/resume/karlaMadrigal_Resume.pdf" 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="px-4 py-2 rounded-lg bg-pink-accent text-darkest-purple font-semibold hover:bg-cyan-accent hover:text-darkest-purple transition-all duration-300 flex items-center gap-2"
+                    >
+                        <i class="ri-file-text-line"></i>
+                        resume
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>

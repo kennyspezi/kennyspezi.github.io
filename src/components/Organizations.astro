@@ -1,32 +1,41 @@
 ---
+const { title = "♣️ organizations" } = Astro.props;
+
 const organizations = [
   {
-    name: "IEEE@UH",
+    name: "IEEE@UH - Vice President",
     description: "Student chapter of the Institute of Electrical and Electronics Engineers at the University of Houston",
     link: "https://ieeeuh.org/",
-    icon: "⚡"
+    icon: "https://github.com/IEEE-UniversityOfHouston/media/blob/main/assets/ieeelogo.png?raw=true"
   },
   {
-    name: "ForkTheCity",
-    description: "Houston-based civic tech and community development organization",
+    name: "ForkTheCity - Founder",
+    description: "Open-source civic infrastruture platform for local communities to organize impactful initiatives.",
     link: "https://github.com/ForkTheCity/",
-    icon: "🍴"
+    icon: "🦺"
   }
 ];
 ---
 
 <section class="organizations-section">
-  <h2>🏛️ organizations</h2>
+  <h2>{title}</h2>
   <div class="organizations-grid">
     {organizations.map(org => (
       <a href={org.link} target="_blank" rel="noopener noreferrer" class="org-card">
-        <div class="org-icon">{org.icon}</div>
+        <div class="org-icon">
+          {org.icon.startsWith('http') ? (
+            <img src={org.icon} alt={`${org.name} logo`} class="org-logo" />
+          ) : (
+            org.icon
+          )}
+        </div>
         <h3>{org.name}</h3>
         <p>{org.description}</p>
         <span class="visit-link">visit →</span>
       </a>
     ))}
   </div>
+  <slot />
 </section>
 
 <style>
@@ -39,7 +48,7 @@ const organizations = [
   .organizations-section h2 {
     color: var(--pink-accent);
     font-size: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
     text-align: center;
   }
 
@@ -71,6 +80,16 @@ const organizations = [
   .org-icon {
     font-size: 4rem;
     margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .org-logo {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 24px;
   }
 
   .org-card h3 {

@@ -38,12 +38,14 @@ const songs = [
   )) {
     // Preserve only the audio if it exists
     const existingAudio = window.jukebox.audio;
+    const existingHistory = window.jukebox.history || [];
     // Reset to proper initial state
     window.jukebox = {
       songs: songs,
       currentIndex: window.jukebox.currentIndex ?? Math.floor(Math.random() * songs.length),
       isPlaying: existingAudio ? !existingAudio.paused : false,
       audio: existingAudio || null,
+      history: existingHistory,
     };
   }
 
@@ -59,6 +61,7 @@ const songs = [
         currentIndex: initialIndex,
         isPlaying: false,
         audio: null,
+        history: [],
       };
 
     } else if (songs && songs.length > 0) {
@@ -129,6 +132,15 @@ const songs = [
 
     if (jb.audio) jb.audio.pause();
 
+    // Add current song to history before changing
+    if (jb.currentIndex !== index && jb.history) {
+      jb.history.push(jb.currentIndex);
+      // Keep history to a reasonable size (last 20 songs)
+      if (jb.history.length > 20) {
+        jb.history.shift();
+      }
+    }
+
     jb.currentIndex = index;
     
     jb.audio = new Audio(jb.songs[index].file);
@@ -176,7 +188,14 @@ const songs = [
       }
 
       if (btn.id === "nextBtn" || btn.id === "prevBtn") {
-        const newIndex = getRandomSong();
+        let newIndex;
+        if (btn.id === "prevBtn" && jb.history && jb.history.length > 0) {
+          // Go to previous song from history
+          newIndex = jb.history.pop();
+        } else {
+          // Go to random song (for next or if no history)
+          newIndex = getRandomSong();
+        }
         jb.isPlaying ? playSong(newIndex, root) : (jb.currentIndex = newIndex, updateDisplay(root));
       }
     });

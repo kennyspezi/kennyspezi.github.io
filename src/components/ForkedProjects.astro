@@ -1,17 +1,16 @@
 ---
 const username = 'kennyspezi';
-const excludeRepo = 'kennyspezi.github.io';
 
 let repos = [];
 let error = null;
 
 // Function to check for preview image in repo
-async function getPreviewImage(repoName: string, defaultBranch: string) {
+async function getPreviewImage(repoName: string, ownerName: string, defaultBranch: string) {
   const extensions = ['png', 'jpg', 'jpeg', 'gif'];
   
   for (const ext of extensions) {
     try {
-      const url = `https://raw.githubusercontent.com/${username}/${repoName}/${defaultBranch}/preview.${ext}`;
+      const url = `https://raw.githubusercontent.com/${ownerName}/${repoName}/${defaultBranch}/preview.${ext}`;
       const response = await fetch(url, { method: 'HEAD' });
       if (response.ok) {
         return url;
@@ -25,9 +24,9 @@ async function getPreviewImage(repoName: string, defaultBranch: string) {
 }
 
 // Function to get recent commits
-async function getRecentCommits(repoName: string) {
+async function getRecentCommits(repoName: string, ownerName: string) {
   try {
-    const response = await fetch(`https://api.github.com/repos/${username}/${repoName}/commits?per_page=3`);
+    const response = await fetch(`https://api.github.com/repos/${ownerName}/${repoName}/commits?per_page=3&author=${username}`);
     if (response.ok) {
       const commits = await response.json();
       return commits.map(commit => ({
@@ -46,26 +45,41 @@ try {
   const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
   if (response.ok) {
     const allRepos = await response.json();
-    const filteredRepos = allRepos
-      .filter(repo => repo.name !== excludeRepo && !repo.fork)
+    const forkedRepos = allRepos
+      .filter(repo => repo.fork)
       .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
     
-    // Fetch preview images for each repo
+    // Fetch full details for each forked repo to get parent info
     repos = await Promise.all(
-      filteredRepos.map(async (repo) => ({
-        ...repo,
-        previewImage: await getPreviewImage(repo.name, repo.default_branch),
-        commits: await getRecentCommits(repo.name)
-      }))
+      forkedRepos.map(async (repo) => {
+        // Fetch full repo details to get parent
+        let parentOwner = repo.owner.login;
+        try {
+          const detailResponse = await fetch(`https://api.github.com/repos/${username}/${repo.name}`);
+          if (detailResponse.ok) {
+            const fullRepo = await detailResponse.json();
+            parentOwner = fullRepo.parent?.owner?.login || fullRepo.source?.owner?.login || repo.owner.login;
+          }
+        } catch (e) {
+          console.error(`Failed to fetch details for ${repo.name}:`, e);
+        }
+        
+        return {
+          ...repo,
+          parentOwner,
+          previewImage: await getPreviewImage(repo.name, parentOwner, repo.default_branch),
+          commits: await getRecentCommits(repo.name, parentOwner)
+        };
+      })
     );
   }
 } catch (e) {
-  error = 'Failed to load projects';
+  error = 'Failed to load forked projects';
   console.error('GitHub API error:', e);
 }
 ---
 
-<section class="github-projects">
+<section class="forked-projects">
   <div class="projects-grid">
     {repos.length > 0 ? (
       repos.map(repo => (
@@ -75,7 +89,7 @@ try {
           </div>
           <div class="project-content">
             <h3>{repo.name}</h3>
-            <p>{repo.description || 'No description available'}</p>
+            <p class="fork-label">🍴 fork from {repo.parentOwner}</p>
             <div class="project-meta">
               <span class="stars">⭐ {repo.stargazers_count}</span>
               {repo.language && <span class="language">{repo.language}</span>}
@@ -83,7 +97,7 @@ try {
           </div>
           {repo.commits && repo.commits.length > 0 && (
             <div class="commits-tooltip">
-              <div class="tooltip-header">Recent Commits</div>
+              <div class="tooltip-header">My Recent Commits</div>
               {repo.commits.map(commit => (
                 <div class="commit-item">
                   <span class="commit-sha">{commit.sha}</span>
@@ -98,29 +112,29 @@ try {
     ) : error ? (
       <p class="error">{error}</p>
     ) : (
-      <p class="loading">Loading projects...</p>
+      <p class="loading">Loading forked projects...</p>
     )}
   </div>
 </section>
 
 <style>
-  .github-projects {
-    padding: 2rem 1rem;
+  .forked-projects {
+    padding: 1.5rem 1rem;
     max-width: 1200px;
     margin: 0 auto;
   }
 
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
   }
 
   .project-card {
     background: var(--darkest-purple);
     border: 2px solid var(--primary-purple);
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: visible;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: block;
@@ -130,12 +144,12 @@ try {
 
   .project-card > *:not(.commits-tooltip) {
     overflow: hidden;
-    border-radius: 12px;
+    border-radius: 8px;
   }
 
   .project-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(255, 159, 255, 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(255, 159, 255, 0.2);
     border-color: var(--pink-accent);
   }
 
@@ -147,7 +161,7 @@ try {
 
   .project-image {
     width: 100%;
-    height: 180px;
+    height: 100px;
     overflow: hidden;
     background: var(--dark-purple);
     display: flex;
@@ -162,27 +176,27 @@ try {
   }
 
   .project-content {
-    padding: 1.5rem;
+    padding: 0.75rem;
   }
 
   .project-content h3 {
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.35rem 0;
     color: var(--cyan-accent);
-    font-size: 1.25rem;
+    font-size: 0.9rem;
     font-weight: 600;
   }
 
-  .project-content p {
-    margin: 0 0 1rem 0;
+  .fork-label {
+    margin: 0 0 0.5rem 0;
     color: var(--text-muted);
-    font-size: 0.95rem;
-    line-height: 1.5;
+    font-size: 0.7rem;
+    font-style: italic;
   }
 
   .project-meta {
     display: flex;
-    gap: 1rem;
-    font-size: 0.875rem;
+    gap: 0.6rem;
+    font-size: 0.7rem;
     color: var(--text-muted);
   }
 
@@ -193,10 +207,10 @@ try {
   }
 
   .language {
-    padding: 0.25rem 0.5rem;
+    padding: 0.15rem 0.35rem;
     background: var(--primary-purple);
-    border-radius: 4px;
-    font-size: 0.8rem;
+    border-radius: 3px;
+    font-size: 0.65rem;
   }
 
   .commits-tooltip {
@@ -208,8 +222,8 @@ try {
     border: 2px solid var(--pink-accent);
     border-radius: 8px;
     padding: 1rem;
-    min-width: 300px;
-    max-width: 400px;
+    min-width: 280px;
+    max-width: 350px;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -223,7 +237,7 @@ try {
     font-weight: 600;
     color: var(--pink-accent);
     margin-bottom: 0.75rem;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
@@ -244,19 +258,19 @@ try {
   .commit-sha {
     font-family: monospace;
     color: var(--cyan-accent);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
   }
 
   .commit-message {
     color: var(--text-primary);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     line-height: 1.4;
   }
 
   .commit-date {
     color: var(--text-muted);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
   }
 
   .error, .loading {
@@ -268,12 +282,13 @@ try {
 
   @media (max-width: 768px) {
     .projects-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
     }
 
     .commits-tooltip {
-      min-width: 250px;
-      max-width: 90vw;
+      min-width: 220px;
+      max-width: 85vw;
     }
   }
 </style>

@@ -3,6 +3,7 @@ import '../styles/global.css'
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import GitHubProjects from '../components/GitHubProjects.astro';
+import ForkedProjects from '../components/ForkedProjects.astro';
 import Essays from '../components/Essays.astro';
 import Organizations from '../components/Organizations.astro';
 ---
@@ -12,17 +13,27 @@ import Organizations from '../components/Organizations.astro';
   
   <main class="arts-page">
     <div class="page-header">
-      <h1>✨ arts-n-crafts</h1>
+      <h1>🧰 arts-n-crafts 🔧</h1>
       <p>projects, essays, and organizations that keep me busy</p>
     </div>
 
     <section class="section-divider">
       <h2 class="section-title">🚀 personal projects</h2>
       <GitHubProjects />
+      <h3 class="section-title">forked projects</h3>
+      <ForkedProjects />
     </section>
-
     <section class="section-divider">
-      <Organizations />
+      <Organizations>
+        <div class="org-body-text">
+          <p>
+            As Vice President and Former Technical Chair of IEEE at the University of Houston, I organize technical workshops,
+            "circuit speed dating" socials, launch new projects, and provide technical advice to my fellow UH students.</p>
+            <p> ForkTheCity is an open-source project seeking to address the problems that modern citizens, volunteers, grass-roots orgs, and civic workers face:
+            bureaucracy and lack of coordination and visibility. I'm recruiting people that can make this tool have an impact.
+          </p>
+        </div>
+      </Organizations>
     </section>
 
     <section class="section-divider">
@@ -88,6 +99,21 @@ import Organizations from '../components/Organizations.astro';
     color: var(--pink-accent);
     margin: 0 0 2rem 0;
     font-weight: 600;
+  }
+
+  .org-body-text {
+    margin-top: 4rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+  }
+
+  .org-body-text p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
   }
 
   @media (max-width: 768px) {

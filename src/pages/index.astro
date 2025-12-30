@@ -2,7 +2,8 @@
 import '../styles/global.css'
 import Layout from "../layouts/Layout.astro"
 import Header from '../components/Header.astro'
-import SpotifyPlayer from '../components/SpotifyPlayer.astro'
+import SpotifyPlayer from '../components/MusicPlayer.astro'
+import Organizations from '../components/Organizations.astro'
 
 // Fetch GitHub activity to highlight active/recent repo
 const username = 'kennyspezi';
@@ -31,22 +32,6 @@ try {
 } catch (e) {
   console.error('Failed to fetch featured repo:', e);
 }
-
-// Organizations data
-const organizations = [
-  {
-    name: "IEEE@UH",
-    description: "Student chapter of IEEE at University of Houston",
-    link: "https://www.instagram.com/ieee_uh/",
-    icon: "⚡"
-  },
-  {
-    name: "ForkTheCity",
-    description: "Houston-based civic tech organization",
-    link: "https://www.instagram.com/forkthecity/",
-    icon: "🍴"
-  }
-];
 ---
 
 <Layout>
@@ -72,7 +57,7 @@ const organizations = [
         </div>
 
         <div class="hero-socials">
-          <a href="mailto:kmadrigal@uh.edu" aria-label="Email" title="Email">
+          <a href="mailto:kennyspezi@proton.me" aria-label="Email" title="Email">
             <i class="ri-mail-line"></i>
           </a>
           <a href="https://github.com/kennyspezi" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
@@ -165,21 +150,7 @@ const organizations = [
 
       <!-- 3. Organizations Preview -->
       <section class="preview-section orgs-preview">
-        <div class="preview-content">
-          <h2>organizations i'm part of</h2>
-          <div class="orgs-grid">
-            {organizations.map(org => (
-              <a href={org.link} target="_blank" rel="noopener noreferrer" class="org-card-preview">
-                <div class="org-icon-large">{org.icon}</div>
-                <h3>{org.name}</h3>
-                <p>{org.description}</p>
-                <span class="visit-link">
-                  visit <i class="ri-arrow-right-up-line"></i>
-                </span>
-              </a>
-            ))}
-          </div>
-        </div>
+        <Organizations title="organizations i'm part of" />
       </section>
 
       <!-- 4. Recent Post Preview -->
@@ -478,66 +449,6 @@ const organizations = [
     color: var(--cyan-accent);
   }
 
-  /* Organizations */
-  .orgs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
-
-  .org-card-preview {
-    background: var(--dark-purple);
-    border: 2px solid var(--primary-purple);
-    border-radius: 12px;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    transition: all 0.3s ease;
-    color: inherit;
-  }
-
-  .org-card-preview:hover {
-    transform: translateY(-8px);
-    border-color: var(--pink-accent);
-    box-shadow: 0 12px 24px rgba(255, 159, 255, 0.3);
-  }
-
-  .org-icon-large {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .org-card-preview h3 {
-    color: var(--cyan-accent);
-    margin: 0 0 0.75rem 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-
-  .org-card-preview p {
-    color: var(--text-muted);
-    margin: 0 0 1rem 0;
-    font-size: 0.95rem;
-    line-height: 1.5;
-  }
-
-  .visit-link {
-    color: var(--pink-accent);
-    font-weight: 600;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    transition: gap 0.3s ease;
-  }
-
-  .org-card-preview:hover .visit-link {
-    gap: 0.6rem;
-  }
-
   /* Social Platforms */
   .social-platforms {
     display: flex;
@@ -593,10 +504,6 @@ const organizations = [
     .explore-button {
       width: 100%;
       justify-content: center;
-    }
-
-    .orgs-grid {
-      grid-template-columns: 1fr;
     }
   }
 </style>
