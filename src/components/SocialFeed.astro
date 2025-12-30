@@ -1,7 +1,6 @@
 ---
-// Social Feed Component - Displays posts from LinkedIn, YouTube, Instagram
-// Using Juicer.io for aggregated social feed
-const juicerFeedName = 'kennyspezi'; // Replace with your Juicer feed name if different
+// Social Feed Component - LinkedIn featured post + Juicer feed for YouTube/Instagram
+const linkedinPostUrl = 'https://www.linkedin.com/posts/karla-kenny-madrigal_yesterday-i-became-unemplyed-once-more-activity-7362580212087181313-tXPv';
 ---
 
 <section class="social-feed">
@@ -10,22 +9,31 @@ const juicerFeedName = 'kennyspezi'; // Replace with your Juicer feed name if di
     my latest updates from linkedin, youtube, and instagram
   </p>
   
-  <div class="juicer-feed" data-feed-id={juicerFeedName}>
-    <p class="loading">Loading social feed...</p>
+  <!-- Featured LinkedIn Post -->
+  <div class="featured-post">
+    <h3>💼 Featured from LinkedIn</h3>
+    <iframe 
+      src={`https://www.linkedin.com/embed/feed/update/urn:li:share:7362580212087181313`}
+      height="600" 
+      width="100%" 
+      frameborder="0" 
+      allowfullscreen="" 
+      title="Embedded post"
+    ></iframe>
+  </div>
+
+  <!-- YouTube & Instagram Feed -->
+  <div class="other-feeds">
+    <h3>🎥📸 YouTube & Instagram</h3>
+    <div class="juicer-feed">
+      <p class="loading">Loading social feed...</p>
+    </div>
   </div>
 </section>
 
-<script is:inline>
-  // Load Juicer script dynamically
-  if (typeof window !== 'undefined') {
-    const script = document.createElement('script');
-    script.src = 'https://assets.juicer.io/embed.js';
-    script.async = true;
-    document.head.appendChild(script);
-  }
-</script>
+<script type="text/javascript" src="https://www.juicer.io/embed/karla-kenny-madrigal/embed-code.js" async defer></script>
 
-<style is:global>
+<style>
   .social-feed {
     padding: 2rem 1rem;
     max-width: 1200px;
@@ -43,6 +51,34 @@ const juicerFeedName = 'kennyspezi'; // Replace with your Juicer feed name if di
     text-align: center;
     color: var(--text-muted);
     font-size: 1.1rem;
+    margin-bottom: 3rem;
+  }
+
+  .featured-post {
+    max-width: 600px;
+    margin: 0 auto 4rem;
+  }
+
+  .featured-post h3 {
+    color: var(--cyan-accent);
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .featured-post iframe {
+    border-radius: 12px;
+    border: 2px solid var(--primary-purple);
+  }
+
+  .other-feeds {
+    margin-top: 4rem;
+  }
+
+  .other-feeds h3 {
+    color: var(--cyan-accent);
+    font-size: 1.5rem;
+    text-align: center;
     margin-bottom: 2rem;
   }
 
@@ -57,6 +93,14 @@ const juicerFeedName = 'kennyspezi'; // Replace with your Juicer feed name if di
     font-style: italic;
   }
 
+  @media (max-width: 768px) {
+    .featured-post iframe {
+      height: 500px;
+    }
+  }
+</style>
+
+<style is:global>
   /* Custom Juicer styling to match purple theme */
   ul.juicer-feed {
     background: transparent !important;
@@ -104,3 +148,4 @@ const juicerFeedName = 'kennyspezi'; // Replace with your Juicer feed name if di
     color: var(--pink-accent) !important;
   }
 </style>
+
