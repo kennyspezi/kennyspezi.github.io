@@ -55,7 +55,10 @@ export function initConveyorScroll() {
 
   // Reset initial styles (JS-enhancement only; CSS should remain visible if JS doesn't run)
   gsap.set(previewSections, { opacity: 0, y: 30 });
-  gsap.set(bentoBoxSection, { opacity: 0, y: 110 });
+  const heroTravelPx = Math.max(window.innerHeight * 0.32, 220);
+  const bentoTravelPx = Math.max(window.innerHeight * 0.45, 320);
+
+  gsap.set(bentoBoxSection, { opacity: 0, y: bentoTravelPx });
   if (heroContent) {
     gsap.set(heroContent, { opacity: 1, y: 0 });
   }
@@ -85,8 +88,8 @@ export function initConveyorScroll() {
   if (heroContent) {
     tl.to(heroContent, {
       opacity: 0,
-      y: -90,
-      ease: 'power2.out',
+      y: -heroTravelPx,
+      ease: 'none',
       duration: 0.8,
     }, 0);
   }
@@ -94,15 +97,15 @@ export function initConveyorScroll() {
   tl.to(bentoBoxSection, {
     opacity: 1,
     y: 0,
-    ease: 'power2.out',
+    ease: 'none',
     duration: 0.9,
-  }, 0.15);
+  }, 0);
 
   // Fade in the bento boxes after the section itself starts appearing.
   tl.to(previewSections, {
     opacity: 1,
     y: 0,
-    ease: 'power2.out',
+    ease: 'none',
     duration: 0.8,
     stagger: 0.04,
   }, 0.35);
