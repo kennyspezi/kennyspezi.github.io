@@ -1,6 +1,23 @@
 ---
 const { title = "♣️ organizations", class: className = "" } = Astro.props;
 
+function parseTitle(rawTitle: string) {
+  const trimmed = (rawTitle ?? "").trim();
+  const firstSpace = trimmed.indexOf(" ");
+  if (firstSpace === -1) return { icon: null as string | null, text: trimmed };
+
+  const first = trimmed.slice(0, firstSpace);
+  const rest = trimmed.slice(firstSpace + 1).trim();
+
+  // Heuristic: if the first token has no alphanumerics, treat it as an icon/emoji.
+  const hasAlphaNum = /[A-Za-z0-9]/.test(first);
+  const isLikelyIcon = !hasAlphaNum && first.length <= 8 && rest.length > 0;
+
+  return isLikelyIcon ? { icon: first, text: rest } : { icon: null, text: trimmed };
+}
+
+const parsedTitle = parseTitle(title);
+
 const organizations = [
   {
     name: "IEEE@UH - Vice President",
@@ -18,7 +35,12 @@ const organizations = [
 ---
 
 <section class={`organizations-section ${className}`}>
-  <h2>{title}</h2>
+  <h2 class="organizations-title">
+    {parsedTitle.icon && (
+      <span class="organizations-title-icon" aria-hidden="true">{parsedTitle.icon}</span>
+    )}
+    <span class="organizations-title-text">{parsedTitle.text}</span>
+  </h2>
   <div class="organizations-grid">
     {organizations.map((org, index) => (
       <a href={org.link} target="_blank" rel="noopener noreferrer" class={`org-card ${index % 2 === 0 ? 'tilted-card' : 'tilted-card-reverse'}`}>
@@ -45,12 +67,26 @@ const organizations = [
     margin: 0 auto;
   }
 
-  .organizations-section h2 {
+  .organizations-title {
     color: var(--pink-accent);
     font-size: clamp(0.825rem, 3.5vw, 1.125rem);
-    margin-bottom: 2rem;
-    text-align: center;
+    margin: 0 0 2rem 0;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .organizations-title-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  .organizations-title-text {
+    line-height: 1.1;
   }
 
   .organizations-grid {

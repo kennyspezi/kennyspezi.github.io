@@ -1,4 +1,6 @@
 ---
+import musicPlayerClientUrl from '../scripts/musicPlayerClient.ts?url';
+
 const songs = [
   { name: "Lonely Is the Night", artist: "Air Supply", file: "/music/Air Supply - Lonely Is the Night.mp3" },
   { name: "Pied Piper", artist: "BTS", file: "/music/BTS - Pied Piper.mp3" },
@@ -21,6 +23,10 @@ const songs = [
         <div class="label">now playing:</div>
         <div class="song-title" id="songTitle"></div>
         <div class="artist-name" id="artistName"></div>
+        <div class="up-next">
+          <div class="label">up next:</div>
+          <div class="up-next-title" id="upNext"></div>
+        </div>
       </div>
     </div>
     <div class="jukebox-controls">
@@ -32,181 +38,11 @@ const songs = [
 </div>
 
 <script define:vars={{ songs }}>
-  // Fix corrupted state - if jukebox exists but properties are undefined
-  if (window.jukebox && (
-    window.jukebox.isPlaying === undefined || 
-    window.jukebox.currentIndex === undefined ||
-    window.jukebox.songs === undefined
-  )) {
-    // Preserve only the audio if it exists
-    const existingAudio = window.jukebox.audio;
-    const existingHistory = window.jukebox.history || [];
-    // Reset to proper initial state
-    window.jukebox = {
-      songs: songs,
-      currentIndex: window.jukebox.currentIndex ?? Math.floor(Math.random() * songs.length),
-      isPlaying: existingAudio ? !existingAudio.paused : false,
-      audio: existingAudio || null,
-      history: existingHistory,
-    };
-  }
-
-  function getRoot() {
-    return document.getElementById("jukebox");
-  }
-
-  function ensureState() {
-    if (!window.jukebox) {
-      const initialIndex = Math.floor(Math.random() * songs.length);
-      window.jukebox = {
-        songs,
-        currentIndex: initialIndex,
-        isPlaying: false,
-        audio: null,
-        history: [],
-      };
-
-    } else if (songs && songs.length > 0) {
-      // Preserve existing audio object if it exists
-      const existingAudio = window.jukebox.audio;
-      const existingIsPlaying = existingAudio ? !existingAudio.paused : false;
-      
-      window.jukebox.songs = songs; // in case HMR reloads this module
-      
-      // Always ensure audio and isPlaying have proper values
-      if (existingAudio) {
-        window.jukebox.audio = existingAudio;
-        window.jukebox.isPlaying = existingIsPlaying;
-      } else {
-        // Ensure defaults if no audio exists
-        window.jukebox.audio = null;
-        window.jukebox.isPlaying = false;
-      }
-      
-      // Fix if currentIndex is invalid (undefined, null, or out of range)
-      if (window.jukebox.currentIndex == null || window.jukebox.currentIndex >= songs.length || window.jukebox.currentIndex < 0) {
-        window.jukebox.currentIndex = 0;
-      }
-
-    }
-  }
-
-  function updateDisplay(root) {
-    if (!root) return;
-    const title = root.querySelector("#songTitle");
-    const artist = root.querySelector("#artistName");
-    const playBtn = root.querySelector("#playBtn");
-    if (!title || !artist || !playBtn) return;
-
-    const jb = window.jukebox;
-    if (!jb || !jb.songs || jb.songs.length === 0) return;
-    
-    // Sync isPlaying state with actual audio state only if audio exists
-    if (jb.audio) {
-      jb.isPlaying = !jb.audio.paused;
-    }
-    
-    const song = jb.songs[jb.currentIndex];
-    title.textContent = song?.name ?? "";
-    artist.textContent = song?.artist ?? "";
-    
-    // Force the button to show pause if audio is actively playing
-    const shouldShowPause = jb.audio && !jb.audio.paused;
-    playBtn.textContent = shouldShowPause ? "⏸" : "▶";
-    playBtn.classList.toggle("playing", shouldShowPause);
-  }
-
-  function getRandomSong() {
-    const jb = window.jukebox;
-    if (!jb || !jb.songs || jb.songs.length === 0) return 0;
-    let idx;
-    do idx = Math.floor(Math.random() * jb.songs.length);
-    while (idx === jb.currentIndex && jb.songs.length > 1);
-    return idx;
-  }
-
-  function playSong(index, root) {
-    const jb = window.jukebox;
-    if (!jb || !jb.songs || !jb.songs[index]) {
-      console.error('❌ Cannot play song:', { jb, index, hasJukebox: !!jb, hasSongs: !!jb?.songs });
-      return;
-    }
-
-    if (jb.audio) jb.audio.pause();
-
-    // Add current song to history before changing
-    if (jb.currentIndex !== index && jb.history) {
-      jb.history.push(jb.currentIndex);
-      // Keep history to a reasonable size (last 20 songs)
-      if (jb.history.length > 20) {
-        jb.history.shift();
-      }
-    }
-
-    jb.currentIndex = index;
-    
-    jb.audio = new Audio(jb.songs[index].file);
-    jb.audio.preload = "auto";
-    jb.audio.load();
-
-    jb.isPlaying = true;
-    jb.audio.play().catch((err) => {
-      console.error('❌ Audio play failed:', err);
-      console.error('File path:', jb.songs[index].file);
-    });
-    jb.audio.onended = () => playSong(getRandomSong(), root);
-
-    updateDisplay(root);
-  }
-
-  function bind() {
-    const root = getRoot();
-    if (!root) return;
-
-    ensureState();
-    updateDisplay(root);
-
-    // IMPORTANT: avoid duplicate bindings after swaps/HMR
-    if (root.dataset.bound === "1") return;
-    root.dataset.bound = "1";
-
-    root.addEventListener("click", (e) => {
-      const btn = e.target.closest("button");
-      if (!btn) return;
-
-      const jb = window.jukebox;
-
-      if (btn.id === "playBtn") {
-        if (!jb.audio) return playSong(jb.currentIndex, root);
-
-        if (jb.audio.paused) {
-          jb.audio.play().catch(console.error);
-          jb.isPlaying = true;
-        } else {
-          jb.audio.pause();
-          jb.isPlaying = false;
-        }
-        updateDisplay(root);
-      }
-
-      if (btn.id === "nextBtn" || btn.id === "prevBtn") {
-        let newIndex;
-        if (btn.id === "prevBtn" && jb.history && jb.history.length > 0) {
-          // Go to previous song from history
-          newIndex = jb.history.pop();
-        } else {
-          // Go to random song (for next or if no history)
-          newIndex = getRandomSong();
-        }
-        jb.isPlaying ? playSong(newIndex, root) : (jb.currentIndex = newIndex, updateDisplay(root));
-      }
-    });
-  }
-
-  document.addEventListener("DOMContentLoaded", bind);
-  document.addEventListener("astro:page-load", bind);
-  document.addEventListener("astro:after-swap", bind);
+  // Provide songs to the bundled client entry.
+  window.__jukeboxSongs = songs;
 </script>
+
+<script type="module" src={musicPlayerClientUrl}></script>
 
 <style>
   .jukebox-widget {
@@ -214,19 +50,20 @@ const songs = [
     margin: 2rem auto 0;
     padding: 0 1rem;
     z-index: 100;
+    transition: opacity 0.1s ease-out, transform 0.1s ease-out;
   }
 
   .jukebox-widget > div:first-child {
     background: linear-gradient(135deg, #2d1b4e 0%, #1a0f2e 100%);
     border: 2px solid var(--pink-accent);
-    border-radius: 12px;
-    padding: 1rem 1.5rem;
+    border-radius: 20px;
+    padding: 0.75rem 1.25rem;
     box-shadow: 0 4px 16px rgba(255, 159, 255, 0.3);
     transition: box-shadow 0.3s ease, transform 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   .jukebox-widget > div:first-child:hover {
@@ -243,7 +80,7 @@ const songs = [
   }
 
   .radio-icon {
-    font-size: 2rem;
+    font-size: 1.5rem;
     flex-shrink: 0;
   }
 
@@ -265,17 +102,17 @@ const songs = [
 
   .label {
     color: var(--cyan-accent);
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.15rem;
   }
 
   .song-title {
     color: var(--pink-accent);
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.1rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -283,7 +120,20 @@ const songs = [
 
   .artist-name {
     color: var(--text-muted);
-    font-size: 0.8rem;
+    font-size: 0.7rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .up-next {
+    margin-top: 0.35rem;
+    min-width: 0;
+  }
+
+  .up-next-title {
+    color: var(--text-muted);
+    font-size: 0.65rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -300,9 +150,9 @@ const songs = [
     background: var(--primary-purple);
     border: 2px solid var(--cyan-accent);
     color: var(--cyan-accent);
-    padding: 0.6rem 1rem;
+    padding: 0.45rem 0.8rem;
     border-radius: 8px;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -310,12 +160,12 @@ const songs = [
   }
 
   .play-btn {
-    min-width: 80px;
+    min-width: 70px;
   }
 
   .nav-btn {
-    min-width: 50px;
-    font-size: 1rem;
+    min-width: 45px;
+    font-size: 0.9rem;
   }
 
   .control-btn:hover {

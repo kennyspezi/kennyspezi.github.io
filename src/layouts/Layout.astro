@@ -21,17 +21,7 @@ import '../styles/components.css';
 </html>
 
 <style is:global>
-
-:root{
-	--primary-purple: #540066;
-	--dark-purple: #37003c;
-	--darker-purple: #1a0033;
-	--darkest-purple: #2e003e;
-	--pink-accent: #ff9fff;
-	--cyan-accent: #a0ffea;
-	--text-light: #ffffff;
-	--text-muted: #cccccc;
-}
+/* CSS variables now in global.css - removed duplicates */
 
 html,
 body {
@@ -41,7 +31,8 @@ body {
 	background-color: var(--darker-purple);
 	color: var(--text-light);
 	font-family: "Space Grotesk", sans-serif;
-	scroll-behavior: smooth;
+	/* scroll-behavior removed - conflicts with GSAP ScrollTrigger */
+	padding-top: 80px;
 }
 
 * {
