@@ -9,7 +9,7 @@ const links = [
 const { pathname } = Astro.url
 ---
 
-<header class="relative border-b-2 border-primary-purple p-7 overflow-hidden bg-darkest-purple">
+<header class="fixed top-0 left-0 right-0 border-b-2 border-primary-purple overflow-hidden bg-darkest-purple z-50 transition-all duration-300 py-4 px-7" id="main-header">
     <div class="flex max-w-6xl m-auto relative z-10">
         <nav class="flex w-full items-center">
             <div class="flex-1 font-bold">
@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const menuOpen = document.querySelector('#menu-open') 
     const menuClose = document.querySelector('#menu-close') 
 
-
     menuOpen?.addEventListener('click', (e) => {
         e.preventDefault()
         menuContent?.classList.remove('-translate-x-[100%]')
@@ -96,11 +95,54 @@ document.addEventListener('DOMContentLoaded', function () {
         menuContent?.classList.add('-translate-x-[100%]')
     })
 
-
     menuContent?.querySelectorAll('li a').forEach(item => {
         item.addEventListener('click', (e) => {
             menuContent?.classList.add('-translate-x-[100%]')
         })
     })
+
+    // Scroll hide/show header
+    const header = document.querySelector('#main-header');
+    let lastScroll = 0;
+    let isScrolling = false;
+
+    window.addEventListener('scroll', () => {
+        if (!isScrolling) {
+            window.requestAnimationFrame(() => {
+                const currentScroll = window.pageYOffset;
+
+                if (currentScroll <= 0) {
+                    header?.classList.remove('header-hidden');
+                    header?.classList.remove('header-scrolled');
+                } else if (currentScroll > lastScroll && currentScroll > 100) {
+                    header?.classList.add('header-hidden');
+                    header?.classList.add('header-scrolled');
+                } else if (currentScroll < lastScroll) {
+                    header?.classList.remove('header-hidden');
+                    header?.classList.add('header-scrolled');
+                }
+
+                lastScroll = currentScroll;
+                isScrolling = false;
+            });
+            isScrolling = true;
+        }
+    });
 })
 </script>
+
+<style>
+    #main-header {
+        transform: translateY(0);
+    }
+
+    #main-header.header-hidden {
+        transform: translateY(-100%);
+    }
+
+    #main-header.header-scrolled {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        box-shadow: 0 4px 20px rgba(255, 159, 255, 0.1);
+    }
+</style>

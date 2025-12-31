@@ -3,6 +3,7 @@ import '../styles/global.css'
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import PageNav from '../components/PageNav.astro';
 import GitHubProjects from '../components/GitHubProjects.astro';
 import ForkedProjects from '../components/ForkedProjects.astro';
 import Essays from '../components/Essays.astro';
@@ -43,6 +44,8 @@ import Stickers from '../components/Stickers.astro';
     <section class="section-divider">
       <Essays />
     </section>
+
+    <PageNav prevPage={{ name: 'about', path: '/about/' }} />
   </main>
   <Footer />
 </Layout>
@@ -65,10 +68,10 @@ import Stickers from '../components/Stickers.astro';
     align-items: start;
   }
 
-  :global(.organizations-section.two-column h2) {
+  :global(.organizations-section.two-column .organizations-title) {
     grid-column: 2;
-    text-align: left;
     margin-bottom: 1.5rem;
+    justify-content: flex-start;
   }
 
   :global(.organizations-section.two-column .organizations-grid) {

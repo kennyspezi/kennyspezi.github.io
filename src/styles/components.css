@@ -70,13 +70,13 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 1rem 2rem;
+  padding: 0.5rem 1rem;
   background: var(--primary-purple);
   border: 2px solid var(--pink-accent);
   border-radius: 8px;
   color: var(--pink-accent);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.75rem;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease;

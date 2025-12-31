@@ -1,0 +1,205 @@
+/* Widget-specific styles: MusicPlayer, GitHubStatus, Stickers */
+
+/* Music Player / Jukebox */
+.jukebox {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  background: rgba(30, 30, 30, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  min-width: 300px;
+  transition: all 0.3s ease;
+}
+
+.jukebox:hover {
+  box-shadow: 0 12px 48px rgba(168, 85, 247, 0.4);
+}
+
+.jukebox-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.jukebox-icon {
+  font-size: 1.5rem;
+  color: #a855f7;
+}
+
+.jukebox-title {
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.jukebox-now-playing {
+  margin-bottom: 1rem;
+}
+
+.jukebox-track-title {
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.jukebox-track-artist {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.jukebox-controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.jukebox-button {
+  background: rgba(168, 85, 247, 0.2);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.25rem;
+}
+
+.jukebox-button:hover {
+  background: rgba(168, 85, 247, 0.4);
+  border-color: rgba(168, 85, 247, 0.6);
+  transform: scale(1.1);
+}
+
+.jukebox-button.play-pause {
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+  border: none;
+}
+
+/* GitHub Status Widget */
+.github-status {
+  position: relative;
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 9999px;
+  color: #22c55e;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.status-message {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Stickers (decorative elements) */
+.stickers {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.sticker {
+  position: absolute;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  animation: float 3s ease-in-out infinite;
+}
+
+.sticker:hover {
+  transform: scale(1.1) translateY(-5px) !important;
+}
+
+.sticker img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+/* Position variants for stickers */
+.sticker-top-left {
+  top: 10%;
+  left: 5%;
+  --rotation: -15deg;
+}
+
+.sticker-top-right {
+  top: 15%;
+  right: 8%;
+  --rotation: 12deg;
+}
+
+.sticker-bottom-left {
+  bottom: 15%;
+  left: 8%;
+  --rotation: 8deg;
+}
+
+.sticker-bottom-right {
+  bottom: 20%;
+  right: 5%;
+  --rotation: -10deg;
+}
+
+@media (max-width: 1024px) {
+  .jukebox {
+    bottom: 1rem;
+    right: 1rem;
+    min-width: 250px;
+  }
+  
+  .stickers {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .jukebox {
+    left: 1rem;
+    right: 1rem;
+    min-width: auto;
+  }
+}

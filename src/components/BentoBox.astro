@@ -1,0 +1,112 @@
+---
+import MusicPlayer from './MusicPlayer.astro';
+import Organizations from './Organizations.astro';
+import PageNav from './PageNav.astro';
+
+interface Props {
+  featuredRepo?: {
+    name: string;
+    description: string;
+    html_url: string;
+    stargazers_count: number;
+    language: string;
+  } | null;
+}
+
+const { featuredRepo } = Astro.props;
+---
+
+<section class="bento-box-section">
+  <!-- Music Player Banner -->
+  <MusicPlayer />
+
+  <!-- Preview Sections -->
+  <div class="preview-sections">
+    <!-- 1. About Me Preview -->
+    <section class="preview-section about-preview tilted-card">
+      <div class="preview-content">
+        <div class="preview-icon animate-wiggle">🐯</div>
+        <h2>about me</h2>
+        <p>
+          I'm a second-year electrical engineering student at UH. I'm interested in analog, power, 
+          and microwave electronics, but ultimately I'm a hobbyist working my way up!
+        </p>
+        <a href="/about/" class="explore-button btn-primary">
+          <span>get to know me</span>
+          <i class="ri-arrow-right-line"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- 2. Featured Project / Arts & Crafts Preview -->
+    <section class="preview-section project-preview tilted-card-reverse">
+      <div class="section-badge">
+        <i class="ri-github-fill"></i>
+        <span>currently working on</span>
+      </div>
+      <div class="preview-content">
+        {featuredRepo ? (
+          <div class="featured-repo">
+            <div class="repo-header">
+              <h2>{featuredRepo.name}</h2>
+              <span class="active-badge">🟢 active</span>
+            </div>
+            <p>{featuredRepo.description || 'A project in active development'}</p>
+            <div class="repo-stats">
+              <span class="stat">
+                <i class="ri-star-fill"></i>
+                {featuredRepo.stargazers_count}
+              </span>
+              {featuredRepo.language && (
+                <span class="stat">
+                  <i class="ri-code-line"></i>
+                  {featuredRepo.language}
+                </span>
+              )}
+              <span class="stat">
+                <i class="ri-git-commit-line"></i>
+                updated recently
+              </span>
+            </div>
+            <div class="btn-group">
+              <a href={featuredRepo.html_url} target="_blank" rel="noopener noreferrer" class="explore-button btn-primary btn-secondary">
+                <span>view on github</span>
+                <i class="ri-external-link-line"></i>
+              </a>
+              <a href="/arts-n-crafts/" class="explore-button btn-primary">
+                <span>explore arts-n-crafts</span>
+                <i class="ri-arrow-right-line"></i>
+              </a>
+            </div>
+          </div>
+        ) : (
+          <div class="featured-repo">
+            <h2>check out my projects</h2>
+            <p>Explore my collection of personal projects, essays, and organizational work.</p>
+            <a href="/arts-n-crafts/" class="explore-button btn-primary">
+              <span>explore arts-n-crafts</span>
+              <i class="ri-arrow-right-line"></i>
+            </a>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- 3. Organizations Preview -->
+    <section class="preview-section orgs-preview tilted-card">
+      <Organizations title="organizations i'm part of" />
+    </section>
+
+    <!-- 4. Nyan Cat -->
+    <section class="preview-section nyan-preview">
+      <img src="/assets/gif/nyan-cat.gif" alt="nyan cat" class="nyan-cat" />
+    </section>
+
+    <!-- 5. Second Gif -->
+    <section class="preview-section gif-preview">
+      <img src="/assets/gif/my-gif.gif" alt="animated gif" class="gif-image" />
+    </section>
+  </div>
+
+  <PageNav nextPage={{ name: 'about', path: '/about/' }} />
+</section>

@@ -1,0 +1,268 @@
+/* About page styles */
+
+.about-page {
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.about-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 968px) {
+  .about-container {
+    grid-template-columns: 1fr 300px;
+    grid-template-rows: auto 1fr;
+  }
+
+  .about-header {
+    grid-column: 1 / -1;
+  }
+
+  .sidebar {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+.about-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  background: var(--darkest-purple);
+  border: 2px solid var(--primary-purple);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid var(--pink-accent);
+  object-fit: cover;
+  box-shadow: 0 8px 24px rgba(255, 159, 255, 0.3);
+}
+
+.header-text h1 {
+  margin: 0 0 0.5rem 0;
+  color: var(--cyan-accent);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.bio {
+  margin: 0.5rem 0;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 1rem;
+}
+
+.location {
+  margin: 0.5rem 0 0 0;
+  color: var(--text-light);
+  font-size: 1rem;
+}
+
+.about-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.about-content section {
+  background: var(--darkest-purple);
+  border: 2px solid var(--primary-purple);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.about-content h2 {
+  color: var(--pink-accent);
+  font-size: 1.5rem;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-purple);
+}
+
+.about-content p {
+  color: var(--text-light);
+  line-height: 1.8;
+  margin: 0.5rem 0;
+}
+
+.about-content strong {
+  color: var(--cyan-accent);
+}
+
+.about-content ul {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.about-content li {
+  color: var(--text-light);
+  line-height: 1.8;
+  margin: 0.5rem 0;
+}
+
+/* Avatar with badge */
+.avatar-container {
+  position: relative;
+  display: inline-block;
+}
+
+.new-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 60px;
+  height: 60px;
+  transform: rotate(15deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .new-badge {
+    animation: wiggle 2s ease-in-out infinite;
+  }
+}
+
+/* Hand-drawn underline effect for h1 */
+.header-text h1 {
+  position: relative;
+  display: inline-block;
+}
+
+.header-text h1::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, var(--pink-accent), var(--cyan-accent));
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .header-text h1::after {
+    animation: underlineDraw 1s ease-out 0.5s forwards;
+  }
+}
+
+@keyframes underlineDraw {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Tilted card variants */
+.tilted-card {
+  transform: rotate(-1deg);
+  transition: all 0.3s ease;
+}
+
+.tilted-card:hover {
+  transform: rotate(0deg) translateY(-4px);
+  box-shadow: 0 12px 40px rgba(168, 85, 247, 0.3);
+}
+
+.tilted-card-reverse {
+  transform: rotate(1deg);
+  transition: all 0.3s ease;
+}
+
+.tilted-card-reverse:hover {
+  transform: rotate(0deg) translateY(-4px);
+  box-shadow: 0 12px 40px rgba(168, 85, 247, 0.3);
+}
+
+/* Social links grid */
+.social-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.social-link-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem 1rem;
+  background: var(--dark-purple);
+  border: 1px solid var(--primary-purple);
+  border-radius: 12px;
+  color: var(--cyan-accent);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.social-link-card:hover {
+  background: var(--primary-purple);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(168, 85, 247, 0.3);
+}
+
+.social-link-card i {
+  font-size: 2rem;
+}
+
+.social-link-card span {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* List variants */
+.emoji-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.emoji-list li::before {
+  content: '→ ';
+  color: var(--pink-accent);
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.star-list li::before {
+  content: '★ ';
+}
+
+@media (max-width: 768px) {
+  .about-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .avatar {
+    width: 120px;
+    height: 120px;
+  }
+
+  .header-text h1 {
+    font-size: 1.75rem;
+  }
+
+  .about-content section {
+    padding: 1.5rem;
+  }
+
+  .new-badge {
+    width: 40px;
+    height: 40px;
+  }
+
+  .social-links-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+}

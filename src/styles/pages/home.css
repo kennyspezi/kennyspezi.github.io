@@ -1,0 +1,524 @@
+/* Home page (index.astro) styles */
+
+.home-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: visible;
+  isolation: isolate;
+}
+
+/* Fixed Background Layer */
+.fixed-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.fixed-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+}
+
+.background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(26, 0, 51, 0.7) 0%,
+    rgba(26, 0, 51, 0.9) 100%
+  );
+}
+
+/* Conveyor Belt Container */
+.conveyor-belt {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  /* Transforms handled by GSAP - no CSS transitions */
+  padding-bottom: 0;
+}
+
+/* Hero Content Section */
+.hero-content-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 2rem;
+  max-width: 800px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-content {
+    animation: fadeInUp 1s ease-out;
+  }
+}
+
+
+.hero-title {
+  font-size: clamp(1.05rem, 6vw, 2.1rem);
+  font-weight: 700;
+  color: var(--pink-accent);
+  margin: 0 0 0.45rem 0;
+  text-shadow: 0 4px 12px rgba(255, 159, 255, 0.5);
+}
+
+/* Gradient text animation */
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    var(--pink-accent),
+    var(--cyan-accent),
+    var(--pink-accent)
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .gradient-text {
+    animation: gradientShift 4s ease infinite;
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
+.hero-subtitle {
+  font-size: clamp(0.525rem, 2.5vw, 0.675rem);
+  color: var(--cyan-accent);
+  margin: 0 0 0.9rem 0;
+  font-weight: 400;
+}
+
+.hero-welcome {
+  background: rgba(46, 0, 62, 0.8);
+  border: 2px solid var(--primary-purple);
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  margin: 0.9rem 0;
+  backdrop-filter: blur(10px);
+}
+
+.hero-welcome p {
+  color: var(--text-light);
+  font-size: 0.87rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.hero-socials {
+  gap: 1rem;
+}
+
+.hero-socials a {
+  background: var(--darkest-purple);
+}
+
+.hero-socials a:hover {
+  transform: scale(1.15);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-socials a:nth-child(1) { animation: fadeInUp 0.6s ease-out 0.2s both; }
+  .hero-socials a:nth-child(2) { animation: fadeInUp 0.6s ease-out 0.3s both; }
+  .hero-socials a:nth-child(3) { animation: fadeInUp 0.6s ease-out 0.4s both; }
+  .hero-socials a:nth-child(4) { animation: fadeInUp 0.6s ease-out 0.5s both; }
+  .hero-socials a:nth-child(5) { animation: fadeInUp 0.6s ease-out 0.6s both; }
+}
+
+/* Preview Sections */
+.preview-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 0.4rem 0.4rem 0.2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: auto;
+  position: relative;
+}
+
+@media (min-width: 968px) {
+  .preview-sections {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: minmax(130px, 0.45fr) minmax(180px, 0.55fr) minmax(150px, 0.4fr);
+    gap: 1.2rem;
+    min-height: auto;
+    max-height: none;
+  }
+
+  .about-preview {
+    grid-column: 2 / 4;
+    grid-row: 1;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .project-preview {
+    grid-column: 3;
+    grid-row: 2;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .orgs-preview {
+    grid-column: 1 / 3;
+    grid-row: 2 / 4;
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  .nyan-preview {
+    grid-column: 1;
+    grid-row: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--darkest-purple);
+    border: 2px solid var(--primary-purple);
+    border-radius: 12px;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .nyan-cat {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: pixelated;
+  }
+
+  .gif-preview {
+    grid-column: 3;
+    grid-row: 3;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--darkest-purple);
+    border: 2px solid var(--primary-purple);
+    border-radius: 12px;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .gif-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .preview-section {
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  }
+}
+
+/* Bento Box Section - Scale down for compact view */
+.bento-box-section {
+  /* Keep bento in normal document flow so it never overlaps the footer.
+     Any “compact” look should be achieved via spacing/typography, not scale(). */
+  transform: none;
+  margin-bottom: 0;
+}
+
+/* Bento boxes: no tilt by default; tilt only on hover */
+.bento-box-section .tilted-card,
+.bento-box-section .tilted-card-reverse,
+.bento-box-section .tilted-card:nth-child(even) {
+  transform: none;
+}
+
+.bento-box-section .tilted-card:hover {
+  transform: rotate(-2deg) translateY(-8px);
+}
+
+.bento-box-section .tilted-card-reverse:hover {
+  transform: rotate(2deg) translateY(-8px);
+}
+
+/* Project preview buttons: smaller + tighter group so they fit */
+.project-preview .btn-group {
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+
+.project-preview .explore-button {
+  padding: 0.18rem 0.32rem;
+  font-size: 0.32rem;
+}
+
+/* Footer Wrapper */
+.footer-wrapper {
+  position: relative;
+  z-index: 1;
+  background: var(--darker-purple);
+  width: 100%;
+}
+
+/* Preview sections extend card-base with custom padding */
+.preview-section {
+  background: var(--darkest-purple);
+  border: 2px solid var(--primary-purple);
+  border-radius: 12px;
+  padding: 0.9rem;
+  position: relative;
+  overflow: visible;
+  transform-origin: center center;
+}
+
+.preview-section::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    45deg,
+    var(--pink-accent),
+    var(--cyan-accent),
+    var(--pink-accent)
+  );
+  background-size: 200% 200%;
+  border-radius: 16px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .preview-section::before {
+    animation: gradientRotate 3s ease infinite;
+  }
+}
+
+.preview-section:hover::before {
+  opacity: 0.3;
+}
+
+@keyframes gradientRotate {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.preview-section:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(255, 159, 255, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.preview-content {
+  position: relative;
+  z-index: 1;
+}
+
+.preview-icon {
+  font-size: 1.35rem;
+  margin-bottom: 0.45rem;
+  display: inline-block;
+}
+
+.preview-section h2 {
+  color: var(--pink-accent);
+  font-size: clamp(0.825rem, 3.5vw, 1.125rem);
+  margin: 0 0 0.45rem 0;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .preview-section h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(to right, var(--pink-accent), var(--cyan-accent));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .preview-section:hover h2::after {
+    width: 100%;
+  }
+}
+
+.preview-section p {
+  color: var(--text-light);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  margin: 0.45rem 0;
+}
+
+/* Buttons use btn-primary/btn-secondary from shared styles */
+.explore-button {
+  margin-top: 0.3rem;
+  text-transform: lowercase;
+  padding: 0.2rem 0.4rem;
+  font-size: 0.35rem;
+}
+
+/* Featured Project */
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.24rem 0.51rem;
+  background: var(--dark-purple);
+  border: 1px solid var(--primary-purple);
+  border-radius: 20px;
+  color: var(--cyan-accent);
+  font-size: 0.48rem;
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+}
+
+.featured-repo {
+  margin-top: 0.6rem;
+}
+
+.repo-header {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.45rem;
+}
+
+.active-badge {
+  padding: 0.18rem 0.39rem;
+  background: rgba(0, 255, 127, 0.1);
+  border: 1px solid rgba(0, 255, 127, 0.3);
+  border-radius: 20px;
+  color: #00ff7f;
+  font-size: 0.45rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .active-badge::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #00ff7f;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+}
+
+.repo-stats {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 0.45rem;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.21rem;
+  color: var(--text-muted);
+  font-size: 0.51rem;
+}
+
+.stat i {
+  color: var(--cyan-accent);
+}
+
+/* Social Platforms */
+.social-platforms {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.platform {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--dark-purple);
+  border: 1px solid var(--primary-purple);
+  border-radius: 8px;
+  color: var(--cyan-accent);
+  font-size: 0.9rem;
+}
+
+.platform i {
+  font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    padding: 1rem;
+  }
+
+  .hero-welcome {
+    padding: 1rem 1.5rem;
+  }
+
+  .hero-socials a {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+
+  .preview-sections {
+    padding: 2rem 1rem;
+    gap: 2rem;
+  }
+
+  .preview-section {
+    padding: 2rem 1.5rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .explore-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
