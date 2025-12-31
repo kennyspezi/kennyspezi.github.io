@@ -19,6 +19,12 @@ gsap.registerPlugin(ScrollTrigger);
 let scrollTriggerInstance: ScrollTrigger | null = null;
 let resizeHandler: (() => void) | null = null;
 
+// Animation distance constants (relative to viewport height)
+const HERO_TRAVEL_FACTOR = 0.32;
+const HERO_TRAVEL_MIN_PX = 220;
+const BENTO_TRAVEL_FACTOR = 0.45;
+const BENTO_TRAVEL_MIN_PX = 320;
+
 function getBodyPaddingTopPx(): number {
   const value = window.getComputedStyle(document.body).paddingTop;
   const parsed = Number.parseFloat(value);
@@ -55,8 +61,8 @@ export function initConveyorScroll() {
 
   // Reset initial styles (JS-enhancement only; CSS should remain visible if JS doesn't run)
   gsap.set(previewSections, { opacity: 0, y: 30 });
-  const heroTravelPx = Math.max(window.innerHeight * 0.32, 220);
-  const bentoTravelPx = Math.max(window.innerHeight * 0.45, 320);
+  const heroTravelPx = Math.max(window.innerHeight * HERO_TRAVEL_FACTOR, HERO_TRAVEL_MIN_PX);
+  const bentoTravelPx = Math.max(window.innerHeight * BENTO_TRAVEL_FACTOR, BENTO_TRAVEL_MIN_PX);
 
   gsap.set(bentoBoxSection, { opacity: 0, y: bentoTravelPx });
   if (heroContent) {
@@ -85,6 +91,8 @@ export function initConveyorScroll() {
   });
 
   // Conveyor transition: hero fades out while bento slides/fades up into view.
+  // Both animations start simultaneously (position 0) to create a cohesive slideshow effect
+  // where the hero moves up as the bento content moves up and fades in.
   if (heroContent) {
     tl.to(heroContent, {
       opacity: 0,
