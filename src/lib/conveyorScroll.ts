@@ -22,8 +22,6 @@ let resizeHandler: (() => void) | null = null;
 // Animation distance constants (relative to viewport height)
 const HERO_TRAVEL_FACTOR = 0.32;
 const HERO_TRAVEL_MIN_PX = 220;
-const BENTO_TRAVEL_FACTOR = 0.45;
-const BENTO_TRAVEL_MIN_PX = 320;
 
 function getBodyPaddingTopPx(): number {
   const value = window.getComputedStyle(document.body).paddingTop;
@@ -62,9 +60,9 @@ export function initConveyorScroll() {
   // Reset initial styles (JS-enhancement only; CSS should remain visible if JS doesn't run)
   gsap.set(previewSections, { opacity: 0, y: 30 });
   const heroTravelPx = Math.max(window.innerHeight * HERO_TRAVEL_FACTOR, HERO_TRAVEL_MIN_PX);
-  const bentoTravelPx = Math.max(window.innerHeight * BENTO_TRAVEL_FACTOR, BENTO_TRAVEL_MIN_PX);
 
-  gsap.set(bentoBoxSection, { opacity: 0, y: bentoTravelPx });
+  // Position bento at the same vertical position as hero (y: 0) for direct crossfade replacement
+  gsap.set(bentoBoxSection, { opacity: 0, y: 0 });
   if (heroContent) {
     gsap.set(heroContent, { opacity: 1, y: 0 });
   }
@@ -90,9 +88,8 @@ export function initConveyorScroll() {
     },
   });
 
-  // Conveyor transition: hero fades out while bento slides/fades up into view.
-  // Both animations start simultaneously (position 0) to create a cohesive slideshow effect
-  // where the hero moves up as the bento content moves up and fades in.
+  // Conveyor transition: hero fades out and moves up while bento fades in at the same position
+  // This creates a direct crossfade replacement effect where the bento appears in the hero's position
   if (heroContent) {
     tl.to(heroContent, {
       opacity: 0,
@@ -102,6 +99,7 @@ export function initConveyorScroll() {
     }, 0);
   }
 
+  // Bento fades in at the same vertical position (y: 0) where hero started
   tl.to(bentoBoxSection, {
     opacity: 1,
     y: 0,
