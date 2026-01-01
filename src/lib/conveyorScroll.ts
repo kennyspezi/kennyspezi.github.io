@@ -99,7 +99,7 @@ export function initConveyorScroll() {
     }, 0);
   }
 
-  // Bento fades in at the same vertical position (y: 0) where hero started
+  // Bento fades in at the same vertical position where the page naturally flows (no offset)
   tl.to(bentoBoxSection, {
     opacity: 1,
     y: 0,
