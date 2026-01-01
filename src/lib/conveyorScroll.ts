@@ -19,6 +19,10 @@ gsap.registerPlugin(ScrollTrigger);
 let scrollTriggerInstance: ScrollTrigger | null = null;
 let resizeHandler: (() => void) | null = null;
 
+// Animation distance constants (relative to viewport height)
+const HERO_TRAVEL_FACTOR = 0.32;
+const HERO_TRAVEL_MIN_PX = 220;
+
 function getBodyPaddingTopPx(): number {
   const value = window.getComputedStyle(document.body).paddingTop;
   const parsed = Number.parseFloat(value);
@@ -55,7 +59,10 @@ export function initConveyorScroll() {
 
   // Reset initial styles (JS-enhancement only; CSS should remain visible if JS doesn't run)
   gsap.set(previewSections, { opacity: 0, y: 30 });
-  gsap.set(bentoBoxSection, { opacity: 0, y: 110 });
+  const heroTravelPx = Math.max(window.innerHeight * HERO_TRAVEL_FACTOR, HERO_TRAVEL_MIN_PX);
+
+  // Position bento at the same vertical position as hero (y: 0) for direct crossfade replacement
+  gsap.set(bentoBoxSection, { opacity: 0, y: 0 });
   if (heroContent) {
     gsap.set(heroContent, { opacity: 1, y: 0 });
   }
@@ -81,28 +88,30 @@ export function initConveyorScroll() {
     },
   });
 
-  // Conveyor transition: hero fades out while bento slides/fades up into view.
+  // Conveyor transition: hero fades out and moves up while bento fades in at the same position
+  // This creates a direct crossfade replacement effect where the bento appears in the hero's position
   if (heroContent) {
     tl.to(heroContent, {
       opacity: 0,
-      y: -90,
-      ease: 'power2.out',
+      y: -heroTravelPx,
+      ease: 'none',
       duration: 0.8,
     }, 0);
   }
 
+  // Bento fades in at the same vertical position where the page naturally flows (no offset)
   tl.to(bentoBoxSection, {
     opacity: 1,
     y: 0,
-    ease: 'power2.out',
+    ease: 'none',
     duration: 0.9,
-  }, 0.15);
+  }, 0);
 
   // Fade in the bento boxes after the section itself starts appearing.
   tl.to(previewSections, {
     opacity: 1,
     y: 0,
-    ease: 'power2.out',
+    ease: 'none',
     duration: 0.8,
     stagger: 0.04,
   }, 0.35);
