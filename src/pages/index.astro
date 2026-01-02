@@ -8,6 +8,10 @@ import Footer from '../components/Footer.astro'
 import BentoBox from '../components/BentoBox.astro'
 import Stickers from '../components/Stickers.astro'
 import { getFeaturedRepo } from '../lib/github'
+<<<<<<< HEAD
+=======
+import conveyorScrollClientUrl from '../scripts/conveyorScrollClient.ts?url'
+>>>>>>> 24cda42ea525040c4b7dba9d9f18ff945432fb7a
 
 // Fetch GitHub activity to highlight active/recent repo
 let featuredRepo = await getFeaturedRepo();
@@ -68,3 +72,8 @@ let featuredRepo = await getFeaturedRepo();
     <Footer />
   </main>
 </Layout>
+<<<<<<< HEAD
+=======
+
+<script type="module" src={conveyorScrollClientUrl}></script>
+>>>>>>> 24cda42ea525040c4b7dba9d9f18ff945432fb7a
