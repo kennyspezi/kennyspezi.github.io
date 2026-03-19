@@ -2,20 +2,26 @@
   {
     "name": "Technology",
     "slug": "technology",
-    "description": "Articles about web development and programming",
+    "description": "My thoughts as I learn more about hardware, software, and developments in research.",
     "icon": "mdi:code-tags"
   },
   {
-    "name": "Design",
-    "slug": "design",
-    "description": "Thoughts on UI/UX and visual design",
+    "name": "Arts and Crafts",
+    "slug": "arts-and-crafts",
+    "description": "Art I make, including drawings, DIY, and guitar covers.",
     "icon": "mdi:palette"
   },
   {
     "name": "Life",
     "slug": "life",
-    "description": "Daily life and personal reflections",
+    "description": "Personal reflections on miscellaneous topics.",
     "icon": "mdi:coffee"
+  },
+  {
+    "name": "Projects",
+    "slug": "projects",
+    "description": "Project-specific journals and updates.",
+    "icon": "mdi:hammer-wrench"
   },
   {
     "name": "Uncategorized",

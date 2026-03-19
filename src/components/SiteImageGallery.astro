@@ -1,0 +1,78 @@
+---
+interface ImageItem {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+
+interface Props {
+  images: ImageItem[];
+  sectionKey?: string;
+  variant?: "grid" | "hero-overlay";
+}
+
+const { images, sectionKey = "section", variant = "grid" } = Astro.props;
+const galleryImages =
+  images && images.length > 0 ? images : [{ src: "", alt: "", caption: "" }];
+
+const heroImage = galleryImages[0] || { src: "", alt: "", caption: "" };
+---
+
+{
+  variant === "hero-overlay" ? (
+    <section class="relative mb-10 h-36 overflow-hidden rounded-3xl border border-primary/15 md:h-48">
+      {heroImage.src && heroImage.src.trim().length > 0 ? (
+        <>
+          <img
+            src={heroImage.src}
+            alt={heroImage.alt || ""}
+            loading="lazy"
+            class="absolute inset-0 h-full w-full object-cover opacity-25"
+          />
+          <div class="absolute inset-0 bg-gradient-to-b from-white/70 to-white/40 dark:from-neutral-950/75 dark:to-neutral-950/45" />
+        </>
+      ) : (
+        <div class="absolute inset-0 flex items-center justify-center border-2 border-dashed border-primary/30 bg-primary/5 text-xs text-neutral-500 dark:text-neutral-400">
+          Hero image placeholder ({sectionKey})
+        </div>
+      )}
+
+      <div class="absolute bottom-3 left-3 rounded-full bg-white/70 px-3 py-1 text-[11px] text-neutral-600 shadow-sm dark:bg-neutral-900/70 dark:text-neutral-300">
+        Set in src/content/data/site-images.json → {sectionKey}[0].src
+      </div>
+    </section>
+  ) : (
+    <section class="mb-10">
+      <p class="mb-3 text-xs text-neutral-500 dark:text-neutral-400">
+        Add image paths in{" "}
+        <span class="font-medium">src/content/data/site-images.json</span> under
+        key <span class="font-medium">{sectionKey}</span> using /assets/...
+        paths.
+      </p>
+
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {galleryImages.map((image) => (
+          <figure class="dark:bg-bg-secondary-dark rounded-2xl border border-primary/15 bg-white/80 p-3 backdrop-blur-sm">
+            {image.src && image.src.trim().length > 0 ? (
+              <img
+                src={image.src}
+                alt={image.alt || ""}
+                class="h-48 w-full rounded-xl object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div class="flex h-48 w-full items-center justify-center rounded-xl border-2 border-dashed border-primary/30 bg-primary/5 text-xs text-neutral-500 dark:text-neutral-400">
+                Image placeholder ({sectionKey})
+              </div>
+            )}
+            {image.caption && (
+              <figcaption class="mt-2 text-xs text-neutral-500 dark:text-neutral-400">
+                {image.caption}
+              </figcaption>
+            )}
+          </figure>
+        ))}
+      </div>
+    </section>
+  )
+}

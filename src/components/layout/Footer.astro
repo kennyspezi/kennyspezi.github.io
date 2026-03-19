@@ -3,8 +3,8 @@ import site from "@/config/site";
 ---
 
 <footer
-  class="mt-20 flex items-center justify-between border-t border-border pt-8 font-mono text-[10px] tracking-widest text-muted-foreground/40 uppercase"
+  class="mt-10 flex flex-col gap-2 border-t border-border/70 pt-6 text-xs text-muted-foreground/70 md:mt-12 md:flex-row md:items-center md:justify-between"
 >
   <span>{site.footer.copyright}</span>
-  <span>{site.footer.builtWith}</span>
+  <span set:html={site.footer.builtWith} />
 </footer>

@@ -1,0 +1,34 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+  });
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { slug: post.id },
+  }));
+}
+
+const { slug } = Astro.props;
+---
+
+<Layout title="Moved: Post URL" description="Posts moved to /posts/:slug">
+  <div class="mx-auto max-w-2xl p-8 md:p-16">
+    <h1 class="mb-4 text-3xl font-bold tracking-tight">Post URL Updated</h1>
+    <p class="mb-6 text-sm text-muted-foreground">
+      This post now lives at{" "}
+      <a href={`/posts/${slug}`} class="text-primary hover:underline">
+        /posts/{slug}
+      </a>.
+    </p>
+    <a
+      href={`/posts/${slug}`}
+      class="inline-flex rounded-xl border border-primary/30 px-4 py-2 text-sm text-primary hover:bg-primary/10"
+    >
+      Open Post
+    </a>
+  </div>
+</Layout>

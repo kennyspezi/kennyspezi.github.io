@@ -1,0 +1,217 @@
+---
+import { render, getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { getProjectJournalsForProject } from "@/utils/projectJournal";
+
+export async function getStaticPaths() {
+  const journals = await getCollection("projectJournal");
+  return journals.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const projectEntries = await getProjectJournalsForProject(
+  entry.data.projectSlug,
+);
+const currentIndex = projectEntries.findIndex((item) => item.id === entry.id);
+const previousEntry =
+  currentIndex >= 0 && currentIndex < projectEntries.length - 1
+    ? projectEntries[currentIndex + 1]
+    : null;
+const nextEntry = currentIndex > 0 ? projectEntries[currentIndex - 1] : null;
+const project = (await getCollection("projects")).find(
+  (item) => item.id === entry.data.projectSlug,
+);
+const sourceDir =
+  typeof entry.data.sourcePath === "string"
+    ? entry.data.sourcePath.split("/").slice(0, -1).join("/")
+    : "";
+---
+
+<Layout
+  title={entry.data.title}
+  description={`Journal entry for ${entry.data.projectSlug}`}
+>
+  <article
+    class="animate-in fade-in mx-auto max-w-4xl p-6 duration-700 md:p-10"
+  >
+    <header
+      class="mb-8 rounded-[2rem] border border-emerald-300/25 bg-emerald-50/25 p-6 backdrop-blur-sm md:p-8 dark:border-emerald-700/25 dark:bg-emerald-950/10"
+    >
+      <div class="mb-5 flex flex-wrap gap-2">
+        <a
+          href="/posts#journal-list"
+          class="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/55 px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
+        >
+          <Icon name="mdi:arrow-left" class="h-4 w-4" />
+          All Journals
+        </a>
+        <a
+          href={`/projects/${entry.data.projectSlug}`}
+          class="inline-flex items-center gap-1.5 rounded-full border border-amber-300/40 bg-amber-100/60 px-3 py-1.5 text-xs font-medium text-amber-800 transition-colors hover:border-primary/40 dark:border-amber-700/40 dark:bg-amber-900/25 dark:text-amber-300"
+        >
+          <Icon name="mdi:hammer-wrench" class="h-4 w-4" />
+          Go To Project
+        </a>
+        {
+          entry.data.sourceUrl && (
+            <a
+              href={entry.data.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 rounded-full border border-sky-300/40 bg-sky-100/60 px-3 py-1.5 text-xs font-medium text-sky-800 transition-colors hover:border-primary/40 dark:border-sky-700/40 dark:bg-sky-900/25 dark:text-sky-300"
+            >
+              <Icon name="mdi:file-document-outline" class="h-4 w-4" />
+              Source File
+            </a>
+          )
+        }
+      </div>
+
+      <div class="mb-4 flex flex-wrap items-center gap-2">
+        <span
+          class="inline-flex items-center gap-1.5 rounded-full border border-emerald-300/40 bg-emerald-100/60 px-3 py-1.5 text-xs font-medium text-emerald-800 dark:border-emerald-700/40 dark:bg-emerald-900/25 dark:text-emerald-300"
+        >
+          <Icon name="mdi:notebook-heart-outline" class="h-4 w-4" />
+          Project Journal
+        </span>
+        {
+          project && (
+            <span class="rounded-full border border-border bg-background/60 px-3 py-1.5 text-xs text-muted-foreground">
+              {project.data.title}
+            </span>
+          )
+        }
+        {
+          sourceDir && (
+            <span class="rounded-full border border-border bg-background/60 px-3 py-1.5 font-mono text-xs text-muted-foreground">
+              from {sourceDir}/
+            </span>
+          )
+        }
+      </div>
+
+      <h1
+        class="mb-3 text-3xl font-bold tracking-tight text-foreground md:text-5xl"
+      >
+        {entry.data.title}
+      </h1>
+      <p class="text-sm text-muted-foreground">
+        {
+          entry.data.date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        }
+      </p>
+    </header>
+
+    {
+      headings.length > 0 && (
+        <nav class="mb-8 flex flex-wrap gap-2">
+          {headings.slice(0, 6).map((heading) => (
+            <a
+              href={`#${heading.slug}`}
+              class="rounded-full border border-purple-300/35 bg-purple-100/60 px-3 py-1.5 text-xs text-purple-800 transition-colors hover:border-primary/40 dark:border-purple-700/35 dark:bg-purple-900/25 dark:text-purple-300"
+            >
+              {heading.text}
+            </a>
+          ))}
+        </nav>
+      )
+    }
+
+    <div
+      class:list={[
+        "prose max-w-none rounded-[2rem] border border-pink-300/25 bg-pink-50/20 p-6 md:p-8 dark:border-pink-700/25 dark:bg-pink-950/10 dark:prose-invert",
+        "prose-headings:tracking-tight",
+        "prose-p:leading-loose prose-p:text-muted-foreground",
+      ]}
+    >
+      <Content />
+    </div>
+
+    <footer class="mt-8 grid gap-4 md:grid-cols-2">
+      <div
+        class="rounded-2xl border border-orange-300/25 bg-orange-50/20 p-5 dark:border-orange-700/25 dark:bg-orange-950/10"
+      >
+        <p
+          class="mb-2 text-xs font-bold tracking-[0.18em] text-muted-foreground uppercase"
+        >
+          Same Project
+        </p>
+        <div class="space-y-2">
+          {
+            previousEntry ? (
+              <a
+                href={`/journals/${previousEntry.id}`}
+                class="block rounded-xl border border-border bg-background/50 px-4 py-3 transition-colors hover:border-primary/40"
+              >
+                <p class="text-xs text-muted-foreground">Previous Entry</p>
+                <p class="text-sm font-medium text-foreground">
+                  {previousEntry.data.title}
+                </p>
+              </a>
+            ) : (
+              <div class="rounded-xl border border-border bg-background/40 px-4 py-3 text-sm text-muted-foreground">
+                No older journal entry.
+              </div>
+            )
+          }
+          {
+            nextEntry ? (
+              <a
+                href={`/journals/${nextEntry.id}`}
+                class="block rounded-xl border border-border bg-background/50 px-4 py-3 transition-colors hover:border-primary/40"
+              >
+                <p class="text-xs text-muted-foreground">Newer Entry</p>
+                <p class="text-sm font-medium text-foreground">
+                  {nextEntry.data.title}
+                </p>
+              </a>
+            ) : (
+              <div class="rounded-xl border border-border bg-background/40 px-4 py-3 text-sm text-muted-foreground">
+                No newer journal entry.
+              </div>
+            )
+          }
+        </div>
+      </div>
+
+      <div
+        class="rounded-2xl border border-sky-300/25 bg-sky-50/20 p-5 dark:border-sky-700/25 dark:bg-sky-950/10"
+      >
+        <p
+          class="mb-2 text-xs font-bold tracking-[0.18em] text-muted-foreground uppercase"
+        >
+          Project Context
+        </p>
+        {
+          project ? (
+            <>
+              <p class="mb-3 text-sm text-muted-foreground">
+                {project.data.description}
+              </p>
+              <a
+                href={`/projects/${project.id}`}
+                class="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-4 py-2 text-sm text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+              >
+                <Icon name="mdi:arrow-top-right" class="h-4 w-4" />
+                Open {project.data.title}
+              </a>
+            </>
+          ) : (
+            <p class="text-sm text-muted-foreground">
+              Project page unavailable.
+            </p>
+          )
+        }
+      </div>
+    </footer>
+  </article>
+</Layout>

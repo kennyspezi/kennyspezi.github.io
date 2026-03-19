@@ -1,48 +1,85 @@
+const meta = {
+  title: "Meet Kenny",
+  description:
+    "I'm an electrical engineering student based in Texas. I love tinkering with and learning about all kinds of electronics. Feel free to snoop around, I've got many projects I'm excited to work on!",
+  author: 'Karla "Kenny" Madrigal',
+  logo: "/tigerlogo.png",
+  ogImage: "/og.jpg",
+  lang: "en",
+  keywords:
+    "kennyspezi, electronics, student, projects, tinkering, learning, engineering, electrical engineering, hobbyist",
+  mail: "kennyspezi@proton.me",
+  linkedin: "https://www.linkedin.com/in/karla-kenny-madrigal/",
+  resume: "/assets/resume.pdf",
+  url: import.meta.env.PUBLIC_SITE_URL || "https://kennyspezi.github.io/",
+} as const;
+
+const social = [
+  { name: "GitHub", href: "https://github.com/kennyspezi", icon: "mdi:github" },
+  { name: "Email", href: `mailto:${meta.mail}`, icon: "mdi:email" },
+  ...(meta.linkedin
+    ? [{ name: "LinkedIn", href: meta.linkedin, icon: "mdi:linkedin" }]
+    : []),
+] as const;
+
 const site = {
   // --- Site Metadata ---
-  meta: {
-    title: "Breeze",
-    description: "A minimal Astro theme for personal websites",
-    author: "Your Name",
-    logo: "/logo.svg",
-    ogImage: "/og-image.png",
-    // HTML lang attribute, affects page language and date formatting
-    // Options: "zh-CN", "en", "ja", etc.
-    lang: "en",
-  },
+  meta,
 
   // --- Navigation ---
   // subtitle: decorative label shown below the name (uppercase, small text)
   navigation: [
-    { name: "Home", subtitle: "Index", href: "/" },
-    { name: "Writing", subtitle: "Blog", href: "/posts" },
-    { name: "Projects", subtitle: "Works", href: "/projects" },
-    { name: "Friends", subtitle: "Links", href: "/friends" },
-    { name: "About", subtitle: "Me", href: "/about" },
+    { name: "Home", subtitle: "Index", href: "/", icon: "mdi:home-outline" },
+    {
+      name: "Posts",
+      subtitle: "Musings",
+      href: "/posts",
+      icon: "mdi:notebook-outline",
+    },
+    {
+      name: "Projects",
+      subtitle: "Works",
+      href: "/projects",
+      icon: "mdi:hammer-wrench",
+    },
+    {
+      name: "Organizations",
+      subtitle: "Where to find me",
+      href: "/orgs",
+      icon: "mdi:account-group-outline",
+    },
+    {
+      name: "About",
+      subtitle: "Me",
+      href: "/about",
+      icon: "mdi:account-circle-outline",
+    },
   ],
 
   // --- Social Links ---
-  social: [
-    { name: "GitHub", href: "https://github.com/your-username", icon: "mdi:github" },
-    { name: "Email", href: "mailto:hello@example.com", icon: "mdi:email" },
-  ],
+  social,
 
   // --- Homepage Hero ---
   hero: {
-    greeting: "👋 Hello, I'm Breeze",
+    greeting: "i'm kenny! welcome to my personal website 🥭",
     // Supports HTML. Use <span class="font-medium text-foreground underline decoration-primary/30"> to highlight keywords
     description:
-      'A minimal personal website theme built with <span class="font-medium text-foreground underline decoration-primary/30">Astro</span> and <span class="font-medium text-foreground underline decoration-primary/30">Tailwind CSS</span>.',
+      "snoop around for some projects and musings, or just get to know me :^].",
     cards: [
-      { icon: "mdi:explore", label: "Status", value: "Building something cool" },
-      { icon: "mdi:location", label: "Location", value: "Earth" },
+      {
+        icon: "mdi:explore",
+        label: "status",
+        value: "finally doing homework?",
+      },
+      { icon: "mdi:location", label: "location", value: "houston, texas 🤠" },
     ],
   },
 
   // --- Footer ---
   footer: {
     copyright: "© 2025 Breeze",
-    builtWith: "Built with Astro",
+    builtWith:
+      "Built with Astro. Forked from <a href='https://github.com/linftyz/astro-theme-breeze'>Breeze</a>",
   },
 
   // --- Comments ---
@@ -67,31 +104,21 @@ const site = {
     {
       name: "development",
       items: [
-        { name: "VS Code", link: "https://code.visualstudio.com", icon: "mdi:microsoft-visual-studio-code" },
-        { name: "WebStorm", link: "https://www.jetbrains.com/webstorm", icon: "mdi:code-braces" },
+        {
+          name: "VS Code",
+          link: "https://code.visualstudio.com",
+          icon: "mdi:microsoft-visual-studio-code",
+        },
+        { name: "KiCad", link: "https://kicad.org", icon: "mdi:chip" },
+        {
+          name: "PlatformIO",
+          link: "https://platformio.org",
+          icon: "mdi:console-network-outline",
+        },
         { name: "Terminal", icon: "mdi:terminal" },
         { name: "Git", link: "https://git-scm.com", icon: "mdi:git" },
-        { name: "Docker", link: "https://www.docker.com", icon: "mdi:docker" },
-        { name: "Postman", link: "https://www.postman.com", icon: "mdi:api" },
-      ]
-    },
-    {
-      name: "design",
-      items: [
-        { name: "Figma", link: "https://www.figma.com", icon: "mdi:vector-polygon" },
-        { name: "Sketch", link: "https://www.sketch.com", icon: "mdi:vector-square" },
-        { name: "Adobe XD", link: "https://www.adobe.com/products/xd.html", icon: "mdi:pencil-ruler" },
-        { name: "Photoshop", link: "https://www.adobe.com/products/photoshop.html", icon: "mdi:image-edit" },
-      ]
-    },
-    {
-      name: "productivity",
-      items: [
-        { name: "Notion", link: "https://www.notion.so", icon: "mdi:notebook" },
-        { name: "Obsidian", link: "https://obsidian.md", icon: "mdi:diamond-stone" },
-        { name: "Raycast", link: "https://www.raycast.com", icon: "mdi:lightning-bolt" },
-        { name: "Arc Browser", link: "https://arc.net", icon: "mdi:web" },
-      ]
+        { name: "Linux", link: "https://www.linux.org", icon: "mdi:linux" },
+      ],
     },
   ],
 
@@ -110,7 +137,8 @@ const site = {
     backToPosts: "Back to posts",
     goHome: "Go Home",
     notFoundTitle: "Page not found",
-    notFoundDescription: "The page you're looking for may have been removed or the link is broken.",
+    notFoundDescription:
+      "The page you're looking for may have been removed or the link is broken.",
     endOfPost: "End of Post",
     tableOfContents: "Table of Contents",
     searchPlaceholder: "Search posts, tags, or commands...",

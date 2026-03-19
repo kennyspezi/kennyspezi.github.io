@@ -6,6 +6,7 @@
     "dev": "astro dev",
     "build": "astro build && npx pagefind --site dist",
     "preview": "astro preview",
+    "sync:github": "node src/utils/sync-github-projects.mjs",
     "astro": "astro",
     "prepare": "husky"
   },

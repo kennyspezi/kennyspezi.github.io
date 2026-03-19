@@ -3,26 +3,63 @@ import PostPreview from "@/components/blocks/PostPreview.astro";
 import Layout from "@/layouts/Layout.astro";
 import { getPosts } from "@/utils/post";
 import site from "@/config/site";
+import { getCollection } from "astro:content";
 
 const posts = await getPosts();
+const journals = (await getCollection("projectJournal")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+const projects = await getCollection("projects");
+const projectTitleMap = new Map(
+  projects.map((project) => [project.id, project.data.title]),
+);
+const journalCardArt = [
+  "/assets/cards/flowers.jpg",
+  "/assets/cards/orangerays.jpg",
+  "/assets/cards/fishes.jpg",
+  "/assets/cards/gratitude.jpg",
+  "/assets/cards/tiles.jpg",
+  "/assets/cards/sunrug.jpg",
+  "/assets/cards/sinsincollage.jpg",
+  "/assets/cards/wistygoldfish.jpg",
+];
 const years = [
   ...new Set(posts.map((post) => post.data.createdAt.getFullYear())),
 ];
+const groupedJournals = [
+  ...new Set(journals.map((entry) => entry.data.projectSlug)),
+]
+  .sort((a, b) =>
+    (projectTitleMap.get(a) || a).localeCompare(projectTitleMap.get(b) || b),
+  )
+  .map((slug, index) => {
+    const entries = journals.filter((entry) => entry.data.projectSlug === slug);
+    return {
+      slug,
+      title: projectTitleMap.get(slug) || slug,
+      entries,
+      art: journalCardArt[index % journalCardArt.length],
+    };
+  });
 ---
 
 <Layout
   title={site.labels.postsTitle}
   description={`${site.labels.postsDescription} — ${posts.length} posts.`}
 >
-  <div class="animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl p-8 duration-700 md:p-16">
-    <header class="mb-12">
-      <h2 class="mb-4 text-3xl font-bold tracking-tight">{site.labels.postsTitle}</h2>
+  <div
+    class="animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-5xl p-8 duration-700 md:p-12 xl:p-16"
+  >
+    <header class="mb-12 max-w-2xl">
+      <h2 class="mb-4 text-3xl font-bold tracking-tight">
+        {site.labels.postsTitle}
+      </h2>
       <p class="text-sm font-light text-muted-foreground italic">
         {site.labels.postsDescription} — {posts.length} posts.
       </p>
     </header>
 
-    <div class="space-y-16">
+    <div class="max-w-2xl space-y-16">
       {
         years.map((year) => (
           <section class="relative">
@@ -40,8 +77,155 @@ const years = [
         ))
       }
     </div>
+
+    <section
+      class="decor-panel decor-vivid mt-20 rounded-2xl border border-border bg-card/80 p-6 backdrop-blur-sm md:p-8"
+      style="--card-art: url('/assets/cards/sinsincollage.jpg');"
+    >
+      <div
+        class="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"
+      >
+        <div>
+          <h3 class="mb-2 text-2xl font-bold tracking-tight text-foreground">
+            Project Journals
+          </h3>
+          <p class="text-sm text-muted-foreground">
+            Development notes, decision logs, and repo-synced journals grouped
+            by project.
+          </p>
+        </div>
+
+        <div class="w-full md:max-w-xs">
+          <label
+            for="journal-project-filter"
+            class="mb-2 block text-xs font-medium tracking-wider text-muted-foreground uppercase"
+          >
+            Filter by project
+          </label>
+          <select
+            id="journal-project-filter"
+            class="w-full rounded-xl border border-border bg-muted/30 px-3 py-2 text-sm text-foreground"
+          >
+            <option value="all">All projects</option>
+            {
+              [...new Set(journals.map((entry) => entry.data.projectSlug))]
+                .sort()
+                .map((slug) => (
+                  <option value={slug}>
+                    {projectTitleMap.get(slug) || slug}
+                  </option>
+                ))
+            }
+          </select>
+        </div>
+      </div>
+
+      <div id="journal-list" class="grid gap-5 lg:grid-cols-2">
+        {
+          groupedJournals.map((group) => (
+            <section
+              class="decor-panel decor-soft rounded-2xl border border-border/80 bg-background/45 p-5 backdrop-blur-sm"
+              data-project-group={group.slug}
+              style={`--card-art: url('${group.art}');`}
+            >
+              <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <a
+                    href={`/projects/${group.slug}`}
+                    class="text-lg font-semibold text-foreground transition-colors hover:text-primary"
+                  >
+                    {group.title}
+                  </a>
+                  <p class="mt-1 text-xs tracking-[0.24em] text-muted-foreground/70 uppercase">
+                    {group.entries.length} journal{" "}
+                    {group.entries.length === 1 ? "entry" : "entries"}
+                  </p>
+                </div>
+                <a
+                  href={`/projects/${group.slug}#project-journal`}
+                  class="rounded-full border border-border bg-background/60 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
+                >
+                  View project
+                </a>
+              </div>
+
+              <div class="space-y-3">
+                {group.entries.map((entry) => {
+                  const sourceDir =
+                    typeof entry.data.sourcePath === "string"
+                      ? entry.data.sourcePath.split("/").slice(0, -1).join("/")
+                      : "";
+
+                  return (
+                    <article class="rounded-xl border border-border bg-muted/15 p-4 transition-colors hover:border-primary/30 hover:bg-muted/25">
+                      <div class="mb-2 flex flex-wrap items-center gap-2">
+                        <span class="rounded-full border border-emerald-300/40 bg-emerald-100/60 px-2.5 py-1 text-[11px] font-medium text-emerald-800 dark:border-emerald-700/40 dark:bg-emerald-900/25 dark:text-emerald-300">
+                          Journal
+                        </span>
+                        {entry.data.generated && (
+                          <span class="rounded-full border border-border bg-background/60 px-2.5 py-1 text-[11px] text-muted-foreground">
+                            repo sync
+                          </span>
+                        )}
+                      </div>
+                      <a href={`/journals/${entry.id}`} class="block">
+                        <h4 class="mb-2 text-lg font-semibold text-foreground hover:text-primary">
+                          {entry.data.title}
+                        </h4>
+                      </a>
+                      <div class="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                        <span>
+                          {entry.data.date.toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </span>
+                        {entry.data.generated && sourceDir && (
+                          <span>
+                            from{" "}
+                            <span class="rounded-full border border-border bg-background/60 px-2 py-0.5 font-mono">
+                              {sourceDir}/
+                            </span>
+                          </span>
+                        )}
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
+          ))
+        }
+      </div>
+    </section>
   </div>
 </Layout>
+
+<script>
+  const journalFilter = document.getElementById("journal-project-filter");
+  const journalGroups = Array.from(
+    document.querySelectorAll("#journal-list [data-project-group]"),
+  );
+
+  const refreshJournalFilter = () => {
+    const selectedProject =
+      journalFilter instanceof HTMLSelectElement ? journalFilter.value : "all";
+
+    journalGroups.forEach((group) => {
+      if (!(group instanceof HTMLElement)) {
+        return;
+      }
+      const matches =
+        selectedProject === "all" ||
+        group.dataset.projectGroup === selectedProject;
+      group.style.display = matches ? "" : "none";
+    });
+  };
+
+  journalFilter?.addEventListener("change", refreshJournalFilter);
+  refreshJournalFilter();
+</script>
 
 <style>
   .year {

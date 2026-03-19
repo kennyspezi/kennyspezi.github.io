@@ -1,0 +1,226 @@
+---
+import { getCollection } from "astro:content";
+import { getPosts } from "@/utils/post";
+import about from "@/content/data/about.json";
+import ignoredRepos from "@/content/data/ignoredrepoentry.json";
+
+const ignoredRepoSet = new Set(
+  ignoredRepos.map((item) => String(item).toLowerCase()),
+);
+const cardArt = [
+  "/assets/cards/flowers.jpg",
+  "/assets/cards/orangerays.jpg",
+  "/assets/cards/fishes.jpg",
+  "/assets/cards/gratitude.jpg",
+  "/assets/cards/tiles.jpg",
+  "/assets/cards/sunrug.jpg",
+  "/assets/cards/sinsincollage.jpg",
+  "/assets/cards/wistygoldfish.jpg",
+];
+const normalizeStatus = (status: string) =>
+  (status || "idea")
+    .toLowerCase()
+    .trim()
+    .replace(/\s*:\s*/g, "-")
+    .replace(/\s+/g, "-")
+    .replace("in-progress-paused", "dormant")
+    .replace("backlog", "idea");
+const statusLabelMap: Record<string, string> = {
+  idea: "Idea",
+  researching: "Researching",
+  "building-now": "Building",
+  "building-paused": "Paused",
+  dormant: "Dormant",
+  blocked: "Blocked",
+  shipped: "Shipped",
+  archived: "Archived",
+};
+const statusClassMap: Record<string, string> = {
+  idea: "border-sky-300/40 bg-sky-100/60 text-sky-800 dark:border-sky-700/40 dark:bg-sky-900/25 dark:text-sky-300",
+  researching:
+    "border-indigo-300/40 bg-indigo-100/60 text-indigo-800 dark:border-indigo-700/40 dark:bg-indigo-900/25 dark:text-indigo-300",
+  "building-now":
+    "border-amber-300/40 bg-amber-100/60 text-amber-800 dark:border-amber-700/40 dark:bg-amber-900/25 dark:text-amber-300",
+  "building-paused":
+    "border-yellow-300/40 bg-yellow-100/60 text-yellow-800 dark:border-yellow-700/40 dark:bg-yellow-900/25 dark:text-yellow-300",
+  dormant:
+    "border-orange-300/40 bg-orange-100/60 text-orange-800 dark:border-orange-700/40 dark:bg-orange-900/25 dark:text-orange-300",
+  blocked:
+    "border-rose-300/40 bg-rose-100/60 text-rose-800 dark:border-rose-700/40 dark:bg-rose-900/25 dark:text-rose-300",
+  shipped:
+    "border-emerald-300/40 bg-emerald-100/60 text-emerald-800 dark:border-emerald-700/40 dark:bg-emerald-900/25 dark:text-emerald-300",
+  archived:
+    "border-violet-300/40 bg-violet-100/60 text-violet-800 dark:border-violet-700/40 dark:bg-violet-900/25 dark:text-violet-300",
+};
+
+const posts = await getPosts();
+const recentPosts = posts.slice(0, 2);
+const orgs = await getCollection("orgs");
+const projects = (await getCollection("projects")).filter(
+  (project) =>
+    project.id !== "astro-theme-breeze" &&
+    !ignoredRepoSet.has(String(project.data.repo || "").toLowerCase()),
+);
+const journals = await getCollection("projectJournal");
+
+const latestJournals = [...journals]
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 2)
+  .map((entry, index) => ({
+    entry,
+    art: cardArt[(index + 5) % cardArt.length],
+  }));
+---
+
+<section>
+  <div class="mb-5 flex items-center justify-between">
+    <p
+      class="text-[11px] font-bold tracking-[0.4em] text-muted-foreground uppercase opacity-60"
+    >
+      At A Glance
+    </p>
+  </div>
+
+  <div class="grid gap-3 md:grid-cols-2">
+    <a
+      href="/about"
+      class="decor-panel decor-soft rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary/40 md:col-span-2"
+      style="--card-art: url('/assets/cards/tiles.jpg');"
+    >
+      <p
+        class="mb-2 text-sm font-black tracking-wider text-muted-foreground uppercase"
+      >
+        About
+      </p>
+      <p class="text-base font-medium text-muted-foreground">{about.intro}</p>
+    </a>
+
+    <a
+      href="/posts"
+      class="decor-panel decor-soft rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary/40"
+      style="--card-art: url('/assets/cards/flowers.jpg');"
+    >
+      <p
+        class="mb-2 text-sm font-black tracking-wider text-muted-foreground uppercase"
+      >
+        Posts
+      </p>
+      <p class="mb-3 text-base font-medium text-muted-foreground">
+        {posts.length} published notes
+      </p>
+      <div class="space-y-2">
+        {
+          recentPosts.map((post) => (
+            <div class="rounded-lg border border-border/70 bg-muted/30 px-3 py-2">
+              <p class="text-base font-bold text-foreground">
+                {post.data.title}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </a>
+
+    <a
+      href="/projects"
+      class="decor-panel decor-soft rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary/40"
+      style="--card-art: url('/assets/cards/orangerays.jpg');"
+    >
+      <p
+        class="mb-2 text-sm font-black tracking-wider text-muted-foreground uppercase"
+      >
+        Projects
+      </p>
+      <p class="mb-3 text-base font-medium text-muted-foreground">
+        {projects.length} active and archived builds
+      </p>
+      <div class="space-y-2">
+        {
+          projects.slice(0, 2).map((project) => (
+            <div class="rounded-lg border border-border/70 bg-muted/30 px-3 py-2">
+              <div class="flex items-center justify-between gap-2">
+                <p class="text-base font-bold text-foreground">
+                  {project.data.title}
+                </p>
+                <span
+                  class={`rounded-full border px-2 py-0.5 text-[10px] font-medium ${statusClassMap[normalizeStatus(project.data.status || "idea")] || "border-border bg-background/60 text-muted-foreground"}`}
+                >
+                  {statusLabelMap[
+                    normalizeStatus(project.data.status || "idea")
+                  ] || "Idea"}
+                </span>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </a>
+
+    <a
+      href="/orgs"
+      class="decor-panel decor-soft rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary/40"
+      style="--card-art: url('/assets/cards/fishes.jpg');"
+    >
+      <p
+        class="mb-2 text-sm font-black tracking-wider text-muted-foreground uppercase"
+      >
+        Organizations
+      </p>
+      <p class="mb-3 text-base font-medium text-muted-foreground">
+        {orgs.length} organizations tracked
+      </p>
+      {
+        orgs.length > 0 && (
+          <div class="rounded-lg border border-border/70 bg-muted/30 px-3 py-2">
+            <p class="text-base font-bold text-foreground">
+              {orgs[0].data.title}
+            </p>
+            <p class="text-sm font-medium text-muted-foreground">
+              {orgs[0].data.positions.length} role(s)
+            </p>
+          </div>
+        )
+      }
+    </a>
+
+    <section
+      class="decor-panel decor-soft rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary/40"
+      style="--card-art: url('/assets/cards/gratitude.jpg');"
+    >
+      <p
+        class="mb-2 text-sm font-black tracking-wider text-muted-foreground uppercase"
+      >
+        Project Journals
+      </p>
+      <p class="mb-3 text-base font-medium text-muted-foreground">
+        {journals.length} development notes
+      </p>
+      <div class="space-y-2">
+        {
+          latestJournals.map(({ entry, art }) => (
+            <div
+              class="decor-panel decor-soft rounded-lg border border-border/70 bg-muted/30 px-3 py-2"
+              style={`--card-art: url('${art}');`}
+            >
+              <a
+                href={`/journals/${entry.id}`}
+                class="text-base font-bold text-foreground hover:text-primary hover:underline"
+              >
+                {entry.data.title}
+              </a>
+              <p class="text-sm font-medium text-muted-foreground">
+                {entry.data.projectSlug}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+      <a
+        href="/posts#journal-list"
+        class="mt-4 inline-flex rounded-full border border-border bg-muted/20 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
+      >
+        Browse all journals
+      </a>
+    </section>
+  </div>
+</section>

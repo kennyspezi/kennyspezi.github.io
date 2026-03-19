@@ -1,0 +1,48 @@
+{
+  "_notes": {
+    "howToUse": "Put image files in public/assets/... and set src as /assets/... here.",
+    "rendering": "Each page reads only its matching section key below. Blank src values render placeholder frames."
+  },
+  "home": [
+    {
+      "src": "/assets/tools/dreamcore.jpg",
+      "alt": "Dreamcore collage placeholder",
+      "caption": "Home hero placeholder"
+    }
+  ],
+  "about": [
+    {
+      "src": "/assets/avatar.png",
+      "alt": "Profile avatar placeholder",
+      "caption": "About hero placeholder"
+    }
+  ],
+  "projects": [
+    {
+      "src": "/assets/tools/deck.png",
+      "alt": "Project section placeholder image",
+      "caption": "Projects hero placeholder"
+    }
+  ],
+  "orgs": [
+    {
+      "src": "/assets/cards/tiles.jpg",
+      "alt": "Patterned artwork for organizations section",
+      "caption": "Organizations hero artwork"
+    }
+  ],
+  "blogs": [
+    {
+      "src": "/assets/social/social-github.jpg",
+      "alt": "Blog section placeholder image",
+      "caption": "Blogs hero placeholder"
+    }
+  ],
+  "motives": [
+    {
+      "src": "/assets/tools/retro-computer.png",
+      "alt": "Motives section placeholder image",
+      "caption": "Motives hero placeholder"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "title": "About Kenny",
+  "intro": "Electrical engineering student at the University of Houston, side-quest collector, and hardware enthusiast.",
+  "profile": {
+    "name": "Karla \"Kenny\" Madrigal",
+    "pronouns": "she/they",
+    "location": "Houston, Texas",
+    "profileImage": "",
+    "profileImageAlt": "Profile picture of Kenny",
+    "bio": [
+      "I want to build things I care about, at least a little bit. I jump around from project to project, so this is how we're going to keep track."
+    ]
+  },
+  "buttons": {
+    "resumeLabel": "Resume",
+    "resumeHref": "/assets/resume.pdf",
+    "emailLabel": "Email Me",
+    "emailHref": "mailto:kennyspezi@proton.me"
+  },
+  "funFacts": [
+    {
+      "label": "Big 3 🌃",
+      "value": "Sagitarrius Rising / Gemini Sun / Pisces Moon"
+    }
+  ],
+  "playlist": {
+    "title": "A Playlist :^]",
+    "description": "Put a Spotify playlist, album, or mix here.",
+    "embedUrl": "https://open.spotify.com/embed/playlist/37i9dQZF1Fx0OpIJWWe6qp?utm_source=generator",
+    "fallbackLink": ""
+  },
+  "story": {
+    "heading": "A Little More About Me",
+    "paragraphs": ["TBD"]
+  }
+}

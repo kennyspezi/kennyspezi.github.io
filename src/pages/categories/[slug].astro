@@ -8,19 +8,27 @@ import { Icon } from "astro-icon/components";
 export async function getStaticPaths() {
   const allCategories = await getCollection("categories");
   const allPosts = await getPosts();
+  const allJournals = await getCollection("projectJournal");
 
   return allCategories.map((cat) => {
     const filteredPosts = allPosts.filter(
       (post) => post.data.category.id === cat.id,
     );
+    const filteredJournals = allJournals
+      .filter((entry) => (entry.data.category?.id || "projects") === cat.id)
+      .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
     return {
       params: { slug: cat.data.slug },
-      props: { category: cat, posts: filteredPosts },
+      props: {
+        category: cat,
+        posts: filteredPosts,
+        journals: filteredJournals,
+      },
     };
   });
 }
 
-const { category, posts } = Astro.props;
+const { category, posts, journals = [] } = Astro.props;
 ---
 
 <Layout
@@ -45,8 +53,69 @@ const { category, posts } = Astro.props;
       </p>
     </header>
 
-    <div class="space-y-1">
-      {posts.map((post) => <PostPreview post={post} />)}
-    </div>
+    {
+      posts.length === 0 && journals.length === 0 ? (
+        <p class="text-sm text-muted-foreground">
+          Nothing in this category yet.
+        </p>
+      ) : (
+        <div class="space-y-1">
+          {posts.map((post) => (
+            <PostPreview post={post} />
+          ))}
+
+          {journals.length > 0 && (
+            <div class="mt-6 space-y-3">
+              {journals.map((entry) => {
+                const sourceDir =
+                  typeof entry.data.sourcePath === "string"
+                    ? entry.data.sourcePath.split("/").slice(0, -1).join("/")
+                    : "";
+
+                return (
+                  <a
+                    href={`/journals/${entry.id}`}
+                    class="block rounded-2xl border border-emerald-300/20 bg-emerald-50/20 p-5 transition-colors hover:border-primary/30 hover:bg-muted/30 dark:border-emerald-700/20 dark:bg-emerald-950/10"
+                  >
+                    <div class="mb-2 flex flex-wrap items-center gap-2">
+                      <span class="inline-flex items-center gap-1 rounded-full border border-emerald-300/30 bg-emerald-100/60 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-emerald-700 uppercase dark:border-emerald-700/30 dark:bg-emerald-900/20 dark:text-emerald-300">
+                        <Icon
+                          name="mdi:notebook-heart-outline"
+                          class="h-3.5 w-3.5"
+                        />
+                        Journal
+                      </span>
+                      <span class="rounded-full border border-border bg-background/50 px-2.5 py-1 font-mono text-[11px] text-muted-foreground">
+                        {entry.data.projectSlug}
+                      </span>
+                    </div>
+
+                    <h3 class="mb-1 text-lg font-bold text-foreground">
+                      {entry.data.title}
+                    </h3>
+                    <p class="text-xs text-muted-foreground">
+                      {entry.data.date.toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </p>
+
+                    {entry.data.generated && sourceDir && (
+                      <p class="mt-2 text-xs text-muted-foreground/80">
+                        from{" "}
+                        <span class="rounded-full border border-border bg-background/60 px-2 py-0.5 font-mono">
+                          {sourceDir}/
+                        </span>
+                      </p>
+                    )}
+                  </a>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )
+    }
   </div>
 </Layout>

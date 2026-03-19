@@ -1,0 +1,328 @@
+---
+interface ProjectData {
+  slug: string;
+  title: string;
+  description: string;
+  status: string;
+  statusNote?: string;
+  contributorsWanted: boolean;
+  tech: string[];
+  tags: string[];
+  commits?: Array<{
+    sha: string;
+    message: string;
+    date?: string;
+    url: string;
+  }>;
+  previewImage?: string;
+  images?: string[];
+  isFork?: boolean;
+  forkedFrom?: string;
+  forkedFromUrl?: string;
+  hackathonName?: string;
+  hackathonUrl?: string;
+  replacementLabel?: string;
+  replacementUrl?: string;
+  buildsOnLabels?: string[];
+  buildsOnUrls?: string[];
+  cardEmoji?: string;
+}
+
+interface Props {
+  project: ProjectData;
+}
+
+const { project } = Astro.props;
+const cardArt = [
+  "/assets/cards/orangerays.jpg",
+  "/assets/cards/fishes.jpg",
+  "/assets/cards/flowers.jpg",
+  "/assets/cards/gratitude.jpg",
+  "/assets/cards/sunrug.jpg",
+  "/assets/cards/sinsincollage.jpg",
+  "/assets/cards/tiles.jpg",
+  "/assets/cards/wistygoldfish.jpg",
+];
+
+const normalizeStatusKey = (value: string) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/\s*:\s*/g, "-")
+    .replace(/\s+/g, "-")
+    .replace("in-progress-paused", "dormant")
+    .replace("backlog", "idea");
+
+const statusKey = normalizeStatusKey(project.status || "idea");
+const latestCommit = project.commits?.[0];
+const displayTags = project.tags.slice(0, 3);
+const toRenderableGitHubImageUrl = (value: string) => {
+  const cleaned = String(value || "").trim();
+  if (/^https?:\/\/github\.com\/.+\/blob\/.+$/i.test(cleaned)) {
+    return cleaned.includes("?") ? `${cleaned}&raw=1` : `${cleaned}?raw=1`;
+  }
+  return cleaned;
+};
+const previewCandidate =
+  project.previewImage || project.images?.find(Boolean) || "";
+const resolvedPreviewImage = toRenderableGitHubImageUrl(previewCandidate);
+const artIndex =
+  [...project.slug].reduce((sum, char) => sum + char.charCodeAt(0), 0) %
+  cardArt.length;
+
+const statusChipClassMap = {
+  idea: "border-sky-300/50 bg-sky-100/50 text-sky-900 dark:border-sky-700/50 dark:bg-sky-900/25 dark:text-sky-200",
+  researching:
+    "border-indigo-300/50 bg-indigo-100/50 text-indigo-900 dark:border-indigo-700/50 dark:bg-indigo-900/25 dark:text-indigo-200",
+  "building-now":
+    "border-amber-300/50 bg-amber-100/50 text-amber-900 dark:border-amber-700/50 dark:bg-amber-900/25 dark:text-amber-200",
+  "building-paused":
+    "border-yellow-300/50 bg-yellow-100/50 text-yellow-900 dark:border-yellow-700/50 dark:bg-yellow-900/25 dark:text-yellow-200",
+  dormant:
+    "border-orange-300/50 bg-orange-100/50 text-orange-900 dark:border-orange-700/50 dark:bg-orange-900/25 dark:text-orange-200",
+  blocked:
+    "border-rose-300/50 bg-rose-100/50 text-rose-900 dark:border-rose-700/50 dark:bg-rose-900/25 dark:text-rose-200",
+  shipped:
+    "border-emerald-300/50 bg-emerald-100/50 text-emerald-900 dark:border-emerald-700/50 dark:bg-emerald-900/25 dark:text-emerald-200",
+  archived:
+    "border-violet-300/50 bg-violet-100/50 text-violet-900 dark:border-violet-700/50 dark:bg-violet-900/25 dark:text-violet-200",
+};
+
+const cardTintClassMap = {
+  idea: "border-sky-300/35 bg-sky-50/25 dark:border-sky-700/35 dark:bg-sky-950/10",
+  researching:
+    "border-indigo-300/35 bg-indigo-50/25 dark:border-indigo-700/35 dark:bg-indigo-950/10",
+  "building-now":
+    "border-amber-300/35 bg-amber-50/25 dark:border-amber-700/35 dark:bg-amber-950/10",
+  "building-paused":
+    "border-yellow-300/35 bg-yellow-50/25 dark:border-yellow-700/35 dark:bg-yellow-950/10",
+  dormant:
+    "border-orange-300/35 bg-orange-50/25 dark:border-orange-700/35 dark:bg-orange-950/10",
+  blocked:
+    "border-rose-300/35 bg-rose-50/25 dark:border-rose-700/35 dark:bg-rose-950/10",
+  shipped:
+    "border-emerald-300/35 bg-emerald-50/25 dark:border-emerald-700/35 dark:bg-emerald-950/10",
+  archived:
+    "border-violet-300/35 bg-violet-50/25 dark:border-violet-700/35 dark:bg-violet-950/10",
+};
+
+const hackathonChipClass =
+  "border-fuchsia-300/50 bg-fuchsia-100/55 text-fuchsia-900 dark:border-fuchsia-700/50 dark:bg-fuchsia-900/25 dark:text-fuchsia-200";
+const buildsOnPairs = (project.buildsOnLabels || []).map((label, index) => ({
+  label,
+  url: project.buildsOnUrls?.[index] || "",
+}));
+
+const formatStatus = (value: string) => {
+  const key = normalizeStatusKey(value || "idea");
+  const labels = {
+    "building-now": "🔧 Building now",
+    "building-paused": "⏸️ Paused",
+    dormant: "😴 Dormant",
+    idea: "💡 Idea",
+    researching: "🔎 Researching",
+    blocked: "⛔ Blocked",
+    shipped: "✅ Shipped",
+    archived: "🗃️ Archived",
+  };
+
+  if (key in labels) {
+    return labels[key as keyof typeof labels];
+  }
+
+  return key
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+};
+---
+
+<article
+  class={`decor-panel decor-soft group flex h-full flex-col rounded-2xl border p-5 text-card-foreground transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-main ${cardTintClassMap[statusKey as keyof typeof cardTintClassMap] || "border-border bg-card"}`}
+  data-project-card
+  data-slug={project.slug}
+  data-tags={project.tags.join(",").toLowerCase()}
+  data-tech={project.tech.join(",").toLowerCase()}
+  data-status={project.status}
+  data-contributors-wanted={project.contributorsWanted ? "true" : "false"}
+  style={`--card-art: url('${cardArt[artIndex]}');`}
+>
+  <a
+    href={`/projects/${project.slug}`}
+    aria-label={`Open ${project.title}`}
+    class="mb-3 block"
+  >
+    {
+      resolvedPreviewImage ? (
+        <img
+          src={resolvedPreviewImage}
+          alt={`${project.title} preview`}
+          loading="lazy"
+          class="h-32 w-full rounded-xl border border-border object-cover"
+        />
+      ) : (
+        <div class="flex h-32 w-full items-center justify-center rounded-xl border border-dashed border-border bg-muted/30 px-3 text-sm text-muted-foreground">
+          Awaiting repo preview
+        </div>
+      )
+    }
+  </a>
+
+  <div class="mb-2 flex items-start justify-between gap-2">
+    <h3 class="text-xl leading-tight font-bold text-foreground">
+      <a
+        href={`/projects/${project.slug}`}
+        class="hover:text-primary hover:underline"
+      >
+        {project.cardEmoji && <span class="mr-1">{project.cardEmoji}</span>}
+        {project.title}
+      </a>
+    </h3>
+    <span
+      class={`max-w-[10rem] rounded-full border px-2.5 py-1 text-xs leading-tight font-medium whitespace-normal break-words text-center ${statusChipClassMap[statusKey as keyof typeof statusChipClassMap] || "border-primary/30 bg-primary/10 text-primary"}`}
+    >
+      {formatStatus(statusKey)}
+    </span>
+  </div>
+
+  {
+    project.hackathonName && (
+      <p class="mb-2 flex flex-wrap items-center gap-2 text-sm">
+        <span
+          class={`rounded-full border px-2.5 py-1 text-[11px] font-semibold tracking-wider uppercase ${hackathonChipClass}`}
+        >
+          Hackathon
+        </span>
+        {project.hackathonUrl ? (
+          <a
+            href={project.hackathonUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-semibold text-primary hover:underline"
+          >
+            Built for {project.hackathonName}
+          </a>
+        ) : (
+          <span class="font-semibold text-primary">
+            Built for {project.hackathonName}
+          </span>
+        )}
+      </p>
+    )
+  }
+
+  {
+    statusKey === "archived" &&
+      (project.replacementUrl || project.replacementLabel) && (
+        <p class="mb-2 flex flex-wrap items-center gap-2 text-sm">
+          <span class="rounded-full border border-violet-300/50 bg-violet-100/55 px-2.5 py-1 text-[11px] font-semibold tracking-wider text-violet-900 uppercase dark:border-violet-700/50 dark:bg-violet-900/25 dark:text-violet-200">
+            Next up
+          </span>
+          {project.replacementUrl ? (
+            <a
+              href={project.replacementUrl}
+              class="font-semibold text-primary hover:underline"
+            >
+              continuing as {project.replacementLabel || "newer project"}
+            </a>
+          ) : (
+            <span class="font-semibold text-primary">
+              continuing as {project.replacementLabel || "newer project"}
+            </span>
+          )}
+        </p>
+      )
+  }
+
+  {
+    buildsOnPairs.length > 0 && (
+      <div class="mb-3 flex flex-wrap items-center gap-2 text-sm">
+        <span class="rounded-full border border-pink-300/50 bg-pink-100/55 px-2.5 py-1 text-[11px] font-semibold tracking-wider text-pink-900 uppercase dark:border-pink-700/50 dark:bg-pink-900/25 dark:text-pink-200">
+          Builds On
+        </span>
+        {buildsOnPairs.map((item) =>
+          item.url ? (
+            <a
+              href={item.url}
+              class="rounded-full border border-border bg-background/60 px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:border-primary/40 hover:underline"
+            >
+              {item.label}
+            </a>
+          ) : (
+            <span class="rounded-full border border-border bg-background/60 px-2.5 py-1 text-xs font-medium text-primary">
+              {item.label}
+            </span>
+          ),
+        )}
+      </div>
+    )
+  }
+
+  {
+    project.isFork && project.forkedFrom && (
+      <p class="mb-2 text-sm font-medium text-muted-foreground">
+        Forked from{" "}
+        {project.forkedFromUrl ? (
+          <a
+            href={project.forkedFromUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-primary hover:underline"
+          >
+            {project.forkedFrom}
+          </a>
+        ) : (
+          <span>{project.forkedFrom}</span>
+        )}
+      </p>
+    )
+  }
+
+  <p class="mb-3 line-clamp-3 text-base font-medium text-muted-foreground">
+    {project.description || "No description provided yet."}
+  </p>
+
+  {
+    project.statusNote && (
+      <p class="mb-3 line-clamp-3 rounded-lg border border-border bg-muted/20 px-3.5 py-2.5 text-sm font-medium text-muted-foreground">
+        {project.statusNote}
+      </p>
+    )
+  }
+
+  {
+    latestCommit && (
+      <div class="mb-3 rounded-lg border border-border bg-muted/20 px-3.5 py-2.5">
+        <p class="mb-1 text-[11px] font-bold tracking-wider text-muted-foreground uppercase">
+          Latest Commit
+        </p>
+        <a
+          href={latestCommit.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="line-clamp-2 text-base font-medium text-primary hover:underline"
+        >
+          {latestCommit.message}
+        </a>
+      </div>
+    )
+  }
+
+  <div class="mt-auto flex flex-wrap gap-2">
+    {
+      displayTags.map((tag) => (
+        <span class="rounded-full border border-border bg-muted/30 px-2.5 py-1 text-xs font-medium text-muted-foreground">
+          {tag}
+        </span>
+      ))
+    }
+
+    {
+      project.contributorsWanted && (
+        <span class="rounded-full border border-primary/40 bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
+          contributors wanted
+        </span>
+      )
+    }
+  </div>
+</article>

@@ -1,40 +1,120 @@
 ---
 import site from "@/config/site";
-import Nav from "./Nav.astro";
-import ThemeToggle from "./ThemeToggle.astro";
 import { Icon } from "astro-icon/components";
-import Brand from "./Brand.astro";
-import SearchModal from "../blocks/SearchModal.astro";
-import SearchBox from "./SearchBox.astro";
+import SearchBox from "@/components/layout/SearchBox.astro";
+import ThemeToggle from "@/components/layout/ThemeToggle.astro";
+import SearchModal from "@/components/blocks/SearchModal.astro";
+
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
 ---
 
 <aside
-  class="flex w-full flex-col border-b border-border bg-muted/20 p-6 md:w-[35%] md:border-r md:border-b-0 md:p-12"
+  class:list={[
+    "flex w-full flex-col border-b border-border bg-muted/20 p-5 transition-[width,padding] duration-300 ease-out md:border-r md:border-b-0",
+    compact ? "md:w-20" : "md:w-48",
+  ]}
   data-pagefind-ignore="all"
 >
-  <Brand />
+  <div
+    class:list={["mb-4 flex", compact ? "justify-center" : "justify-center"]}
+  >
+    <a
+      href="/"
+      class:list={[
+        "block transition-opacity hover:opacity-85",
+        compact ? "w-10" : "w-28",
+      ]}
+      title={site.meta.title}
+      aria-label={site.meta.title}
+    >
+      <img
+        src={site.meta.logo}
+        alt={site.meta.title}
+        class="h-auto w-full object-contain"
+        loading="eager"
+      />
+    </a>
+  </div>
 
-  <SearchBox />
+  {!compact && <SearchBox />}
 
-  <Nav />
+  <nav
+    class:list={[
+      "no-scrollbar flex flex-1 flex-wrap overflow-x-auto max-md:justify-between md:flex-col md:overflow-x-visible",
+      compact ? "items-center gap-4 md:gap-4" : "gap-2.5 md:gap-2.5",
+    ]}
+  >
+    {
+      site.navigation.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            "group flex rounded-2xl border border-transparent transition-all duration-250 hover:border-primary/20 hover:bg-primary/10",
+            compact
+              ? "h-12 w-12 items-center justify-center p-0"
+              : "min-w-24 items-center gap-2.5 px-3.5 py-2.5",
+          ]}
+          title={item.name}
+          aria-label={item.name}
+        >
+          <Icon
+            name={item.icon || "mdi:link-variant"}
+            class:list={[
+              "text-primary/70",
+              compact ? "h-5.5 w-5.5" : "h-5 w-5",
+            ]}
+          />
+          {!compact && (
+            <div class="flex max-w-40 flex-col overflow-hidden transition-[max-width,opacity,margin] duration-250 ease-out">
+              <span class="text-sm font-bold text-muted-foreground group-hover:text-primary">
+                {item.name}
+              </span>
+              <span class="text-[10px] tracking-widest text-muted-foreground/50 uppercase">
+                {item.subtitle}
+              </span>
+            </div>
+          )}
+        </a>
+      ))
+    }
+  </nav>
 
-  <div class="mt-8 flex items-center justify-between md:mt-14">
-    <div class="flex gap-4 text-muted-foreground/60">
+  <div
+    class:list={[
+      "mt-8 flex items-center md:mt-10",
+      compact ? "flex-col justify-center gap-4" : "justify-between",
+    ]}
+  >
+    <div
+      class:list={[
+        "text-muted-foreground/60",
+        compact ? "flex flex-col items-center gap-3" : "flex gap-3",
+      ]}
+    >
       {
         site.social.map((item) => (
           <a
             href={item.href}
-            class="cursor-pointer transition-colors hover:text-primary"
+            class:list={[
+              "cursor-pointer transition-colors hover:text-primary",
+              compact
+                ? "flex h-9 w-9 items-center justify-center rounded-full hover:bg-primary/10"
+                : "",
+            ]}
             aria-label={item.name}
           >
-            <Icon name={item.icon} size={24} />
+            <Icon name={item.icon} class="h-5 w-5" />
           </a>
         ))
       }
     </div>
 
-    <ThemeToggle />
+    {!compact && <ThemeToggle />}
   </div>
 
-  <SearchModal />
+  {!compact && <SearchModal />}
 </aside>

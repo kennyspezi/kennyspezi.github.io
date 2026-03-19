@@ -17,12 +17,29 @@ const category = await getEntry(
 
 // Auto-detect if post is new based on creation date
 // Draft posts should not show "new" badge
-const isNew = !post.data.draft && (post.data.new || (site.features.newPostDays > 0 &&
-  (Date.now() - new Date(post.data.createdAt).getTime()) / (1000 * 60 * 60 * 24) <= site.features.newPostDays));
+const isNew =
+  !post.data.draft &&
+  (post.data.new ||
+    (site.features.newPostDays > 0 &&
+      (Date.now() - new Date(post.data.createdAt).getTime()) /
+        (1000 * 60 * 60 * 24) <=
+        site.features.newPostDays));
+const cardArt = [
+  "/assets/cards/sunrug.jpg",
+  "/assets/cards/flowers.jpg",
+  "/assets/cards/tiles.jpg",
+  "/assets/cards/wistygoldfish.jpg",
+  "/assets/cards/gratitude.jpg",
+  "/assets/cards/fishes.jpg",
+];
+const artIndex =
+  [...post.id].reduce((sum, char) => sum + char.charCodeAt(0), 0) %
+  cardArt.length;
 ---
 
 <article
-  class="group flex cursor-pointer items-center justify-between border-b border-border/40 py-6 last:border-0"
+  class="decor-panel decor-soft group flex cursor-pointer items-center justify-between rounded-2xl border border-border/40 px-4 py-6 last:border-border/40"
+  style={`--card-art: url('${cardArt[artIndex]}');`}
 >
   <div>
     <a
@@ -30,16 +47,20 @@ const isNew = !post.data.draft && (post.data.new || (site.features.newPostDays >
       class="inline-flex items-center gap-2 text-lg font-semibold text-foreground/80 transition-colors duration-300 group-hover:text-primary"
     >
       <span>{post.data.title}</span>
-      {isNew && (
-        <span class="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">
-          New
-        </span>
-      )}
-      {post.data.draft && (
-        <span class="rounded bg-muted px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-          Draft
-        </span>
-      )}
+      {
+        isNew && (
+          <span class="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-primary uppercase">
+            New
+          </span>
+        )
+      }
+      {
+        post.data.draft && (
+          <span class="rounded bg-muted px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
+            Draft
+          </span>
+        )
+      }
     </a>
     <p
       class="mt-2 font-mono text-[11px] text-muted-foreground italic opacity-60"
@@ -50,7 +71,9 @@ const isNew = !post.data.draft && (post.data.new || (site.features.newPostDays >
       </a>
     </p>
   </div>
-  <span class="text-border transition-all duration-300 group-hover:translate-x-1 group-hover:text-primary">
+  <span
+    class="text-border transition-all duration-300 group-hover:translate-x-1 group-hover:text-primary"
+  >
     <Icon name="mdi:arrow-right" />
   </span>
 </article>

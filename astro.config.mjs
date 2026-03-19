@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, envField, fontProviders } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
@@ -10,7 +10,7 @@ import sitemap from "@astrojs/sitemap";
 // https://astro.build/config
 export default defineConfig({
   // IMPORTANT: Change this to your deployed site URL
-  site: "https://your-domain.com",
+  site: "https://kennyspezi.github.io",
 
   vite: {
     plugins: [tailwindcss()],
@@ -39,15 +39,5 @@ export default defineConfig({
         optional: true,
       }),
     },
-  },
-
-  experimental: {
-    fonts: [
-      {
-        provider: fontProviders.fontsource(),
-        name: "Space Grotesk",
-        cssVariable: "--font-display",
-      },
-    ],
   },
 });

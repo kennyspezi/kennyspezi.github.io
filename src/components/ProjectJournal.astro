@@ -1,0 +1,128 @@
+---
+import { getCollection, render } from "astro:content";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  projectSlug: string;
+}
+
+const { projectSlug } = Astro.props;
+
+const journalEntries = (await getCollection("projectJournal").catch(
+  () => [],
+)) as any[];
+
+const entries = journalEntries
+  .filter((entry) => entry.data.projectSlug === projectSlug)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const renderedEntries = await Promise.all(
+  entries.map(async (entry) => {
+    const { Content } = await render(entry);
+    const anchorId = `journal-post-${entry.id.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
+    const sourceDir =
+      typeof entry.data.sourcePath === "string"
+        ? entry.data.sourcePath.split("/").slice(0, -1).join("/")
+        : "";
+    return {
+      entry,
+      Content,
+      anchorId,
+      sourceDir,
+    };
+  }),
+);
+---
+
+<section
+  id="project-journal"
+  class="decor-panel decor-soft mb-10 rounded-2xl border border-emerald-300/25 bg-emerald-50/25 p-6 text-card-foreground backdrop-blur-sm dark:border-emerald-700/25 dark:bg-emerald-950/10"
+  style="--card-art: url('/assets/cards/flowers.jpg');"
+>
+  <h2 class="font-brand mb-4 flex items-center gap-2 text-2xl text-foreground">
+    <span
+      class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-emerald-300/40 bg-emerald-100/60 text-emerald-700 dark:border-emerald-700/40 dark:bg-emerald-900/25 dark:text-emerald-300"
+    >
+      <Icon name="mdi:notebook-heart-outline" class="h-5 w-5" />
+    </span>
+    Project Journal
+  </h2>
+
+  {
+    renderedEntries.length === 0 ? (
+      <p class="text-sm text-muted-foreground">No journal entries yet.</p>
+    ) : (
+      <>
+        <div class="mb-8 grid gap-3 md:grid-cols-2">
+          {renderedEntries.map(({ entry, anchorId, sourceDir }) => (
+            <a
+              href={`/journals/${entry.id}`}
+              class="rounded-xl border border-emerald-300/20 bg-background/50 p-4 transition-colors hover:border-primary/30 hover:bg-muted/30 dark:border-emerald-700/20"
+            >
+              <p class="mb-2 text-base font-medium text-foreground">
+                {entry.data.title}
+              </p>
+              <p class="text-xs text-muted-foreground">
+                {entry.data.date.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </p>
+              {entry.data.generated && sourceDir && (
+                <p class="mt-2 text-xs text-muted-foreground/80">
+                  from{" "}
+                  <span class="rounded-full border border-border bg-background/60 px-2 py-0.5 font-mono">
+                    {sourceDir}/
+                  </span>
+                </p>
+              )}
+            </a>
+          ))}
+        </div>
+
+        <div class="space-y-8">
+          {renderedEntries.map(({ entry, Content, anchorId, sourceDir }) => (
+            <article
+              id={anchorId}
+              class="rounded-xl border border-emerald-300/20 bg-background/50 p-5 dark:border-emerald-700/20"
+            >
+              <div class="mb-3 flex flex-wrap items-center gap-2">
+                <h3 class="font-brand text-xl text-foreground">
+                  {entry.data.title}
+                </h3>
+                {entry.data.generated && sourceDir && (
+                  <p class="text-xs text-muted-foreground">
+                    from{" "}
+                    <span class="rounded-full border border-border bg-background/60 px-2 py-0.5 font-mono">
+                      {sourceDir}/
+                    </span>
+                  </p>
+                )}
+                <a
+                  href={`/journals/${entry.id}`}
+                  class="rounded-full border border-border bg-muted/40 px-2.5 py-1 text-xs text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+                >
+                  open journal page
+                </a>
+                {entry.data.generated && entry.data.sourceUrl && (
+                  <a
+                    href={entry.data.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="rounded-full border border-border bg-muted/40 px-2.5 py-1 text-xs text-primary transition-colors hover:border-primary/40"
+                  >
+                    open source file
+                  </a>
+                )}
+              </div>
+              <div class="article-content prose max-w-none dark:prose-invert">
+                <Content />
+              </div>
+            </article>
+          ))}
+        </div>
+      </>
+    )
+  }
+</section>

@@ -1,0 +1,445 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import site from "@/config/site";
+import ProjectCard from "@/components/ProjectCard.astro";
+import {
+  applyProjectOverride,
+  normalizeProject,
+} from "@/utils/project-normalize";
+import ignoredRepos from "@/content/data/ignoredrepoentry.json";
+import projectOverrides from "@/content/data/project-overrides.json";
+
+const normalizeStatus = (status: string) =>
+  (status || "idea")
+    .toLowerCase()
+    .trim()
+    .replace(/\s*:\s*/g, "-")
+    .replace(/\s+/g, "-")
+    .replace("in-progress-paused", "dormant")
+    .replace("backlog", "idea");
+
+const statusMeta = [
+  {
+    key: "building-now",
+    label: "Building Now",
+    description: "Projects actively moving right now.",
+    className:
+      "border-amber-300/35 bg-amber-50/20 dark:border-amber-700/35 dark:bg-amber-950/10",
+  },
+  {
+    key: "building-paused",
+    label: "Paused",
+    description: "Projects with momentum, just temporarily parked.",
+    className:
+      "border-yellow-300/35 bg-yellow-50/20 dark:border-yellow-700/35 dark:bg-yellow-950/10",
+  },
+  {
+    key: "researching",
+    label: "Researching",
+    description: "Still exploring scope, parts, and feasibility.",
+    className:
+      "border-indigo-300/35 bg-indigo-50/20 dark:border-indigo-700/35 dark:bg-indigo-950/10",
+  },
+  {
+    key: "dormant",
+    label: "Dormant",
+    description: "Older builds I may come back to later.",
+    className:
+      "border-orange-300/35 bg-orange-50/20 dark:border-orange-700/35 dark:bg-orange-950/10",
+  },
+  {
+    key: "idea",
+    label: "Idea",
+    description: "Promising concepts waiting for their turn.",
+    className:
+      "border-sky-300/35 bg-sky-50/20 dark:border-sky-700/35 dark:bg-sky-950/10",
+  },
+  {
+    key: "archived",
+    label: "Archived",
+    description: "Backburnered or superseded by something else.",
+    className:
+      "border-violet-300/35 bg-violet-50/20 dark:border-violet-700/35 dark:bg-violet-950/10",
+  },
+  {
+    key: "blocked",
+    label: "Blocked",
+    description: "Waiting on a dependency, decision, or missing piece.",
+    className:
+      "border-rose-300/35 bg-rose-50/20 dark:border-rose-700/35 dark:bg-rose-950/10",
+  },
+  {
+    key: "shipped",
+    label: "Shipped",
+    description: "Projects that reached a usable milestone.",
+    className:
+      "border-emerald-300/35 bg-emerald-50/20 dark:border-emerald-700/35 dark:bg-emerald-950/10",
+  },
+] as const;
+
+const statusSortPriority: Record<string, number> = Object.fromEntries(
+  statusMeta.map((status, index) => [status.key, index]),
+);
+
+const localProjects = await getCollection("projects");
+let githubProjects = [];
+try {
+  githubProjects =
+    (await import("../../content/projects/github.json")).default || [];
+} catch {}
+
+const mergeProjectData = (primary: any, secondary: any) => ({
+  ...secondary,
+  ...primary,
+  tags: primary.tags?.length
+    ? primary.tags
+    : secondary.tags?.length
+      ? secondary.tags
+      : [],
+  tech: primary.tech?.length
+    ? primary.tech
+    : secondary.tech?.length
+      ? secondary.tech
+      : [],
+  links: {
+    ...(secondary.links || {}),
+    ...(primary.links || {}),
+  },
+  commits: primary.commits?.length
+    ? primary.commits
+    : secondary.commits?.length
+      ? secondary.commits
+      : [],
+  images: primary.images?.length
+    ? primary.images
+    : secondary.images?.length
+      ? secondary.images
+      : [],
+  previewImage: primary.previewImage || secondary.previewImage || "",
+});
+
+const ignoredRepoSet = new Set(
+  ignoredRepos.map((item) => String(item).toLowerCase()),
+);
+const mergedByKey = new Map<string, any>();
+const normalizedLocal = localProjects.map((p) =>
+  normalizeProject(
+    applyProjectOverride({ ...p.data, slug: p.id }, projectOverrides),
+  ),
+);
+const normalizedGithub = githubProjects.map((p) =>
+  normalizeProject(applyProjectOverride(p, projectOverrides), !!p.manual),
+);
+
+for (const project of [...normalizedLocal, ...normalizedGithub]) {
+  if (
+    ignoredRepoSet.has(
+      String(project.repo || project.links?.github || "")
+        .toLowerCase()
+        .replace(/^https?:\/\/github\.com\//, ""),
+    )
+  ) {
+    continue;
+  }
+  if (project.slug === "astro-theme-breeze") {
+    continue;
+  }
+  const key =
+    project.links?.github?.toLowerCase() ||
+    project.title?.toLowerCase() ||
+    project.slug;
+  if (!key) {
+    continue;
+  }
+  if (mergedByKey.has(key)) {
+    const existing = mergedByKey.get(key);
+    mergedByKey.set(key, mergeProjectData(existing, project));
+    continue;
+  }
+  mergedByKey.set(key, project);
+}
+
+const allProjects = [...mergedByKey.values()]
+  .map((project) => ({
+    ...project,
+    status: normalizeStatus(project.status),
+  }))
+  .sort((a, b) => {
+    const aPriority = statusSortPriority[a.status] ?? Number.MAX_SAFE_INTEGER;
+    const bPriority = statusSortPriority[b.status] ?? Number.MAX_SAFE_INTEGER;
+    if (aPriority !== bPriority) {
+      return aPriority - bPriority;
+    }
+    return (
+      new Date(b.updatedAt || 0).getTime() -
+      new Date(a.updatedAt || 0).getTime()
+    );
+  });
+
+const groupedProjects = statusMeta
+  .map((status) => ({
+    ...status,
+    projects: allProjects.filter((project) => project.status === status.key),
+  }))
+  .filter((group) => group.projects.length > 0);
+---
+
+<Layout
+  title={site.labels.projectsTitle}
+  description={site.labels.projectsDescription}
+  compactSidebar={true}
+>
+  <div
+    class="animate-in fade-in slide-in-from-bottom-4 mx-auto w-full max-w-none p-6 duration-700 md:p-10"
+  >
+    <header class="mb-12">
+      <h2 class="mb-4 text-3xl font-bold tracking-tight">
+        {site.labels.projectsTitle}
+      </h2>
+      <p class="text-sm font-light text-muted-foreground italic">
+        {site.labels.projectsDescription}
+      </p>
+    </header>
+
+    <section
+      class="mb-6 rounded-2xl border border-border bg-card p-4 text-card-foreground"
+    >
+      <div class="grid gap-3 md:grid-cols-3">
+        <div>
+          <label
+            for="project-status-filter"
+            class="mb-1 block text-xs text-muted-foreground">Status</label
+          >
+          <select
+            id="project-status-filter"
+            class="w-full rounded-lg border border-border bg-muted/20 px-3 py-2 text-sm"
+          >
+            <option value="all">All statuses</option>
+            {
+              statusMeta.map((status) => (
+                <option value={status.key}>{status.label}</option>
+              ))
+            }
+          </select>
+        </div>
+
+        <div>
+          <label
+            for="project-tag-filter"
+            class="mb-1 block text-xs text-muted-foreground">Tag</label
+          >
+          <input
+            id="project-tag-filter"
+            type="search"
+            placeholder="e.g. battlebots"
+            class="w-full rounded-lg border border-border bg-muted/20 px-3 py-2 text-sm"
+          />
+        </div>
+
+        <div>
+          <label
+            for="project-sort"
+            class="mb-1 block text-xs text-muted-foreground"
+            >Sort within groups</label
+          >
+          <select
+            id="project-sort"
+            class="w-full rounded-lg border border-border bg-muted/20 px-3 py-2 text-sm"
+          >
+            <option value="status">Recently updated</option>
+            <option value="updated">Recently updated</option>
+            <option value="title">Title A-Z</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-3 rounded-lg border border-border bg-muted/10 px-3 py-2">
+        <p
+          class="text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+        >
+          Section Guide
+        </p>
+        <div class="mt-3 flex flex-wrap gap-2 text-xs">
+          {
+            groupedProjects.map((group) => (
+              <a
+                href={`#status-${group.key}`}
+                class={`rounded-full border px-3 py-1.5 font-semibold transition-colors hover:border-primary/50 hover:text-primary ${group.className}`}
+              >
+                {group.label}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <main id="projects-groups" class="space-y-6">
+      {
+        groupedProjects.length === 0 ? (
+          <div class="w-full py-12 text-center">
+            <p class="text-sm text-muted-foreground">No projects yet.</p>
+          </div>
+        ) : (
+          groupedProjects.map((group) => (
+            <section
+              id={`status-${group.key}`}
+              class={`status-group rounded-3xl border p-5 md:p-6 ${group.className}`}
+              data-status-group={group.key}
+            >
+              <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+                <div>
+                  <h3 class="text-2xl font-black tracking-tight text-foreground">
+                    {group.label}
+                  </h3>
+                  <p class="text-sm text-muted-foreground">
+                    {group.description}
+                  </p>
+                </div>
+                <p class="text-xs font-semibold tracking-[0.22em] text-muted-foreground/70 uppercase">
+                  <span data-group-count>{group.projects.length}</span> project
+                  {group.projects.length === 1 ? "" : "s"}
+                </p>
+              </div>
+
+              <div class="status-grid flex flex-wrap gap-4">
+                {group.projects.map((project) => (
+                  <div
+                    class="project-card-wrap min-w-[230px] flex-1 basis-[250px]"
+                    data-status={project.status}
+                    data-tags={(project.tags || []).join(",").toLowerCase()}
+                    data-updated={project.updatedAt || ""}
+                    data-title={(project.title || "").toLowerCase()}
+                  >
+                    <ProjectCard project={project} />
+                  </div>
+                ))}
+              </div>
+            </section>
+          ))
+        )
+      }
+    </main>
+  </div>
+</Layout>
+
+<script define:vars={{ statusSortPriority }}>
+  const statusFilter = document.getElementById("project-status-filter");
+  const tagFilter = document.getElementById("project-tag-filter");
+  const sortFilter = document.getElementById("project-sort");
+  const groups = Array.from(document.querySelectorAll(".status-group"));
+
+  const applySort = () => {
+    const selectedSort =
+      sortFilter instanceof HTMLSelectElement ? sortFilter.value : "status";
+
+    groups.forEach((group) => {
+      if (!(group instanceof HTMLElement)) {
+        return;
+      }
+
+      const grid = group.querySelector(".status-grid");
+      if (!(grid instanceof HTMLElement)) {
+        return;
+      }
+
+      const cards = Array.from(grid.querySelectorAll(".project-card-wrap"));
+      cards.sort((a, b) => {
+        if (!(a instanceof HTMLElement) || !(b instanceof HTMLElement)) {
+          return 0;
+        }
+
+        if (selectedSort === "title") {
+          return (a.dataset.title || "").localeCompare(b.dataset.title || "");
+        }
+
+        if (selectedSort === "updated" || selectedSort === "status") {
+          return (
+            new Date(b.dataset.updated || 0).getTime() -
+            new Date(a.dataset.updated || 0).getTime()
+          );
+        }
+
+        const aPriority = statusSortPriority[a.dataset.status || "idea"] ?? 999;
+        const bPriority = statusSortPriority[b.dataset.status || "idea"] ?? 999;
+        if (aPriority !== bPriority) {
+          return aPriority - bPriority;
+        }
+
+        return (
+          new Date(b.dataset.updated || 0).getTime() -
+          new Date(a.dataset.updated || 0).getTime()
+        );
+      });
+
+      cards.forEach((card) => grid.appendChild(card));
+    });
+  };
+
+  const applyFilters = () => {
+    const selectedStatus =
+      statusFilter instanceof HTMLSelectElement ? statusFilter.value : "all";
+    const selectedTag =
+      tagFilter instanceof HTMLInputElement
+        ? tagFilter.value.trim().toLowerCase()
+        : "";
+
+    groups.forEach((group) => {
+      if (!(group instanceof HTMLElement)) {
+        return;
+      }
+
+      const groupStatus = group.dataset.statusGroup || "";
+      const cards = Array.from(group.querySelectorAll(".project-card-wrap"));
+      let visibleCount = 0;
+
+      cards.forEach((card) => {
+        if (!(card instanceof HTMLElement)) {
+          return;
+        }
+        const tags = (card.dataset.tags || "").split(",").filter(Boolean);
+        const statusMatch =
+          selectedStatus === "all" || groupStatus === selectedStatus;
+        const tagMatch =
+          selectedTag.length === 0 ||
+          tags.some((tag) => tag.includes(selectedTag));
+        const visible = statusMatch && tagMatch;
+        card.style.display = visible ? "" : "none";
+        if (visible) {
+          visibleCount += 1;
+        }
+      });
+
+      const countNode = group.querySelector("[data-group-count]");
+      if (countNode) {
+        countNode.textContent = String(visibleCount);
+      }
+
+      group.style.display = visibleCount > 0 ? "" : "none";
+    });
+  };
+
+  const refresh = () => {
+    applySort();
+    applyFilters();
+  };
+
+  statusFilter?.addEventListener("change", refresh);
+  tagFilter?.addEventListener("input", refresh);
+  sortFilter?.addEventListener("change", refresh);
+
+  refresh();
+</script>
+
+<style>
+  .project-card-wrap {
+    max-width: min(100%, 31rem);
+  }
+
+  @media (min-width: 1280px) {
+    .project-card-wrap {
+      max-width: min(100%, 29rem);
+    }
+  }
+</style>

@@ -1,0 +1,81 @@
+---
+interface HeroImage {
+  src?: string;
+  alt?: string;
+  caption?: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: HeroImage;
+  sectionKey?: string;
+  compact?: boolean;
+}
+
+const {
+  title,
+  description = "",
+  image,
+  sectionKey = "section",
+  compact = false,
+} = Astro.props;
+const hasImage = Boolean(image?.src && image.src.trim().length > 0);
+---
+
+<section
+  class:list={[
+    "decor-panel decor-vivid dark:bg-bg-secondary-dark relative mb-8 overflow-hidden rounded-3xl border border-primary/15 bg-white/80 backdrop-blur-sm",
+    compact
+      ? "flex min-h-[180px] items-end p-5 md:min-h-[220px] md:p-7"
+      : "p-6 md:p-10",
+  ]}
+  style="border-color: var(--surface-border); background: var(--surface-shell); --card-art: url('/assets/cards/tiles.jpg');"
+>
+  <span
+    class="absolute top-0 left-0 z-10 h-1.5 w-28 rounded-br-2xl bg-primary/35"
+    aria-hidden="true"></span>
+  {
+    hasImage ? (
+      <>
+        <img
+          src={image?.src}
+          alt={image?.alt || ""}
+          loading="lazy"
+          class="absolute inset-0 h-full w-full object-cover opacity-25"
+        />
+        <div
+          class="absolute inset-0"
+          style="background: linear-gradient(to bottom, var(--hero-overlay-from), var(--hero-overlay-to));"
+        />
+      </>
+    ) : (
+      <div class="absolute inset-3 flex items-center justify-center rounded-2xl border-2 border-dashed border-primary/30 bg-primary/5 text-xs text-neutral-500 dark:text-neutral-400">
+        Hero image placeholder ({sectionKey})
+      </div>
+    )
+  }
+
+  <div class="relative z-10">
+    <h1
+      class:list={[
+        "font-brand text-neutral-900 dark:text-white",
+        compact ? "mb-2 text-3xl md:text-4xl" : "mb-3 text-4xl md:text-5xl",
+      ]}
+    >
+      {title}
+    </h1>
+    {
+      description && (
+        <p
+          class:list={[
+            "max-w-3xl leading-relaxed text-neutral-700 dark:text-neutral-300",
+            compact ? "text-sm md:text-base" : "text-base",
+          ]}
+        >
+          {description}
+        </p>
+      )
+    }
+  </div>
+</section>

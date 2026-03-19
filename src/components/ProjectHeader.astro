@@ -1,0 +1,270 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  title: string;
+  description: string;
+  status: string;
+  statusNote?: string;
+  tech: string[];
+  tags: string[];
+  isFork?: boolean;
+  forkedFrom?: string;
+  forkedFromUrl?: string;
+  hackathonName?: string;
+  hackathonUrl?: string;
+  replacementLabel?: string;
+  replacementUrl?: string;
+  buildsOnLabels?: string[];
+  buildsOnUrls?: string[];
+  links?: {
+    github?: string;
+    homepage?: string;
+    demo?: string;
+  };
+}
+
+const {
+  title,
+  description,
+  status,
+  statusNote = "",
+  tech,
+  tags,
+  isFork = false,
+  forkedFrom = "",
+  forkedFromUrl = "",
+  hackathonName = "",
+  hackathonUrl = "",
+  replacementLabel = "",
+  replacementUrl = "",
+  buildsOnLabels = [],
+  buildsOnUrls = [],
+  links = {},
+} = Astro.props;
+const buildsOnPairs = buildsOnLabels.map((label, index) => ({
+  label,
+  url: buildsOnUrls[index] || "",
+}));
+
+const statusClassMap = {
+  idea: "bg-sky-100 text-sky-900 border border-sky-300 dark:bg-sky-900/40 dark:text-sky-300 dark:border-sky-700",
+  researching:
+    "bg-indigo-100 text-indigo-900 border border-indigo-300 dark:bg-indigo-900/40 dark:text-indigo-300 dark:border-indigo-700",
+  "building-now":
+    "bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-900/40 dark:text-amber-300 dark:border-amber-700",
+  "building-paused":
+    "bg-yellow-100 text-yellow-900 border border-yellow-300 dark:bg-yellow-900/40 dark:text-yellow-300 dark:border-yellow-700",
+  dormant:
+    "bg-orange-100 text-orange-900 border border-orange-300 dark:bg-orange-900/40 dark:text-orange-300 dark:border-orange-700",
+  shipped:
+    "bg-emerald-100 text-emerald-900 border border-emerald-300 dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700",
+  blocked:
+    "bg-rose-100 text-rose-900 border border-rose-300 dark:bg-rose-900/40 dark:text-rose-300 dark:border-rose-700",
+  archived:
+    "bg-violet-100 text-violet-900 border border-violet-300 dark:bg-violet-900/40 dark:text-violet-300 dark:border-violet-700",
+};
+
+const normalizeStatusKey = (value: string) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/\s*:\s*/g, "-")
+    .replace(/\s+/g, "-")
+    .replace("in-progress-paused", "dormant")
+    .replace("backlog", "idea");
+
+const statusKey = normalizeStatusKey(status || "idea");
+
+const formatStatus = (value: string) => {
+  const key = normalizeStatusKey(value || "idea");
+  const labels = {
+    "building-now": "🔧 Building: now",
+    "building-paused": "⏸️ Building: paused",
+    dormant: "😴 Dormant",
+    idea: "💡 Idea",
+    researching: "🔎 Researching",
+    blocked: "⛔ Blocked",
+    shipped: "✅ Shipped",
+    archived: "🗃️ Archived",
+  };
+
+  if (key in labels) {
+    return labels[key as keyof typeof labels];
+  }
+
+  return key
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+};
+---
+
+<header
+  class="decor-panel decor-soft mb-8 rounded-2xl border border-border bg-card p-6 text-card-foreground backdrop-blur-sm md:p-8"
+  style="--card-art: url('/assets/cards/sinsincollage.jpg');"
+>
+  <div class="mb-4 flex flex-wrap items-center gap-3">
+    <span
+      class={`rounded-full px-3 py-1 text-xs font-medium ${statusClassMap[statusKey as keyof typeof statusClassMap] || "border border-primary/30 bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light"}`}
+    >
+      {formatStatus(status)}
+    </span>
+    {
+      tags.map((tag) => (
+        <span class="rounded-full border border-border bg-muted/30 px-2.5 py-1 text-xs text-muted-foreground">
+          {tag}
+        </span>
+      ))
+    }
+  </div>
+
+  <h1 class="font-brand mb-3 text-4xl text-foreground md:text-5xl">{title}</h1>
+
+  {
+    isFork && forkedFrom && (
+      <p class="mb-2 text-xs text-muted-foreground">
+        Forked from{" "}
+        {forkedFromUrl ? (
+          <a
+            href={forkedFromUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-primary hover:underline"
+          >
+            {forkedFrom}
+          </a>
+        ) : (
+          <span>{forkedFrom}</span>
+        )}
+      </p>
+    )
+  }
+
+  {
+    (hackathonName || hackathonUrl) && (
+      <p class="mb-2 text-xs text-muted-foreground">
+        Hackathon:{" "}
+        {hackathonUrl ? (
+          <a
+            href={hackathonUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-primary hover:underline"
+          >
+            {hackathonName || "More info"}
+          </a>
+        ) : (
+          <span>{hackathonName || "Hackathon entry"}</span>
+        )}
+      </p>
+    )
+  }
+
+  {
+    statusKey === "archived" && (replacementLabel || replacementUrl) && (
+      <p class="mb-2 text-xs text-muted-foreground">
+        Replaced by:{" "}
+        {replacementUrl ? (
+          <a
+            href={replacementUrl}
+            target={replacementUrl.startsWith("http") ? "_blank" : undefined}
+            rel={
+              replacementUrl.startsWith("http")
+                ? "noopener noreferrer"
+                : undefined
+            }
+            class="text-primary hover:underline"
+          >
+            {replacementLabel || "newer project"}
+          </a>
+        ) : (
+          <span>{replacementLabel || "newer project"}</span>
+        )}
+      </p>
+    )
+  }
+
+  {
+    buildsOnPairs.length > 0 && (
+      <div class="mb-5 flex flex-wrap items-center gap-2">
+        <span class="rounded-full border border-pink-300/50 bg-pink-100/55 px-3 py-1 text-xs font-semibold tracking-wider text-pink-900 uppercase dark:border-pink-700/50 dark:bg-pink-900/25 dark:text-pink-200">
+          Builds On
+        </span>
+        {buildsOnPairs.map((item) =>
+          item.url ? (
+            <a
+              href={item.url}
+              target={item.url.startsWith("http") ? "_blank" : undefined}
+              rel={
+                item.url.startsWith("http") ? "noopener noreferrer" : undefined
+              }
+              class="rounded-full border border-border bg-muted/30 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:border-primary/40 hover:text-primary"
+            >
+              {item.label}
+            </a>
+          ) : (
+            <span class="rounded-full border border-border bg-muted/30 px-3 py-1.5 text-xs font-medium text-primary">
+              {item.label}
+            </span>
+          ),
+        )}
+      </div>
+    )
+  }
+
+  <p class="mb-5 max-w-3xl text-base leading-relaxed text-muted-foreground">
+    {description}
+  </p>
+
+  {statusNote && <p class="mb-5 text-sm text-muted-foreground">{statusNote}</p>}
+
+  {
+    (links.github || links.homepage || links.demo) && (
+      <div class="mb-5 flex flex-wrap gap-2">
+        {links.github && (
+          <a
+            href={links.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/30 px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+          >
+            <Icon name="mdi:github" /> GitHub
+          </a>
+        )}
+        {links.homepage && (
+          <a
+            href={links.homepage}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/30 px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+          >
+            <Icon name="mdi:web" /> Homepage
+          </a>
+        )}
+        {links.demo && (
+          <a
+            href={links.demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/30 px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+          >
+            <Icon name="mdi:play-circle-outline" /> Demo
+          </a>
+        )}
+      </div>
+    )
+  }
+
+  <div class="flex flex-wrap gap-2">
+    {
+      tech.map((item) => (
+        <span class="rounded-full border border-border bg-muted/30 px-2.5 py-1 text-xs text-muted-foreground">
+          {item}
+        </span>
+      ))
+    }
+  </div>
+
+  <div id="project-summary"></div>
+</header>

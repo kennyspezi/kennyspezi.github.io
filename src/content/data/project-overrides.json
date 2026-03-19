@@ -1,0 +1,100 @@
+{
+  "_notes": {
+    "howToUse": "Set custom project metadata per repo here. Use full GitHub repo names under repos or project slugs under slugs. Useful fields include status, statusNote, tags, tech, contributorsWanted, cardEmoji, hackathonName, hackathonUrl, replacementLabel, replacementUrl, buildsOnLabels, buildsOnUrls, forkedFrom, forkedFromUrl, previewImage, images, and links.",
+    "fieldGuide": {
+      "status": "One of the allowed status values below.",
+      "statusNote": "Small note shown on project cards and project pages.",
+      "tags": "Array of short topical labels.",
+      "tech": "Array of tools/languages/hardware labels.",
+      "contributorsWanted": "Boolean flag for collaboration.",
+      "cardEmoji": "Emoji shown before the project title.",
+      "hackathonName": "Name of the hackathon/event the project came from.",
+      "hackathonUrl": "Optional link to the event page.",
+      "replacementLabel": "Label for the newer project replacing an archived one, like Omnibot.",
+      "replacementUrl": "Link for the replacement project, like /projects/omnibot or /projects#omnibot.",
+      "buildsOnLabels": "Labels for older/related projects a newer one is building off of.",
+      "buildsOnUrls": "Links paired with buildsOnLabels, usually project slugs like /projects/battlebots.",
+      "forkedFrom": "Original project/repo name if this is a fork.",
+      "forkedFromUrl": "Link to the original project/repo.",
+      "previewImage": "Preferred card preview image URL.",
+      "images": "Extra image URLs for the project.",
+      "links": "Object with github, homepage, and/or demo URLs."
+    },
+    "allowedStatuses": [
+      "idea",
+      "researching",
+      "building-now",
+      "building-paused",
+      "dormant",
+      "archived",
+      "blocked",
+      "shipped"
+    ]
+  },
+  "repos": {
+    "kennyspezi/omnibot": {
+      "status": "researching",
+      "buildsOnLabels": ["dulce-the-micromouse"],
+      "buildsOnUrls": ["/projects/dulce-the-micromouse"],
+      "previewImage": "/assets/temp/omnibot-temp.jpg"
+    },
+    "kennyspezi/heatindextracker": {
+      "cardEmoji": "🏙️",
+      "status": "dormant",
+      "statusNote": "only exists as a MATLAB app. would like a web version. may be a good hackathon project. pick it up if interested.",
+      "previewImage": "/assets/temp/heatmap.jpg"
+    },
+    "kennyspezi/yapbot": {
+      "cardEmoji": "🕷️",
+      "statusNote": "inspired by @odd_jayy",
+      "previewImage": "/assets/temp/oddjayy.png"
+    },
+    "kennyspezi/radio-powersupply": {
+      "cardEmoji": "🔋",
+      "status": "building-paused",
+      "statusNote": "selected battery size and BMS. just double checking that it satisfies criteria when i get the chance.",
+      "previewImage": "/assets/temp/hampack.jpg"
+    },
+    "kennyspezi/battlebots": {
+      "cardEmoji": "🥊",
+      "status": "dormant",
+      "statusNote": "not a priority at the moment...",
+      "replacementLabel": "omnibot",
+      "replacementUrl": "/temp/omnibot"
+    },
+    "kennyspezi/bt-headphones": {
+      "cardEmoji": "🎧",
+      "status": "researching",
+      "previewImage": "/assets/temp/bt-hp.jpg"
+    },
+    "kennyspezi/port-oscope": {
+      "cardEmoji": "🔬",
+      "previewImage": "/assets/temp/oscillo.jpg"
+    },
+    "kennyspezi/ionic-drone": {
+      "cardEmoji": "🛸",
+      "previewImage": "/assets/temp/plasma.jpg"
+    },
+    "kennyspezi/dulce-the-micromouse": {
+      "cardEmoji": "🐭",
+      "status": "archived",
+      "statusNote": "moving the strongest parts of this into omnibot instead of reviving this exact version.",
+      "replacementLabel": "omnibot",
+      "replacementUrl": "/projects/omnibot"
+    },
+    "kennyspezi/sensor-matrix-tile": {
+      "cardEmoji": "👽",
+      "status": "building-now",
+      "statusNote": "more fun than I expected! learned about MUXes, TIAs, and logic-level translation.",
+      "previewImage": "/assets/temp/ir-schem.png"
+    },
+    "MAST-2026/medical-autonomous-streamlined-triage": {
+      "cardEmoji": "🚑",
+      "status": "building-now",
+      "statusNote": "working on a custom PCB for the patient monitoring device.",
+      "hackathonName": "Create&Innovate @ UH 2026 by MAES-UH, AIAA-UH, BMES-UH, CougarAI, and oSTEM.",
+      "previewImage": "/assets/temp/pcbip-pmd.png"
+    }
+  },
+  "slugs": {}
+}

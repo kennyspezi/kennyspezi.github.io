@@ -1,0 +1,98 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  repo: string;
+}
+
+const { repo } = Astro.props;
+
+const normalizeRepo = (input: string) => {
+  if (input.startsWith("http")) {
+    const url = new URL(input);
+    return url.pathname.replace(/^\//, "").replace(/\.git$/, "");
+  }
+  return input.replace(/\.git$/, "");
+};
+
+const repoPath = normalizeRepo(repo);
+const token = import.meta.env.GITHUB_TOKEN;
+
+interface CommitItem {
+  sha: string;
+  html_url: string;
+  commit: {
+    message: string;
+    author: {
+      date: string;
+    };
+  };
+}
+
+let commits: CommitItem[] = [];
+
+try {
+  const response = await fetch(
+    `https://api.github.com/repos/${repoPath}/commits?per_page=5`,
+    {
+      headers: {
+        Accept: "application/vnd.github+json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    },
+  );
+
+  if (response.ok) {
+    commits = await response.json();
+  }
+} catch {
+  commits = [];
+}
+---
+
+<section
+  id="project-commits"
+  class="decor-panel decor-soft mb-8 rounded-2xl border border-violet-300/25 bg-violet-50/25 p-6 text-card-foreground backdrop-blur-sm dark:border-violet-700/25 dark:bg-violet-950/10"
+  style="--card-art: url('/assets/cards/gratitude.jpg');"
+>
+  <h2 class="font-brand mb-4 flex items-center gap-2 text-2xl text-foreground">
+    <span
+      class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-violet-300/40 bg-violet-100/60 text-violet-700 dark:border-violet-700/40 dark:bg-violet-900/25 dark:text-violet-300"
+    >
+      <Icon name="mdi:source-commit" class="h-5 w-5" />
+    </span>
+    Recent Commits
+  </h2>
+
+  {
+    commits.length === 0 ? (
+      <p class="text-sm text-muted-foreground">
+        No commit data available right now.
+      </p>
+    ) : (
+      <ul class="space-y-3">
+        {commits.map((item) => (
+          <li class="rounded-xl border border-violet-300/20 bg-background/50 p-3 dark:border-violet-700/20">
+            <a
+              href={item.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="block"
+            >
+              <p class="mb-1 text-sm font-medium text-foreground">
+                {item.commit.message.split("\n")[0]}
+              </p>
+              <p class="text-xs text-muted-foreground">
+                {new Date(item.commit.author.date).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</section>

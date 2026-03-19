@@ -14,7 +14,9 @@ import TableOfContents from "@/components/blocks/TableOfContents.astro";
 import site from "@/config/site";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts");
+  const posts = await getCollection("posts", ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+  });
   return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },
@@ -82,18 +84,16 @@ const tags = (await getEntries(post.data.tags)).filter((value) => value);
 
           <div class="flex items-center gap-1.5">
             <span
-              class="artalk-pv-count"
-              data-page-key={Astro.url.pathname}
-              class="font-bold text-foreground/80">-</span
+              class="artalk-pv-count font-bold text-foreground/80"
+              data-page-key={Astro.url.pathname}>-</span
             >
             <span class="text-[10px] uppercase opacity-90">Views</span>
           </div>
 
           <div class="flex items-center gap-1.5">
             <span
-              class="artalk-comment-count"
-              data-page-key={Astro.url.pathname}
-              class="font-bold text-foreground/80">-</span
+              class="artalk-comment-count font-bold text-foreground/80"
+              data-page-key={Astro.url.pathname}>-</span
             >
             <span class="text-[10px] uppercase opacity-90">Comments</span>
           </div>
@@ -109,7 +109,6 @@ const tags = (await getEntries(post.data.tags)).filter((value) => value);
         "prose-headings:tracking-tight",
         "prose-p:mb-8 prose-p:leading-loose prose-p:font-normal prose-p:text-muted-foreground",
         "prose-code:rounded-sm prose-code:bg-primary/15 prose-code:px-1.5 prose-code:py-0.5 prose-code:text-primary prose-code:before:content-none prose-code:after:content-none",
-        "prose-",
       ]}
       data-pagefind-body
     >
@@ -147,7 +146,8 @@ const tags = (await getEntries(post.data.tags)).filter((value) => value);
       >
         <span class="transition-transform group-hover:-translate-x-1">
           <Icon name="mdi:arrow-left" size={14} />
-        </span> {site.labels.backToPosts}
+        </span>
+        {site.labels.backToPosts}
       </a>
       <div
         class="font-mono text-[10px] tracking-widest text-muted-foreground/30 uppercase"

@@ -1,7 +1,6 @@
 ---
 import site from "@/config/site";
 import type { HeadProps } from "@/types";
-import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 
 type Props = HeadProps;
@@ -16,16 +15,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="icon" type="image/png" href="/tigerlogo.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/tigerlogo.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/tigerlogo.png" />
 
   <!-- Apple Touch Icon -->
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/tigerlogo.png" />
 
   <!-- PWA Icons -->
-  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
-  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/tigerlogo.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/tigerlogo.png" />
 
   <!-- PWA Manifest -->
   <link rel="manifest" href="/manifest.json" />
@@ -73,9 +72,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <!-- pagefind -->
   <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
   <script src="/pagefind/pagefind-ui.js" is:inline></script>
-
-  <!-- font  -->
-  <Font cssVariable="--font-display" preload />
 
   <!-- View Transtions -->
   <ClientRouter />

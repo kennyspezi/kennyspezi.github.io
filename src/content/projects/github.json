@@ -1,0 +1,11 @@
+[
+  {
+    "title": "Medical Autonomous Streamlined Triage",
+    "description": "A project for autonomous medical triage (example placeholder)",
+    "tech": ["Python", "Robotics"],
+    "links": {
+      "github": "https://github.com/MAST-2026/medical-autonomous-streamlined-triage"
+    },
+    "status": "in-progress"
+  }
+]

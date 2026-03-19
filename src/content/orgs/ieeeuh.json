@@ -1,0 +1,36 @@
+{
+  "slug": "ieee-uh",
+  "title": "IEEE at the University of Houston",
+  "description": "Student branch of the Institute of Electrical and Electronics Engineers (IEEE) at the University of Houston.",
+  "tags": [
+    "students",
+    "volunteering",
+    "professional-development",
+    "engineering"
+  ],
+  "website": "https://ieeeuh.org",
+  "logo": "/assets/orgs/ieeeuh/ieeelogo.png",
+  "relatedProjects": [
+    "battlebots",
+    "dulce-the-micromouse",
+    "sensor-matrix-tile"
+  ],
+
+  "positions": [
+    {
+      "title": "Member",
+      "startDate": "2024-09-17",
+      "summary": "Joined Micromouse and started learning breadboarding basics, soldering, microcontroller programming, and intro to embedded systems. Also made promotional materials."
+    },
+    {
+      "title": "Workshops Chair",
+      "startDate": "2025-08-20",
+      "summary": "Organized and led workshops on various topics related to electrical and electronics engineering. Includes PCB design and soldering. Also started a recurring hands-on analog circuits expo called Circuit Speed Dating, where members can learn and practice building circuits in a fun and interactive way."
+    },
+    {
+      "title": "Vice President",
+      "startDate": "2026-01-15",
+      "summary": "Oversee the operations of the student branch, including managing events, strengthening our connection to the IEEE Houston Section, and ensuring technical development of the branch. Also continued to lead workshops and Circuit Speed Dating events."
+    }
+  ]
+}

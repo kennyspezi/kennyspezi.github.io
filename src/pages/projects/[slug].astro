@@ -1,0 +1,109 @@
+---
+import { getCollection } from "astro:content";
+import { Icon } from "astro-icon/components";
+import Layout from "@/layouts/Layout.astro";
+import ProjectHeader from "@/components/ProjectHeader.astro";
+import ProjectJournal from "@/components/ProjectJournal.astro";
+import GitHubCommits from "@/components/GitHubCommits.astro";
+import GitHubReadme from "@/components/GitHubReadme.astro";
+import ignoredRepos from "@/content/data/ignoredrepoentry.json";
+import projectOverrides from "@/content/data/project-overrides.json";
+import { applyProjectOverride } from "@/utils/project-normalize";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  const ignoredRepoSet = new Set(
+    ignoredRepos.map((item) => String(item).toLowerCase()),
+  );
+  return projects
+    .filter(
+      (project) =>
+        project.id !== "astro-theme-breeze" &&
+        !ignoredRepoSet.has(String(project.data.repo || "").toLowerCase()),
+    )
+    .map((project) => ({
+      params: { slug: project.id },
+      props: { project },
+    }));
+}
+
+const { project } = Astro.props;
+const projectData = applyProjectOverride(
+  { ...project.data, slug: project.id },
+  projectOverrides,
+);
+
+const journalEntries = await getCollection("projectJournal");
+const hasJournalEntries = journalEntries.some(
+  (entry) => entry.data.projectSlug === project.id,
+);
+
+const sectionLinks = [
+  {
+    href: "#project-summary",
+    label: "Overview",
+    icon: "mdi:sparkles",
+    className:
+      "border-amber-300/40 bg-amber-100/60 text-amber-800 dark:border-amber-700/40 dark:bg-amber-900/25 dark:text-amber-300",
+  },
+  projectData.links?.github
+    ? {
+        href: "#project-commits",
+        label: "Commits",
+        icon: "mdi:source-commit",
+        className:
+          "border-violet-300/40 bg-violet-100/60 text-violet-800 dark:border-violet-700/40 dark:bg-violet-900/25 dark:text-violet-300",
+      }
+    : null,
+  projectData.links?.github
+    ? {
+        href: "#project-readme",
+        label: "README",
+        icon: "mdi:glasses",
+        className:
+          "border-sky-300/40 bg-sky-100/60 text-sky-800 dark:border-sky-700/40 dark:bg-sky-900/25 dark:text-sky-300",
+      }
+    : null,
+  hasJournalEntries
+    ? {
+        href: "#project-journal",
+        label: "Journal",
+        icon: "mdi:notebook-heart-outline",
+        className:
+          "border-emerald-300/40 bg-emerald-100/60 text-emerald-800 dark:border-emerald-700/40 dark:bg-emerald-900/25 dark:text-emerald-300",
+      }
+    : null,
+].filter(Boolean);
+---
+
+<Layout title={projectData.title} description={projectData.description}>
+  <div class="px-4 py-4 md:px-8 md:py-6">
+    {
+      sectionLinks.length > 0 && (
+        <nav class="mb-5 flex flex-wrap gap-2">
+          {sectionLinks.map((section) => (
+            <a
+              href={section.href}
+              class={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-xs font-medium transition-transform duration-200 hover:-translate-y-0.5 ${section.className}`}
+            >
+              <Icon name={section.icon} class="h-4 w-4" />
+              {section.label}
+            </a>
+          ))}
+        </nav>
+      )
+    }
+    <ProjectHeader {...projectData} />
+    {
+      projectData.links?.github && (
+        <GitHubCommits repo={projectData.links.github} />
+      )
+    }
+    {
+      projectData.links?.github && (
+        <GitHubReadme repo={projectData.links.github} />
+      )
+    }
+    <ProjectJournal projectSlug={project.id} />
+  </div>
+</Layout>
