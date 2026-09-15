@@ -89,6 +89,19 @@ const hasCachedProjects = async () => {
   }
 };
 
+const loadCachedProjects = async () => {
+  try {
+    const raw = await readFile(
+      "src/content/data/github-projects.json",
+      "utf-8",
+    );
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
+
 const buildRawRepoUrl = (repoFullName, branch, relPath) =>
   `https://raw.githubusercontent.com/${repoFullName}/${branch}/${normalizeRepoRelativePath(relPath)}`;
 
@@ -444,7 +457,10 @@ const run = async () => {
     }),
   );
   const allRepos = [...userRepos, ...manualRepoObjs.filter(Boolean)].filter(
-    (repo) => !ignoredRepos.has(String(repo.full_name || "").toLowerCase()),
+    (repo) => {
+      const fullName = String(repo.full_name || "").toLowerCase();
+      return !repo.private && !ignoredRepos.has(fullName);
+    },
   );
 
   // Ensure output directory exists
@@ -452,6 +468,22 @@ const run = async () => {
   if (!existsSync(projectsDir)) {
     await mkdir(projectsDir, { recursive: true });
   }
+
+  const allowedRepoNames = new Set(
+    allRepos.map((repo) => String(repo.full_name || "").toLowerCase()),
+  );
+  const cachedProjects = await loadCachedProjects();
+  await Promise.all(
+    cachedProjects
+      .filter(
+        (project) =>
+          project.repo &&
+          !allowedRepoNames.has(String(project.repo).toLowerCase()),
+      )
+      .map((project) =>
+        rm(path.join(projectsDir, `${project.slug}.md`), { force: true }),
+      ),
+  );
 
   const generatedJournalDir = path.resolve(
     "src/content/projects/journal/generated",
