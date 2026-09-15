@@ -1,1 +1,8 @@
-["kennyspezi/astro-theme-breeze"]
+[
+  "kennyspezi/astro-theme-breeze",
+  "kennyspezi/bt-headphones",
+  "kennyspezi/heatindextracker",
+  "kennyspezi/ionic-drone",
+  "kennyspezi/port-oscope",
+  "kennyspezi/yapbot"
+]

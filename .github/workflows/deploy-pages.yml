@@ -43,8 +43,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build site
-        run: pnpm build
+      - name: Build Astro site
+        run: pnpm exec astro build
+
+      - name: Build Pagefind index
+        run: pnpm exec pagefind --site dist
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

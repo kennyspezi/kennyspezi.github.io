@@ -53,6 +53,21 @@ const fetchJson = async (url) => {
   return response.json();
 };
 
+const fetchPublicRepos = async () => {
+  const repos = [];
+
+  for (let page = 1; ; page += 1) {
+    const pageRepos = await fetchJson(
+      `https://api.github.com/users/${username}/repos?type=public&per_page=100&page=${page}&sort=updated`,
+    );
+    repos.push(...(Array.isArray(pageRepos) ? pageRepos : []));
+
+    if (!Array.isArray(pageRepos) || pageRepos.length < 100) {
+      return repos;
+    }
+  }
+};
+
 const loadOverrides = async () => {
   try {
     const raw = await readFile(
@@ -430,9 +445,7 @@ const resolveForkSource = async (repo) => {
 };
 
 const run = async () => {
-  const userRepos = await fetchJson(
-    `https://api.github.com/users/${username}/repos?per_page=100&sort=updated`,
-  );
+  const userRepos = await fetchPublicRepos();
   const existingOverrides = await loadOverrides();
   const ignoredRepos = new Set(await loadIgnoredRepos());
 
