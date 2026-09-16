@@ -1,9 +1,16 @@
 {
   "_notes": {
-    "howToUse": "Set custom project metadata per repo here. Use full GitHub repo names under repos or project slugs under slugs. Useful fields include status, statusNote, tags, tech, contributorsWanted, cardEmoji, hackathonName, hackathonUrl, replacementLabel, replacementUrl, buildsOnLabels, buildsOnUrls, forkedFrom, forkedFromUrl, previewImage, images, and links.",
+    "howToUse": "Set custom project metadata by repo, slug, or human-readable title. Use titles when you want a stable manual label for a synced repository. Useful fields include title, subtitle, status, startDate, endDate, lessonsLearned, pending, statusNote, tags, tech, contributorsWanted, cardEmoji, previewImage, images, and links.",
     "fieldGuide": {
+      "title": "Manual display title for the project.",
+      "subtitle": "Short subtitle shown below the project title.",
+      "checklist": "Keyed object of checklist entries with status (done, inprogress, or todo) and title.",
       "status": "One of the allowed status values below.",
       "statusNote": "Small note shown on project cards and project pages.",
+      "startDate": "Exact date or semester label such as Fall 2026, Summer 2026, or Winter 2027; used for timeline ordering.",
+      "endDate": "Optional exact date or semester label for completion or pause. Use current or present for ongoing work.",
+      "lessonsLearned": "Short description of the skills or technical lessons learned.",
+      "pending": "Short description of the next milestone or unfinished work.",
       "tags": "Array of short topical labels.",
       "tech": "Array of tools/languages/hardware labels.",
       "contributorsWanted": "Boolean flag for collaboration.",
@@ -18,7 +25,7 @@
       "forkedFromUrl": "Link to the original project/repo.",
       "previewImage": "Preferred card preview image URL.",
       "images": "Extra image URLs for the project.",
-      "links": "Object with github, homepage, and/or demo URLs."
+      "links": "Object with github, homepage, demo, schematic, bom, and/or designFiles URLs."
     },
     "allowedStatuses": [
       "idea",
@@ -32,69 +39,70 @@
     ]
   },
   "repos": {
-    "kennyspezi/omnibot": {
-      "status": "researching",
-      "buildsOnLabels": ["dulce-the-micromouse"],
-      "buildsOnUrls": ["/projects/dulce-the-micromouse"],
-      "previewImage": "/assets/temp/omnibot-temp.jpg"
+    "kennyspezi/dulce-the-micromouse": {
+      "title": "Dulce the Micromouse: Schematic and PCB",
+      "subtitle": "Autonomous maze-solving robot PCB.",
+      "startDate": "Fall 2024",
+      "cardEmoji": "🐭",
+      "status": "archived",
+      "replacementLabel": "omnibot",
+      "replacementUrl": "/projects"
+    },
+    "kennyspezi/sensor-matrix-tile": {
+      "title": "Sensor Matrix Tile",
+      "subtitle": "Photodiode matrix with multiplexed readout to interface with MCU.",
+      "startDate": "Spring 2026",
+      "cardEmoji": "👽",
+      "status": "building-paused",
+      "lessonsLearned": "Multiplexers, transimpedance amplifiers, analog front ends, and logic-level translation.",
+      "pending": "Revisit the matrix with a cleaner sensing target, improved analog validation, and a tested revision."
+    },
+    "kennyspezi/snitch-flight-computer": {
+      "title": "Snitch the Flight Computer",
+      "subtitle": "Low-power STM32WLE5 based flight computer to communicate with a ground control station connected to my laptop to track and log telemetry from a rocket flight.",
+      "startDate": "Summer 2026",
+      "endDate": "Current",
+      "cardEmoji": "🛰️",
+      "status": "building-now",
+      "checklist": {
+        "1": {
+          "status": "done",
+          "title": "Select RF ICs, MCU, Sensors, and create schematic"
+        },
+        "2": {
+          "status": "done",
+          "title": "PCB Stackup, Layout, and Routing. Calculate trace impedance. Resolve DRC errors"
+        },
+        "3": {
+          "status": "todo",
+          "title": "TRL Calibration Board. Clone PCB variant with high-power IPD."
+        },
+        "4": {
+          "status": "todo",
+          "title": "Assemble and test S11/S21 of each FCU variant."
+        },
+        "5": {
+          "status": "todo",
+          "title": "mLRS firmware and test sensor readings with mLRS USB ground station."
+        },
+        "6": {
+          "status": "todo",
+          "title": "Test flight with L1 Rocket!!!"
+        }
+      }
+    },
+    "kennyspezi/radio-powersupply": {
+      "title": "Radio Power Supply",
+      "cardEmoji": "🔋",
+      "status": "building-paused",
+      "statusNote": "selected battery size and BMS. just double checking that it satisfies criteria when i get the chance."
     },
     "kennyspezi/heatindextracker": {
       "cardEmoji": "🏙️",
       "status": "dormant",
-      "statusNote": "only exists as a MATLAB app. would like a web version. may be a good hackathon project. pick it up if interested.",
-      "previewImage": "/assets/temp/heatmap.jpg"
-    },
-    "kennyspezi/yapbot": {
-      "cardEmoji": "🕷️",
-      "statusNote": "inspired by @odd_jayy",
-      "previewImage": "/assets/temp/oddjayy.png"
-    },
-    "kennyspezi/radio-powersupply": {
-      "cardEmoji": "🔋",
-      "status": "building-paused",
-      "statusNote": "selected battery size and BMS. just double checking that it satisfies criteria when i get the chance.",
-      "previewImage": "/assets/temp/hampack.jpg"
-    },
-    "kennyspezi/battlebots": {
-      "cardEmoji": "🥊",
-      "status": "dormant",
-      "statusNote": "not a priority at the moment...",
-      "replacementLabel": "omnibot",
-      "replacementUrl": "/temp/omnibot"
-    },
-    "kennyspezi/bt-headphones": {
-      "cardEmoji": "🎧",
-      "status": "researching",
-      "previewImage": "/assets/temp/bt-hp.jpg"
-    },
-    "kennyspezi/port-oscope": {
-      "cardEmoji": "🔬",
-      "previewImage": "/assets/temp/oscillo.jpg"
-    },
-    "kennyspezi/ionic-drone": {
-      "cardEmoji": "🛸",
-      "previewImage": "/assets/temp/plasma.jpg"
-    },
-    "kennyspezi/dulce-the-micromouse": {
-      "cardEmoji": "🐭",
-      "status": "archived",
-      "statusNote": "moving the strongest parts of this into omnibot instead of reviving this exact version.",
-      "replacementLabel": "omnibot",
-      "replacementUrl": "/projects/omnibot"
-    },
-    "kennyspezi/sensor-matrix-tile": {
-      "cardEmoji": "👽",
-      "status": "building-now",
-      "statusNote": "more fun than I expected! learned about MUXes, TIAs, and logic-level translation.",
-      "previewImage": "/assets/temp/ir-schem.png"
-    },
-    "MAST-2026/medical-autonomous-streamlined-triage": {
-      "cardEmoji": "🚑",
-      "status": "building-now",
-      "statusNote": "working on a custom PCB for the patient monitoring device.",
-      "hackathonName": "Create&Innovate @ UH 2026 by MAES-UH, AIAA-UH, BMES-UH, CougarAI, and oSTEM.",
-      "previewImage": "/assets/temp/pcbip-pmd.png"
+      "statusNote": "only exists as a MATLAB app. would like a web version. may be a good hackathon project. pick it up if interested."
     }
   },
-  "slugs": {}
+  "slugs": {},
+  "titles": {}
 }

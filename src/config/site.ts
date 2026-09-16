@@ -29,12 +29,11 @@ const site = {
   // --- Navigation ---
   // subtitle: decorative label shown below the name (uppercase, small text)
   navigation: [
-    { name: "Home", subtitle: "Index", href: "/", icon: "mdi:home-outline" },
     {
-      name: "Posts",
-      subtitle: "Musings",
-      href: "/posts",
-      icon: "mdi:notebook-outline",
+      name: "Home",
+      subtitle: "Start Here",
+      href: "/",
+      icon: "mdi:home-outline",
     },
     {
       name: "Projects",
@@ -43,16 +42,22 @@ const site = {
       icon: "mdi:hammer-wrench",
     },
     {
-      name: "Organizations",
-      subtitle: "Where to find me",
-      href: "/orgs",
+      name: "Organizations (WIP)",
+      subtitle: "Community",
+      href: "/community",
       icon: "mdi:account-group-outline",
     },
     {
-      name: "About",
-      subtitle: "Me",
-      href: "/about",
-      icon: "mdi:account-circle-outline",
+      name: "Professional (WIP)",
+      subtitle: "Development",
+      href: "/professional-development",
+      icon: "mdi:compass-outline",
+    },
+    {
+      name: "Notes",
+      subtitle: "Archive",
+      href: "/posts",
+      icon: "mdi:notebook-outline",
     },
   ],
 
@@ -61,15 +66,16 @@ const site = {
 
   // --- Homepage Hero ---
   hero: {
-    greeting: "i'm kenny! welcome to my personal website 🥭",
+    greeting:
+      "RF Engineering Student | Aerospace, Avionics, Energy, Microwaves, Antennas | 2x Amazon Future Engineer SDE Intern",
     // Supports HTML. Use <span class="font-medium text-foreground underline decoration-primary/30"> to highlight keywords
     description:
-      "snoop around for some projects and musings, or just get to know me :^].",
+      "this is where i document my projects, professional goals, and the lessons between an idea and working hardware. right now i'm focused on embedded systems and learning what it takes to turn ideas into reliable systems.",
     cards: [
       {
-        icon: "mdi:explore",
-        label: "status",
-        value: "finally doing homework?",
+        icon: "mdi:rocket-launch-outline",
+        label: "focus",
+        value: "embedded systems + hardware product design",
       },
       { icon: "mdi:location", label: "location", value: "houston, texas 🤠" },
     ],

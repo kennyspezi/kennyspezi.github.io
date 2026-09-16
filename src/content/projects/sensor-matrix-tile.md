@@ -1,6 +1,7 @@
 ---
 slug: sensor-matrix-tile
-title: sensor-matrix-tile
+title: Sensor Matrix Tile
+subtitle: Photodiode matrix with multiplexed readout to interface with MCU.
 description: >-
   led matrices that are responsive to a photodiode matrix overlayed on top of
   them. started as a project for IEEE-UH, now it's a little exercise. I plan for
@@ -17,10 +18,26 @@ tags:
   - photodiodes
   - sensors
 isFork: false
-updatedAt: "2026-03-07T10:55:49Z"
+updatedAt: "2026-09-16T19:06:56Z"
 stars: 0
 forks: 0
+previewImage: >-
+  https://raw.githubusercontent.com/kennyspezi/sensor-matrix-tile/main/docs/matrix.gif
+images:
+  - >-
+    https://raw.githubusercontent.com/kennyspezi/sensor-matrix-tile/main/docs/matrix.gif
+  - >-
+    https://raw.githubusercontent.com/kennyspezi/sensor-matrix-tile/main/docs/schematic-9-tile-mux.png
+  - >-
+    https://raw.githubusercontent.com/kennyspezi/sensor-matrix-tile/main/docs/schematic-tile-definitions.png
+  - >-
+    https://raw.githubusercontent.com/kennyspezi/sensor-matrix-tile/main/docs/schematic-old-4x4-sensor-mux.png
 commits:
+  - sha: d26c3db05a819fc4a7b699032758af7c4c547673
+    message: documentation upgrade
+    date: "2026-09-16T19:03:41Z"
+    url: >-
+      https://github.com/kennyspezi/sensor-matrix-tile/commit/d26c3db05a819fc4a7b699032758af7c4c547673
   - sha: f0787011e996eea1fc3cbf2400fe98e918a88a09
     message: Merge branch 'kennyspezi-prototiles'
     date: "2026-02-19T22:02:40Z"
@@ -43,68 +60,36 @@ commits:
     date: "2026-01-14T08:07:38Z"
     url: >-
       https://github.com/kennyspezi/sensor-matrix-tile/commit/a77b0d1f386926db06d7d02beeb3dabadb56284d
-  - sha: 31e2979bd6e21e1bb17069bdb7ee4720b788f401
-    message: "initial prototype idea: ESPNOW for tile-to-tile comms"
-    date: "2026-01-14T08:01:27Z"
-    url: >-
-      https://github.com/kennyspezi/sensor-matrix-tile/commit/31e2979bd6e21e1bb17069bdb7ee4720b788f401
 cardEmoji: 👽
-statusNote: >-
-  more fun than I expected! learned about MUXes, TIAs, and logic-level
-  translation. pausing to focus on other projects.
+startDate: Spring 2026
+lessonsLearned: >-
+  Multiplexers, transimpedance amplifiers, analog front ends, and logic-level
+  translation.
+pending: >-
+  Revisit the matrix with a cleaner sensing target, improved analog validation,
+  and a tested revision.
 links:
   github: https://github.com/kennyspezi/sensor-matrix-tile
 manual: false
 ---
 
-# interactive-dance-floor
+# photodiode matrix
 
-An interactive dance floor to showcase at IEEE@UH's annual Chili Cook Off. Set for Spring 2026.
+This was originally meant to be part of a larger, more ambitious collaborative project for IEEE-UH. This would have been the sensor array to detect footsteps for an interactive dancefloor similar to something like DDR.
 
-## 📁 Tentative File Structure
+The project struggled to find its footing but this is a compliation of my efforts for it.
 
-```
-interactive-dance-floor/
-├── wiring/                     # will start with a rough sketch, then a KiCad project.
-├── code/                       # more detailed contribution process outlined below
-│   ├── "filename_YOURNAME.ino"
-│   └── main.ino
-├── assembly/                   # All relevant CAD files.
-└── README.md                   # This file.
+![Behlool and I working on the light-up porition of the tile to start working on LED code](https://raw.githubusercontent.com/kennyspezi/sensor-matrix-tile/main/docs/matrix.gif)
 
-```
+## Architecture
 
-## Contribution Workflow (for IEEE@UH PW Committee Members)
+The dance floor would've been made from 9 reactive tiles. Each tile would include a grid of 8x8 photodiodes to detect distance and therefore a person stepping on the tile.
 
-Before we leave for Winter Break, we will provide you all with Arduinos and your own proto-tile.
+![9 Tile Overview](https://raw.githubusercontent.com/kennyspezi/sensor-matrix-tile/main/docs/schematic-9-tile-mux.png)
+![Tile Definition](https://raw.githubusercontent.com/kennyspezi/sensor-matrix-tile/main/docs/schematic-tile-definitions.png)
 
-### Programming
+Of course, we don't have an MCU that can sample all 9x8x8=576 photodiodes at the same time. Each tile includes two muxes: 1 to apply voltage across one column, and another to read the voltage from a selected photodiode row. In between there would be a TIA (which I never got around to designing since life happens).
 
-When you want to start programming your proto-tile(s), create a fork of this repository. Please use a branch name like `feat-yourname-tilecode`.
+Originally the schematic was made for what would've been a demo 4x4 photodiode matrix, so that's what I've included below:
 
-To begin modifying files in your fork, enter this in your terminal:
-
-```
-git clone <url-to-your-fork>
-cd interactive-dance-floor
-```
-
-and create a new file under `code/` named `filename_YOURNAME.ino`, where `filename` is a name of your choosing (please be appropriate).
-
-Then, you can create a pull request to add your own file to this main repository.
-
-Note: `main.ino` is the unified file that will eventually merge all contributions. Individual `.ino` files remain separate until integration.
-
-### Wiring, Assembly, etc.
-
-Similar to Programming workflow, just make sure your branch name is relevant.
-
-Examples: `feat-yourname-schematic`, `feat-yourname-pcb`, `feat-yourname-assembly`. If you want to contribute to these aspects, please contact kennyspezi on discord.
-
-## TODO:
-
-- Add proto-tile wiring diagram
-- Add template `main.ino`
-- Decide on a microcontroller?
-
-If you have questions, please contact kennyspezi on discord.
+![4x4 Muxes to activate sensors](https://raw.githubusercontent.com/kennyspezi/sensor-matrix-tile/main/docs/schematic-old-4x4-sensor-mux.png)

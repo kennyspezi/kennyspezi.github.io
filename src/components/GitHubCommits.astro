@@ -52,12 +52,12 @@ try {
 
 <section
   id="project-commits"
-  class="decor-panel decor-soft mb-8 rounded-2xl border border-violet-300/25 bg-violet-50/25 p-6 text-card-foreground backdrop-blur-sm dark:border-violet-700/25 dark:bg-violet-950/10"
+  class="decor-panel decor-soft mb-8 rounded-2xl border border-primary/15 bg-primary/5 p-6 text-card-foreground backdrop-blur-sm"
   style="--card-art: url('/assets/cards/gratitude.jpg');"
 >
   <h2 class="font-brand mb-4 flex items-center gap-2 text-2xl text-foreground">
     <span
-      class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-violet-300/40 bg-violet-100/60 text-violet-700 dark:border-violet-700/40 dark:bg-violet-900/25 dark:text-violet-300"
+      class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-primary/30 bg-primary/10 text-primary"
     >
       <Icon name="mdi:source-commit" class="h-5 w-5" />
     </span>
@@ -72,7 +72,7 @@ try {
     ) : (
       <ul class="space-y-3">
         {commits.map((item) => (
-          <li class="rounded-xl border border-violet-300/20 bg-background/50 p-3 dark:border-violet-700/20">
+          <li class="rounded-xl border border-primary/15 bg-background/50 p-3">
             <a
               href={item.html_url}
               target="_blank"

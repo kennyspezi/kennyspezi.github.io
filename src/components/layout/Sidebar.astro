@@ -2,19 +2,23 @@
 import site from "@/config/site";
 import { Icon } from "astro-icon/components";
 import SearchBox from "@/components/layout/SearchBox.astro";
-import ThemeToggle from "@/components/layout/ThemeToggle.astro";
 import SearchModal from "@/components/blocks/SearchModal.astro";
+import { getPublishedPosts } from "@/utils/post";
 
 interface Props {
   compact?: boolean;
 }
 
 const { compact = false } = Astro.props;
+const hasPublishedPosts = (await getPublishedPosts()).length > 0;
+const navigation = site.navigation.filter(
+  (item) => item.href !== "/posts" || hasPublishedPosts,
+);
 ---
 
 <aside
   class:list={[
-    "flex w-full flex-col border-b border-border bg-muted/20 p-5 transition-[width,padding] duration-300 ease-out md:border-r md:border-b-0",
+    "flex w-full flex-col border-b border-border bg-card p-5 shadow-[inset_0_1px_0_rgba(244,165,103,0.25),inset_0_0_0_1px_rgba(202,55,43,0.12)] transition-[width,padding] duration-300 ease-out md:border-r md:border-b-0",
     compact ? "md:w-20" : "md:w-48",
   ]}
   data-pagefind-ignore="all"
@@ -49,37 +53,43 @@ const { compact = false } = Astro.props;
     ]}
   >
     {
-      site.navigation.map((item) => (
-        <a
-          href={item.href}
-          class:list={[
-            "group flex rounded-2xl border border-transparent transition-all duration-250 hover:border-primary/20 hover:bg-primary/10",
-            compact
-              ? "h-12 w-12 items-center justify-center p-0"
-              : "min-w-24 items-center gap-2.5 px-3.5 py-2.5",
-          ]}
-          title={item.name}
-          aria-label={item.name}
-        >
-          <Icon
-            name={item.icon || "mdi:link-variant"}
+      navigation.map((item) => {
+        const isActive =
+          item.href === "/"
+            ? Astro.url.pathname === "/"
+            : Astro.url.pathname === item.href ||
+              Astro.url.pathname.startsWith(`${item.href}/`);
+
+        return (
+          <a
+            href={item.href}
             class:list={[
-              "text-primary/70",
-              compact ? "h-5.5 w-5.5" : "h-5 w-5",
+              "group flex rounded-2xl border border-transparent transition-all duration-250 hover:border-primary/20 hover:bg-primary/10",
+              compact
+                ? "h-12 w-12 items-center justify-center p-0"
+                : "min-w-24 items-center gap-2.5 px-3.5 py-2.5",
             ]}
-          />
-          {!compact && (
-            <div class="flex max-w-40 flex-col overflow-hidden transition-[max-width,opacity,margin] duration-250 ease-out">
-              <span class="text-sm font-bold text-muted-foreground group-hover:text-primary">
-                {item.name}
-              </span>
-              <span class="text-[10px] tracking-widest text-muted-foreground/50 uppercase">
-                {item.subtitle}
-              </span>
-            </div>
-          )}
-        </a>
-      ))
+            title={item.name}
+            aria-label={item.name}
+            aria-current={isActive ? "page" : undefined}
+          >
+            <Icon
+              name={item.icon || "mdi:link-variant"}
+              class:list={["text-primary", compact ? "h-5.5 w-5.5" : "h-5 w-5"]}
+            />
+            {!compact && (
+              <div class="flex max-w-40 flex-col overflow-hidden transition-[max-width,opacity,margin] duration-250 ease-out">
+                <span class:list={["text-sm font-bold", "text-primary"]}>
+                  {item.name}
+                </span>
+                <span class="text-[10px] tracking-widest text-muted-foreground/60 uppercase">
+                  {item.subtitle}
+                </span>
+              </div>
+            )}
+          </a>
+        );
+      })
     }
   </nav>
 
@@ -112,8 +122,6 @@ const { compact = false } = Astro.props;
         ))
       }
     </div>
-
-    {!compact && <ThemeToggle />}
   </div>
 
   {!compact && <SearchModal />}

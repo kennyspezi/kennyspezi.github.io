@@ -1,0 +1,20 @@
+{
+  "slug": "aiaa-uh",
+  "title": "AIAA at the University of Houston",
+  "description": "A student aerospace community connecting engineering, rocketry, flight systems, and professional development.",
+  "website": "https://aiaa-uh.com/",
+  "logo": "/assets/orgs/aiaa-uh/logo.png",
+  "period": "Spring 2026 - Ongoing",
+  "tags": ["aerospace", "rocketry", "students", "engineering"],
+  "repoLinks": [],
+  "accent": "#eab56f",
+  "accentSoft": "rgba(234, 181, 111, 0.12)",
+  "relatedProjects": ["snitch-flight-computer"],
+  "positions": [
+    {
+      "title": "Member",
+      "startDate": "01-20-2026",
+      "summary": "Joined the AIAA student branch to learn more about aerospace engineering, rocketry, and flight systems."
+    }
+  ]
+}

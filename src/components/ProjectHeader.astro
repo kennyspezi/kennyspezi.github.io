@@ -3,6 +3,7 @@ import { Icon } from "astro-icon/components";
 
 interface Props {
   title: string;
+  subtitle?: string;
   description: string;
   status: string;
   statusNote?: string;
@@ -21,11 +22,15 @@ interface Props {
     github?: string;
     homepage?: string;
     demo?: string;
+    schematic?: string;
+    bom?: string;
+    designFiles?: string;
   };
 }
 
 const {
   title,
+  subtitle = "",
   description,
   status,
   statusNote = "",
@@ -48,21 +53,14 @@ const buildsOnPairs = buildsOnLabels.map((label, index) => ({
 }));
 
 const statusClassMap = {
-  idea: "bg-sky-100 text-sky-900 border border-sky-300 dark:bg-sky-900/40 dark:text-sky-300 dark:border-sky-700",
-  researching:
-    "bg-indigo-100 text-indigo-900 border border-indigo-300 dark:bg-indigo-900/40 dark:text-indigo-300 dark:border-indigo-700",
-  "building-now":
-    "bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-900/40 dark:text-amber-300 dark:border-amber-700",
-  "building-paused":
-    "bg-yellow-100 text-yellow-900 border border-yellow-300 dark:bg-yellow-900/40 dark:text-yellow-300 dark:border-yellow-700",
-  dormant:
-    "bg-orange-100 text-orange-900 border border-orange-300 dark:bg-orange-900/40 dark:text-orange-300 dark:border-orange-700",
-  shipped:
-    "bg-emerald-100 text-emerald-900 border border-emerald-300 dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700",
-  blocked:
-    "bg-rose-100 text-rose-900 border border-rose-300 dark:bg-rose-900/40 dark:text-rose-300 dark:border-rose-700",
-  archived:
-    "bg-violet-100 text-violet-900 border border-violet-300 dark:bg-violet-900/40 dark:text-violet-300 dark:border-violet-700",
+  idea: "bg-primary/10 text-primary border border-primary/30",
+  researching: "bg-primary/10 text-primary border border-primary/30",
+  "building-now": "bg-primary/10 text-primary border border-primary/30",
+  "building-paused": "bg-primary/10 text-primary border border-primary/30",
+  dormant: "bg-primary/10 text-primary border border-primary/30",
+  shipped: "bg-primary/10 text-primary border border-primary/30",
+  blocked: "bg-primary/10 text-primary border border-primary/30",
+  archived: "bg-primary/10 text-primary border border-primary/30",
 };
 
 const normalizeStatusKey = (value: string) =>
@@ -106,7 +104,7 @@ const formatStatus = (value: string) => {
 >
   <div class="mb-4 flex flex-wrap items-center gap-3">
     <span
-      class={`rounded-full px-3 py-1 text-xs font-medium ${statusClassMap[statusKey as keyof typeof statusClassMap] || "border border-primary/30 bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light"}`}
+      class={`rounded-full px-3 py-1 text-xs font-medium ${statusClassMap[statusKey as keyof typeof statusClassMap] || "border border-primary/30 bg-primary/10 text-primary"}`}
     >
       {formatStatus(status)}
     </span>
@@ -120,6 +118,14 @@ const formatStatus = (value: string) => {
   </div>
 
   <h1 class="font-brand mb-3 text-4xl text-foreground md:text-5xl">{title}</h1>
+
+  {
+    subtitle && (
+      <p class="mb-4 text-lg leading-relaxed font-semibold text-primary/90">
+        {subtitle}
+      </p>
+    )
+  }
 
   {
     isFork && forkedFrom && (
@@ -188,7 +194,7 @@ const formatStatus = (value: string) => {
   {
     buildsOnPairs.length > 0 && (
       <div class="mb-5 flex flex-wrap items-center gap-2">
-        <span class="rounded-full border border-pink-300/50 bg-pink-100/55 px-3 py-1 text-xs font-semibold tracking-wider text-pink-900 uppercase dark:border-pink-700/50 dark:bg-pink-900/25 dark:text-pink-200">
+        <span class="rounded-full border border-primary/35 bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wider text-primary uppercase">
           Builds On
         </span>
         {buildsOnPairs.map((item) =>
@@ -220,7 +226,12 @@ const formatStatus = (value: string) => {
   {statusNote && <p class="mb-5 text-sm text-muted-foreground">{statusNote}</p>}
 
   {
-    (links.github || links.homepage || links.demo) && (
+    (links.github ||
+      links.homepage ||
+      links.demo ||
+      links.schematic ||
+      links.bom ||
+      links.designFiles) && (
       <div class="mb-5 flex flex-wrap gap-2">
         {links.github && (
           <a
@@ -250,6 +261,36 @@ const formatStatus = (value: string) => {
             class="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/30 px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:border-primary/40 hover:text-primary"
           >
             <Icon name="mdi:play-circle-outline" /> Demo
+          </a>
+        )}
+        {links.schematic && (
+          <a
+            href={links.schematic}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 rounded-full border border-primary/35 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:border-primary/60 hover:bg-primary/15"
+          >
+            <Icon name="mdi:sitemap-outline" /> Schematic
+          </a>
+        )}
+        {links.bom && (
+          <a
+            href={links.bom}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 rounded-full border border-primary/35 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:border-primary/60 hover:bg-primary/15"
+          >
+            <Icon name="mdi:format-list-bulleted" /> BOM
+          </a>
+        )}
+        {links.designFiles && (
+          <a
+            href={links.designFiles}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 rounded-full border border-primary/35 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:border-primary/60 hover:bg-primary/15"
+          >
+            <Icon name="mdi:file-cad-box" /> Design files
           </a>
         )}
       </div>

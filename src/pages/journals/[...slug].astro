@@ -40,7 +40,7 @@ const sourceDir =
     class="animate-in fade-in mx-auto max-w-4xl p-6 duration-700 md:p-10"
   >
     <header
-      class="mb-8 rounded-[2rem] border border-emerald-300/25 bg-emerald-50/25 p-6 backdrop-blur-sm md:p-8 dark:border-emerald-700/25 dark:bg-emerald-950/10"
+      class="mb-8 rounded-[2rem] border border-primary/20 bg-primary/5 p-6 backdrop-blur-sm md:p-8"
     >
       <div class="mb-5 flex flex-wrap gap-2">
         <a
@@ -51,8 +51,8 @@ const sourceDir =
           All Journals
         </a>
         <a
-          href={`/projects/${entry.data.projectSlug}`}
-          class="inline-flex items-center gap-1.5 rounded-full border border-amber-300/40 bg-amber-100/60 px-3 py-1.5 text-xs font-medium text-amber-800 transition-colors hover:border-primary/40 dark:border-amber-700/40 dark:bg-amber-900/25 dark:text-amber-300"
+          href="/projects"
+          class="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:border-primary/40"
         >
           <Icon name="mdi:hammer-wrench" class="h-4 w-4" />
           Go To Project
@@ -63,7 +63,7 @@ const sourceDir =
               href={entry.data.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-1.5 rounded-full border border-sky-300/40 bg-sky-100/60 px-3 py-1.5 text-xs font-medium text-sky-800 transition-colors hover:border-primary/40 dark:border-sky-700/40 dark:bg-sky-900/25 dark:text-sky-300"
+              class="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:border-primary/40"
             >
               <Icon name="mdi:file-document-outline" class="h-4 w-4" />
               Source File
@@ -74,7 +74,7 @@ const sourceDir =
 
       <div class="mb-4 flex flex-wrap items-center gap-2">
         <span
-          class="inline-flex items-center gap-1.5 rounded-full border border-emerald-300/40 bg-emerald-100/60 px-3 py-1.5 text-xs font-medium text-emerald-800 dark:border-emerald-700/40 dark:bg-emerald-900/25 dark:text-emerald-300"
+          class="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary"
         >
           <Icon name="mdi:notebook-heart-outline" class="h-4 w-4" />
           Project Journal
@@ -117,7 +117,7 @@ const sourceDir =
           {headings.slice(0, 6).map((heading) => (
             <a
               href={`#${heading.slug}`}
-              class="rounded-full border border-purple-300/35 bg-purple-100/60 px-3 py-1.5 text-xs text-purple-800 transition-colors hover:border-primary/40 dark:border-purple-700/35 dark:bg-purple-900/25 dark:text-purple-300"
+              class="rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-xs text-primary transition-colors hover:border-primary/40"
             >
               {heading.text}
             </a>
@@ -128,7 +128,7 @@ const sourceDir =
 
     <div
       class:list={[
-        "prose max-w-none rounded-[2rem] border border-pink-300/25 bg-pink-50/20 p-6 md:p-8 dark:border-pink-700/25 dark:bg-pink-950/10 dark:prose-invert",
+        "prose max-w-none rounded-[2rem] border border-primary/15 bg-muted/15 p-6 md:p-8",
         "prose-headings:tracking-tight",
         "prose-p:leading-loose prose-p:text-muted-foreground",
       ]}
@@ -137,9 +137,7 @@ const sourceDir =
     </div>
 
     <footer class="mt-8 grid gap-4 md:grid-cols-2">
-      <div
-        class="rounded-2xl border border-orange-300/25 bg-orange-50/20 p-5 dark:border-orange-700/25 dark:bg-orange-950/10"
-      >
+      <div class="rounded-2xl border border-primary/15 bg-primary/5 p-5">
         <p
           class="mb-2 text-xs font-bold tracking-[0.18em] text-muted-foreground uppercase"
         >
@@ -183,9 +181,7 @@ const sourceDir =
         </div>
       </div>
 
-      <div
-        class="rounded-2xl border border-sky-300/25 bg-sky-50/20 p-5 dark:border-sky-700/25 dark:bg-sky-950/10"
-      >
+      <div class="rounded-2xl border border-primary/15 bg-muted/15 p-5">
         <p
           class="mb-2 text-xs font-bold tracking-[0.18em] text-muted-foreground uppercase"
         >
@@ -198,7 +194,7 @@ const sourceDir =
                 {project.data.description}
               </p>
               <a
-                href={`/projects/${project.id}`}
+                href="/projects"
                 class="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-4 py-2 text-sm text-foreground transition-colors hover:border-primary/40 hover:text-primary"
               >
                 <Icon name="mdi:arrow-top-right" class="h-4 w-4" />

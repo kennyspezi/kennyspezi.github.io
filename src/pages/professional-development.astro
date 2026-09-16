@@ -1,0 +1,369 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+
+const entries = (await getCollection("professionalDevelopment")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const experiences = entries.filter(
+  (entry) => entry.data.section === "experiences",
+);
+const goals = entries.filter((entry) => entry.data.section === "goals");
+const amazonEntries = experiences.filter((entry) =>
+  entry.data.title.startsWith("Amazon"),
+);
+const experienceCards = [
+  ...experiences.filter((entry) => !entry.data.title.startsWith("Amazon")),
+  {
+    id: "amazon",
+    data: {
+      section: "experiences" as const,
+      title: "Amazon",
+      period: "Summer 2025 + Summer 2026",
+      summary: "Two software engineering internships: AFT and SCOT.",
+      logo: "/assets/orgs/amazon/logo.jpg",
+      order: 99,
+    },
+  },
+];
+const initialSection = experiences.length > 0 ? "experiences" : "goals";
+const initialEntry =
+  experienceCards.find((entry) => entry.data.section === initialSection) ||
+  entries.find((entry) => entry.data.section === initialSection);
+const renderedEntries = await Promise.all(
+  entries.map(async (entry) => ({
+    entry,
+    rendered: await render(entry),
+  })),
+);
+---
+
+<Layout
+  title="Professional Development"
+  description="Internship lessons, semester goals, and long-term career direction."
+  fixedContent={true}
+>
+  <div
+    class="animate-in fade-in mx-auto flex h-full min-h-0 w-full max-w-[1500px] flex-col px-4 py-5 duration-700 md:px-6 md:py-6"
+  >
+    <header
+      class="mb-4 flex shrink-0 flex-col gap-4 border-b border-primary/20 pb-4 md:flex-row md:items-center md:justify-between"
+    >
+      <div>
+        <p class="text-xs font-bold tracking-[0.3em] text-primary uppercase">
+          Career direction
+        </p>
+        <h1
+          class="text-3xl font-black tracking-tight text-foreground md:text-5xl"
+        >
+          Professional Development (WIP)
+        </h1>
+      </div>
+      <nav
+        aria-label="Professional Development sections"
+        class="flex gap-2 overflow-x-auto"
+      >
+        <button
+          type="button"
+          class="section-toggle is-active rounded-xl border border-primary/70 bg-primary/15 px-4 py-2 text-sm font-bold text-primary"
+          data-section-toggle="experiences">Experiences</button
+        >
+        <button
+          type="button"
+          class="section-toggle rounded-xl border border-border bg-muted/15 px-4 py-2 text-sm font-bold text-muted-foreground"
+          data-section-toggle="goals">Goals</button
+        >
+      </nav>
+    </header>
+
+    <div
+      class="grid min-h-0 flex-1 gap-4 lg:grid-cols-[minmax(20rem,0.8fr)_minmax(0,1.8fr)]"
+    >
+      <aside
+        class="min-h-0 overflow-y-auto rounded-3xl border border-primary/25 bg-primary/5 p-3"
+      >
+        {
+          (["experiences", "goals"] as const).map((section) => {
+            const sectionEntries =
+              section === "experiences" ? experienceCards : goals;
+            return (
+              <div
+                class:list={[
+                  "entry-section-list",
+                  section !== initialSection && "hidden",
+                ]}
+                data-section-list={section}
+              >
+                <div class="mb-3 px-3 py-2">
+                  <p class="text-xs font-bold tracking-[0.25em] text-primary uppercase">
+                    {section === "experiences" ? "Experience" : "Goals"}
+                  </p>
+                  <p class="mt-1 text-sm text-muted-foreground">
+                    {section === "experiences"
+                      ? "Where I have been learning to work."
+                      : "What I am working toward next."}
+                  </p>
+                </div>
+                <div class="space-y-2">
+                  {sectionEntries.map((entry, index) => (
+                    <button
+                      type="button"
+                      class:list={[
+                        "entry-select group w-full rounded-2xl border p-4 text-left transition-all hover:-translate-y-0.5 hover:border-primary/70",
+                        index === 0
+                          ? "is-selected border-primary/70 bg-primary/15"
+                          : "border-border bg-card/65",
+                      ]}
+                      data-entry-id={entry.id}
+                      data-entry-section={section}
+                      aria-pressed={index === 0 ? "true" : "false"}
+                    >
+                      <div class="flex items-center gap-3">
+                        {"logo" in entry.data && entry.data.logo && (
+                          <img
+                            src={entry.data.logo}
+                            alt=""
+                            class="h-10 w-10 shrink-0 rounded-full border border-border object-cover"
+                          />
+                        )}
+                        <span class="block text-lg font-black text-foreground group-hover:text-primary">
+                          {entry.data.title}
+                        </span>
+                      </div>
+                      {entry.data.period && (
+                        <span class="mt-1 block text-sm font-semibold text-primary">
+                          {entry.data.period}
+                        </span>
+                      )}
+                      <span class="mt-2 block text-sm leading-relaxed text-muted-foreground">
+                        {entry.data.summary}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          })
+        }
+      </aside>
+
+      <section
+        class="min-h-0 overflow-y-auto rounded-3xl border border-border bg-card/70 p-5 md:p-8"
+      >
+        <div
+          id="entry-content"
+          class="article-content prose max-w-none dark:prose-invert"
+        >
+          {
+            renderedEntries
+              .filter(({ entry }) => !entry.data.title.startsWith("Amazon"))
+              .map(({ entry, rendered }) => {
+                const EntryContent = rendered.Content;
+                return (
+                  <div
+                    class:list={[
+                      "entry-document",
+                      entry.id === initialEntry?.id ? "" : "hidden",
+                    ]}
+                    data-entry-document={entry.id}
+                  >
+                    <p class="mb-3 text-xs font-bold tracking-[0.25em] text-primary uppercase">
+                      {entry.data.section === "experiences"
+                        ? "Experience"
+                        : "Goal"}
+                    </p>
+                    <div class="mb-2 flex items-center gap-4">
+                      {entry.data.logo && (
+                        <img
+                          src={entry.data.logo}
+                          alt={`${entry.data.title} logo`}
+                          class="h-16 w-16 rounded-full border border-border object-cover"
+                        />
+                      )}
+                      <h2 class="not-prose text-3xl font-black text-foreground md:text-5xl">
+                        {entry.data.title}
+                      </h2>
+                    </div>
+                    {entry.data.period && (
+                      <p class="not-prose mb-6 text-sm font-bold text-muted-foreground">
+                        {entry.data.period}
+                      </p>
+                    )}
+                    <EntryContent />
+                  </div>
+                );
+              })
+          }
+          <div
+            class:list={[
+              "entry-document",
+              initialEntry?.id === "amazon" ? "" : "hidden",
+            ]}
+            data-entry-document="amazon"
+          >
+            <p
+              class="mb-3 text-xs font-bold tracking-[0.25em] text-primary uppercase"
+            >
+              Experience
+            </p>
+            <div class="mb-2 flex items-center gap-4">
+              <img
+                src="/assets/orgs/amazon/logo.jpg"
+                alt="Amazon logo"
+                class="h-16 w-16 rounded-full border border-border object-cover"
+              />
+              <h2
+                class="not-prose text-3xl font-black text-foreground md:text-5xl"
+              >
+                Amazon
+              </h2>
+            </div>
+            <p class="not-prose mb-6 text-sm font-bold text-muted-foreground">
+              Two summer software engineering internships
+            </p>
+            <div class="mb-6 flex flex-wrap gap-2">
+              {
+                amazonEntries.map((entry, index) => (
+                  <button
+                    type="button"
+                    class:list={[
+                      "amazon-tab rounded-xl border px-4 py-2 text-sm font-bold",
+                      index === 0
+                        ? "border-primary bg-primary/15 text-primary"
+                        : "border-border bg-muted/15 text-muted-foreground",
+                    ]}
+                    data-amazon-index={index}
+                  >
+                    {entry.data.period}
+                  </button>
+                ))
+              }
+            </div>
+            {
+              renderedEntries
+                .filter(({ entry }) => entry.data.title.startsWith("Amazon"))
+                .map(({ entry, rendered }, index) => {
+                  const EntryContent = rendered.Content;
+                  return (
+                    <div
+                      class:list={[
+                        "amazon-document",
+                        index === 0 ? "" : "hidden",
+                      ]}
+                      data-amazon-document={index}
+                    >
+                      <h3 class="not-prose mb-2 text-2xl font-black text-foreground">
+                        {entry.data.title}
+                      </h3>
+                      <p class="not-prose mb-5 text-sm font-bold text-muted-foreground">
+                        {entry.data.period}
+                      </p>
+                      <EntryContent />
+                    </div>
+                  );
+                })
+            }
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const initializeProfessionalDevelopment = () => {
+    const toggles = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(".section-toggle"),
+    );
+    const lists = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-section-list]"),
+    );
+    const selectors = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(".entry-select"),
+    );
+    const documents = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-entry-document]"),
+    );
+    const amazonTabs = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(".amazon-tab"),
+    );
+    const amazonDocuments = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-amazon-document]"),
+    );
+
+    const selectEntry = (entryId: string) => {
+      selectors.forEach((selector) => {
+        const selected = selector.dataset.entryId === entryId;
+        selector.classList.toggle("is-selected", selected);
+        selector.classList.toggle("border-primary/70", selected);
+        selector.classList.toggle("bg-primary/15", selected);
+        selector.classList.toggle("border-border", !selected);
+        selector.classList.toggle("bg-card/65", !selected);
+        selector.setAttribute("aria-pressed", String(selected));
+      });
+      documents.forEach((document) =>
+        document.classList.toggle(
+          "hidden",
+          document.dataset.entryDocument !== entryId,
+        ),
+      );
+    };
+
+    const selectSection = (section: string) => {
+      toggles.forEach((toggle) => {
+        const selected = toggle.dataset.sectionToggle === section;
+        toggle.classList.toggle("is-active", selected);
+        toggle.classList.toggle("border-primary/70", selected);
+        toggle.classList.toggle("bg-primary/15", selected);
+        toggle.classList.toggle("text-primary", selected);
+        toggle.classList.toggle("border-border", !selected);
+        toggle.classList.toggle("bg-muted/15", !selected);
+        toggle.classList.toggle("text-muted-foreground", !selected);
+      });
+      lists.forEach((list) =>
+        list.classList.toggle("hidden", list.dataset.sectionList !== section),
+      );
+      const first = selectors.find(
+        (selector) => selector.dataset.entrySection === section,
+      );
+      if (first?.dataset.entryId) selectEntry(first.dataset.entryId);
+    };
+
+    toggles.forEach((toggle) =>
+      toggle.addEventListener("click", () =>
+        selectSection(toggle.dataset.sectionToggle || "experiences"),
+      ),
+    );
+    selectors.forEach((selector) =>
+      selector.addEventListener("click", () =>
+        selectEntry(selector.dataset.entryId || ""),
+      ),
+    );
+
+    amazonTabs.forEach((tab) =>
+      tab.addEventListener("click", () => {
+        const selectedIndex = tab.dataset.amazonIndex || "0";
+        amazonTabs.forEach((candidate) => {
+          const selected = candidate.dataset.amazonIndex === selectedIndex;
+          candidate.classList.toggle("border-primary", selected);
+          candidate.classList.toggle("bg-primary/15", selected);
+          candidate.classList.toggle("text-primary", selected);
+          candidate.classList.toggle("border-border", !selected);
+          candidate.classList.toggle("bg-muted/15", !selected);
+          candidate.classList.toggle("text-muted-foreground", !selected);
+        });
+        amazonDocuments.forEach((document) =>
+          document.classList.toggle(
+            "hidden",
+            document.dataset.amazonDocument !== selectedIndex,
+          ),
+        );
+      }),
+    );
+  };
+
+  document.addEventListener(
+    "astro:page-load",
+    initializeProfessionalDevelopment,
+  );
+</script>

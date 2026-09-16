@@ -67,17 +67,17 @@ onMounted(emitFilters);
 
 <template>
   <section
-    class="dark:bg-bg-secondary-dark rounded-2xl border border-primary/15 bg-white/80 p-4 backdrop-blur-sm md:p-5"
+    class="rounded-2xl border border-primary/25 bg-card/70 p-4 backdrop-blur-sm md:p-5"
   >
     <div class="mb-4 flex items-center justify-between gap-3">
       <p
-        class="text-xs font-medium tracking-wide text-neutral-500 uppercase dark:text-neutral-400"
+        class="text-xs font-medium tracking-wide text-muted-foreground uppercase"
       >
         Browse by tag
       </p>
       <button
         type="button"
-        class="text-primary-dark dark:text-primary-light rounded-full border border-primary/25 px-3 py-1 text-xs transition-colors hover:bg-primary/10"
+        class="rounded-full border border-primary/25 px-3 py-1 text-xs text-primary transition-colors hover:bg-primary/10"
         @click="resetFilters"
       >
         View all
@@ -93,12 +93,12 @@ onMounted(emitFilters);
         @click="selectTag(tag)"
       >
         <div
-          class="mb-2 flex h-16 items-center justify-center rounded-lg border-2 border-dashed border-primary/30 bg-primary/5 text-[10px] text-neutral-500 dark:text-neutral-400"
+          class="mb-2 flex h-16 items-center justify-center rounded-lg border-2 border-dashed border-primary/30 bg-primary/5 text-[10px] text-muted-foreground"
         >
           {{ tag }}
         </div>
         <p
-          class="text-xs text-neutral-700 capitalize group-hover:text-primary dark:text-neutral-300"
+          class="text-xs text-muted-foreground capitalize group-hover:text-primary"
         >
           {{ tag }}
         </p>
@@ -108,12 +108,12 @@ onMounted(emitFilters);
     <div class="grid gap-3 md:grid-cols-3">
       <label class="block text-sm">
         <span
-          class="mb-1 block text-xs font-medium tracking-wide text-neutral-500 uppercase dark:text-neutral-400"
+          class="mb-1 block text-xs font-medium tracking-wide text-muted-foreground uppercase"
           >Tag</span
         >
         <select
           v-model="selectedTag"
-          class="w-full rounded-xl border border-primary/20 bg-white px-3 py-2 text-sm dark:bg-neutral-900"
+          class="w-full rounded-xl border border-primary/20 bg-muted/30 px-3 py-2 text-sm text-foreground"
         >
           <option v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</option>
         </select>
@@ -121,12 +121,12 @@ onMounted(emitFilters);
 
       <label class="block text-sm">
         <span
-          class="mb-1 block text-xs font-medium tracking-wide text-neutral-500 uppercase dark:text-neutral-400"
+          class="mb-1 block text-xs font-medium tracking-wide text-muted-foreground uppercase"
           >Project</span
         >
         <select
           v-model="selectedProject"
-          class="w-full rounded-xl border border-primary/20 bg-white px-3 py-2 text-sm dark:bg-neutral-900"
+          class="w-full rounded-xl border border-primary/20 bg-muted/30 px-3 py-2 text-sm text-foreground"
         >
           <option v-for="project in projects" :key="project" :value="project">
             {{ project }}
@@ -136,12 +136,12 @@ onMounted(emitFilters);
 
       <label class="block text-sm">
         <span
-          class="mb-1 block text-xs font-medium tracking-wide text-neutral-500 uppercase dark:text-neutral-400"
+          class="mb-1 block text-xs font-medium tracking-wide text-muted-foreground uppercase"
           >Source</span
         >
         <select
           v-model="selectedSource"
-          class="w-full rounded-xl border border-primary/20 bg-white px-3 py-2 text-sm dark:bg-neutral-900"
+          class="w-full rounded-xl border border-primary/20 bg-muted/30 px-3 py-2 text-sm text-foreground"
         >
           <option v-for="source in sources" :key="source" :value="source">
             {{ source }}

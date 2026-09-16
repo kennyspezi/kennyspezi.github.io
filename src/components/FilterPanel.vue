@@ -102,7 +102,7 @@ onMounted(emitFilters);
 
 <template>
   <section
-    class="dark:bg-bg-secondary-dark rounded-2xl border border-primary/15 bg-white/80 p-4 backdrop-blur-sm md:p-5"
+    class="rounded-2xl border border-primary/25 bg-card/70 p-4 backdrop-blur-sm md:p-5"
   >
     <div class="mb-4 flex flex-wrap items-center gap-2">
       <button
@@ -110,8 +110,8 @@ onMounted(emitFilters);
         class="rounded-full border px-3 py-1 text-xs transition-colors"
         :class="
           selectedStatus === 'all'
-            ? 'dark:text-primary-light border-primary/40 bg-primary/10 text-primary dark:bg-primary/20'
-            : 'border-primary/20 text-neutral-600 hover:border-primary/35 dark:text-neutral-300'
+            ? 'border-primary/40 bg-primary/10 text-primary'
+            : 'border-primary/20 text-muted-foreground hover:border-primary/35'
         "
         @click="setQuickStatus('all')"
       >
@@ -122,8 +122,8 @@ onMounted(emitFilters);
         class="rounded-full border px-3 py-1 text-xs transition-colors"
         :class="
           selectedStatus === 'idea'
-            ? 'dark:text-primary-light border-primary/40 bg-primary/10 text-primary dark:bg-primary/20'
-            : 'border-primary/20 text-neutral-600 hover:border-primary/35 dark:text-neutral-300'
+            ? 'border-primary/40 bg-primary/10 text-primary'
+            : 'border-primary/20 text-muted-foreground hover:border-primary/35'
         "
         @click="setQuickStatus('idea')"
       >
@@ -134,8 +134,8 @@ onMounted(emitFilters);
         class="rounded-full border px-3 py-1 text-xs transition-colors"
         :class="
           selectedHackathon === 'hackathon'
-            ? 'dark:text-primary-light border-primary/40 bg-primary/10 text-primary dark:bg-primary/20'
-            : 'border-primary/20 text-neutral-600 hover:border-primary/35 dark:text-neutral-300'
+            ? 'border-primary/40 bg-primary/10 text-primary'
+            : 'border-primary/20 text-muted-foreground hover:border-primary/35'
         "
         @click="
           setQuickHackathon(
@@ -150,12 +150,12 @@ onMounted(emitFilters);
     <div class="grid gap-3 md:grid-cols-3">
       <label class="block text-sm">
         <span
-          class="mb-1 block text-xs font-medium tracking-wide text-neutral-500 uppercase dark:text-neutral-400"
+          class="mb-1 block text-xs font-medium tracking-wide text-muted-foreground uppercase"
           >Tag</span
         >
         <select
           v-model="selectedTag"
-          class="w-full rounded-xl border border-primary/20 bg-white px-3 py-2 text-sm dark:bg-neutral-900"
+          class="w-full rounded-xl border border-primary/20 bg-muted/30 px-3 py-2 text-sm text-foreground"
         >
           <option v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</option>
         </select>
@@ -163,12 +163,12 @@ onMounted(emitFilters);
 
       <label class="block text-sm">
         <span
-          class="mb-1 block text-xs font-medium tracking-wide text-neutral-500 uppercase dark:text-neutral-400"
+          class="mb-1 block text-xs font-medium tracking-wide text-muted-foreground uppercase"
           >Status</span
         >
         <select
           v-model="selectedStatus"
-          class="w-full rounded-xl border border-primary/20 bg-white px-3 py-2 text-sm dark:bg-neutral-900"
+          class="w-full rounded-xl border border-primary/20 bg-muted/30 px-3 py-2 text-sm text-foreground"
         >
           <option v-for="item in statuses" :key="item" :value="item">
             {{ formatStatusLabel(item) }}
@@ -178,12 +178,12 @@ onMounted(emitFilters);
 
       <label class="block text-sm">
         <span
-          class="mb-1 block text-xs font-medium tracking-wide text-neutral-500 uppercase dark:text-neutral-400"
+          class="mb-1 block text-xs font-medium tracking-wide text-muted-foreground uppercase"
           >Contributors</span
         >
         <select
           v-model="selectedContributors"
-          class="w-full rounded-xl border border-primary/20 bg-white px-3 py-2 text-sm dark:bg-neutral-900"
+          class="w-full rounded-xl border border-primary/20 bg-muted/30 px-3 py-2 text-sm text-foreground"
         >
           <option value="all">all</option>
           <option value="true">wanted</option>

@@ -75,10 +75,10 @@ const { category, posts, journals = [] } = Astro.props;
                 return (
                   <a
                     href={`/journals/${entry.id}`}
-                    class="block rounded-2xl border border-emerald-300/20 bg-emerald-50/20 p-5 transition-colors hover:border-primary/30 hover:bg-muted/30 dark:border-emerald-700/20 dark:bg-emerald-950/10"
+                    class="block rounded-2xl border border-primary/15 bg-muted/15 p-5 transition-colors hover:border-primary/30 hover:bg-muted/20"
                   >
                     <div class="mb-2 flex flex-wrap items-center gap-2">
-                      <span class="inline-flex items-center gap-1 rounded-full border border-emerald-300/30 bg-emerald-100/60 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-emerald-700 uppercase dark:border-emerald-700/30 dark:bg-emerald-900/20 dark:text-emerald-300">
+                      <span class="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-primary uppercase">
                         <Icon
                           name="mdi:notebook-heart-outline"
                           class="h-3.5 w-3.5"

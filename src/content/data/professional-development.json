@@ -1,0 +1,57 @@
+{
+  "experiences": [
+    {
+      "id": "create-uh",
+      "title": "CREATE-UH Hardware Design Lab",
+      "category": "Hardware + lab leadership",
+      "period": "Academic years 2025-2026 and 2026-2027",
+      "logo": "/assets/orgs/create-uh/logo.png",
+      "images": [],
+      "summary": "I help keep the CREATE-UH program running smoothly while supporting students through practical hardware work.",
+      "description": "I hosted the first soldering workshop in the program's history, became a go-to person for circuit and soldering questions, and now serve as the senior lab assistant for the new ECE-focused lab.",
+      "highlights": [
+        "Run and support hands-on hardware lab sessions",
+        "Help students debug circuits and soldering work",
+        "Hosted the first soldering workshop in program history",
+        "Support the new ECE-focused lab as senior lab assistant"
+      ],
+      "link": "https://www.egr.uh.edu/current-students/createuh-program"
+    },
+    {
+      "id": "amazon",
+      "title": "Amazon",
+      "category": "Software engineering internships",
+      "period": "Two summer internships",
+      "logo": "/assets/orgs/amazon/logo.jpg",
+      "images": [],
+      "summary": "Two software engineering internships that gave me experience contributing to large engineering organizations and production-minded systems.",
+      "description": "Select an internship to see the team, season, lessons, and media for that experience.",
+      "internships": [
+        {
+          "id": "aft-2025",
+          "title": "Amazon AFT",
+          "period": "Summer 2025",
+          "images": [],
+          "description": "My first Amazon software engineering internship. I learned how to contribute to production-oriented systems, work within a large engineering organization, and communicate technical decisions clearly.",
+          "highlights": [
+            "Software engineering internship experience",
+            "Large-scale engineering collaboration",
+            "Production-minded development and testing"
+          ]
+        },
+        {
+          "id": "scot-2026",
+          "title": "Amazon SCOT",
+          "period": "Summer 2026",
+          "images": [],
+          "description": "My second Amazon software engineering internship, building on the first experience while giving me another view into how software systems support complex operations and logistics.",
+          "highlights": [
+            "Second software engineering internship at Amazon",
+            "Continued growth in engineering practices and ownership",
+            "Experience connecting software work to operational systems"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,12 +1,13 @@
 ---
 slug: dulce-the-micromouse
-title: dulce-the-micromouse
+title: "Dulce the Micromouse: Schematic and PCB"
+subtitle: Autonomous maze-solving robot PCB.
 description: >-
   my first EE hobby project: a micromouse with the guidance of a mentor at
   IEEE-UH. backlogged but i plan to return to this. i printed a new pcb but i
   haven't had the time for assembly :p.
 repo: kennyspezi/dulce-the-micromouse
-status: dormant
+status: archived
 contributorsWanted: false
 tech:
   - C++
@@ -18,29 +19,26 @@ tags:
 isFork: true
 forkedFrom: IEEE-UniversityOfHouston/micromice
 forkedFromUrl: https://github.com/IEEE-UniversityOfHouston/micromice
-updatedAt: "2026-03-07T11:05:22Z"
+updatedAt: "2026-09-16T19:30:06Z"
 stars: 1
 forks: 0
 previewImage: >-
-  https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/2024-25-cohort/kennym/preview.jpg
+  https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/preview.jpg
 images:
   - >-
     https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/docs/schematic.png
   - >-
     https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/docs/board.png
   - >-
-    https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/docs/perfboard1.jpg
+    https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/docs/dulce.gif
   - >-
-    https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/docs/perfboard2.jpg
-  - >-
-    https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/docs/perfboard3.jpg
-  - >-
-    https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/docs/wiring.jpg
-  - >-
-    https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/docs/oldieeestation.jpg
-  - >-
-    https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/2024-25-cohort/kennym/preview.jpg
+    https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/preview.jpg
 commits:
+  - sha: 64bb62bc14f2d16e6ef5759bab9adbf233566132
+    message: documentation upgrade
+    date: "2026-09-16T19:28:15Z"
+    url: >-
+      https://github.com/kennyspezi/dulce-the-micromouse/commit/64bb62bc14f2d16e6ef5759bab9adbf233566132
   - sha: d75030083b588852936276f21eb6540a95bf9b1d
     message: updated personal README
     date: "2026-01-10T08:50:15Z"
@@ -57,9 +55,7 @@ commits:
     url: >-
       https://github.com/kennyspezi/dulce-the-micromouse/commit/b7f9552d365763c86081a14b6e1299eafc778131
 cardEmoji: 🐭
-statusNote: >-
-  i have not touched this since freshman year. my interests have moved on, but
-  i'd like to revist anyhow.
+startDate: Fall 2024
 links:
   github: https://github.com/kennyspezi/dulce-the-micromouse
 manual: false
@@ -77,28 +73,14 @@ Dulce is a micromouse robot built around the Adafruit Itsy Bitsy SAMD21 3.3V mic
 
 ### PCB Design
 
+Note: Schematic was imported from EasyEDA XD
 ![Schematic](https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/docs/schematic.png)
-_Circuit schematic_
 
 ![PCB Layout](https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/docs/board.png)
-_PCB board layout_
 
-### Hardware Build (before PCB design)
+### Hardware Builds
 
-![Perfboard Assembly 1](https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/docs/perfboard1.jpg)
-_Perfboard prototype - top view_
-
-![Perfboard Assembly 2](https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/docs/perfboard2.jpg)
-_Perfboard prototype - side view_
-
-![Perfboard Assembly 3](https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/docs/perfboard3.jpg)
-_Perfboard prototype - detailed view_
-
-![Wiring](https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/docs/wiring.jpg)
-_Wiring connections_
-
-![IEEE@UH Station](https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/docs/oldieeestation.jpg)
-_Soldering setup at IEEE station_
+![Builds OverTime](https://raw.githubusercontent.com/kennyspezi/dulce-the-micromouse/kenny24-25/docs/dulce.gif)
 
 ## Bill of Materials
 
@@ -114,40 +96,7 @@ _Soldering setup at IEEE station_
 
 ## Project Status
 
-### Current Implementation
-
-- ✅ Hardware schematic design (imported from EasyEDA)
-- ✅ Pin definitions configured in firmware
-- ✅ Basic Arduino framework setup with PlatformIO
-
-### Future Work
-
-#### Documentation Improvements
-
-- My schematic-drafting skills have improved since I last touched this project. I would like to clean up my schematic exports.
-
-#### Hardware Improvements
-
-- **Sensor Optimization**: Evaluate whether fewer IR sensors can be used while maintaining diagonal movement capability
-- **Mode Selection**: Add toggle button to switch between different operating modes
-- **Status Indicator**: Integrate RGB LED to display current operational mode
-
-#### Mechanical Design
-
-- Design and CAD a custom chassis optimized for the electronic components
-- Ensure proper sensor placement for accurate wall detection
-- Optimize weight distribution and center of gravity
-
-#### Software Development
-
-- Implement multiple operational modes:
-  - Object-following
-  - IMU + PID "Compass" - inspired by [Haridev](https://github.com/haribood)
-  - Wall-following algorithm
-  - Maze solving
-- Develop sensor calibration routines
-- Implement PID control for motor control
-- Add mode-switching logic with visual feedback
+Archived in favor of future builds
 
 ## Development Setup
 
@@ -219,11 +168,3 @@ dulce/
 │   └── platformio.ini
 └── README.md
 ```
-
-## License
-
-See [LICENSE](https://github.com/kennyspezi/dulce-the-micromouse/blob/kenny24-25/LICENSE) file for details.
-
-## Contributing
-
-This is a personal project :P

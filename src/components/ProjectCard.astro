@@ -2,9 +2,12 @@
 interface ProjectData {
   slug: string;
   title: string;
+  subtitle?: string;
   description: string;
   status: string;
   statusNote?: string;
+  lessonsLearned?: string;
+  pending?: string;
   contributorsWanted: boolean;
   tech: string[];
   tags: string[];
@@ -71,43 +74,28 @@ const artIndex =
   cardArt.length;
 
 const statusChipClassMap = {
-  idea: "border-sky-300/50 bg-sky-100/50 text-sky-900 dark:border-sky-700/50 dark:bg-sky-900/25 dark:text-sky-200",
-  researching:
-    "border-indigo-300/50 bg-indigo-100/50 text-indigo-900 dark:border-indigo-700/50 dark:bg-indigo-900/25 dark:text-indigo-200",
-  "building-now":
-    "border-amber-300/50 bg-amber-100/50 text-amber-900 dark:border-amber-700/50 dark:bg-amber-900/25 dark:text-amber-200",
-  "building-paused":
-    "border-yellow-300/50 bg-yellow-100/50 text-yellow-900 dark:border-yellow-700/50 dark:bg-yellow-900/25 dark:text-yellow-200",
-  dormant:
-    "border-orange-300/50 bg-orange-100/50 text-orange-900 dark:border-orange-700/50 dark:bg-orange-900/25 dark:text-orange-200",
-  blocked:
-    "border-rose-300/50 bg-rose-100/50 text-rose-900 dark:border-rose-700/50 dark:bg-rose-900/25 dark:text-rose-200",
-  shipped:
-    "border-emerald-300/50 bg-emerald-100/50 text-emerald-900 dark:border-emerald-700/50 dark:bg-emerald-900/25 dark:text-emerald-200",
-  archived:
-    "border-violet-300/50 bg-violet-100/50 text-violet-900 dark:border-violet-700/50 dark:bg-violet-900/25 dark:text-violet-200",
+  idea: "border-primary/35 bg-primary/10 text-primary",
+  researching: "border-primary/35 bg-primary/10 text-primary",
+  "building-now": "border-primary/35 bg-primary/10 text-primary",
+  "building-paused": "border-primary/35 bg-primary/10 text-primary",
+  dormant: "border-primary/35 bg-primary/10 text-primary",
+  blocked: "border-primary/35 bg-primary/10 text-primary",
+  shipped: "border-primary/35 bg-primary/10 text-primary",
+  archived: "border-primary/35 bg-primary/10 text-primary",
 };
 
 const cardTintClassMap = {
-  idea: "border-sky-300/35 bg-sky-50/25 dark:border-sky-700/35 dark:bg-sky-950/10",
-  researching:
-    "border-indigo-300/35 bg-indigo-50/25 dark:border-indigo-700/35 dark:bg-indigo-950/10",
-  "building-now":
-    "border-amber-300/35 bg-amber-50/25 dark:border-amber-700/35 dark:bg-amber-950/10",
-  "building-paused":
-    "border-yellow-300/35 bg-yellow-50/25 dark:border-yellow-700/35 dark:bg-yellow-950/10",
-  dormant:
-    "border-orange-300/35 bg-orange-50/25 dark:border-orange-700/35 dark:bg-orange-950/10",
-  blocked:
-    "border-rose-300/35 bg-rose-50/25 dark:border-rose-700/35 dark:bg-rose-950/10",
-  shipped:
-    "border-emerald-300/35 bg-emerald-50/25 dark:border-emerald-700/35 dark:bg-emerald-950/10",
-  archived:
-    "border-violet-300/35 bg-violet-50/25 dark:border-violet-700/35 dark:bg-violet-950/10",
+  idea: "border-primary/15 bg-primary/5",
+  researching: "border-primary/15 bg-primary/5",
+  "building-now": "border-primary/15 bg-primary/5",
+  "building-paused": "border-primary/15 bg-primary/5",
+  dormant: "border-primary/15 bg-primary/5",
+  blocked: "border-primary/15 bg-primary/5",
+  shipped: "border-primary/15 bg-primary/5",
+  archived: "border-primary/15 bg-primary/5",
 };
 
-const hackathonChipClass =
-  "border-fuchsia-300/50 bg-fuchsia-100/55 text-fuchsia-900 dark:border-fuchsia-700/50 dark:bg-fuchsia-900/25 dark:text-fuchsia-200";
+const hackathonChipClass = "border-primary/35 bg-primary/10 text-primary";
 const buildsOnPairs = (project.buildsOnLabels || []).map((label, index) => ({
   label,
   url: project.buildsOnUrls?.[index] || "",
@@ -147,11 +135,7 @@ const formatStatus = (value: string) => {
   data-contributors-wanted={project.contributorsWanted ? "true" : "false"}
   style={`--card-art: url('${cardArt[artIndex]}');`}
 >
-  <a
-    href={`/projects/${project.slug}`}
-    aria-label={`Open ${project.title}`}
-    class="mb-3 block"
-  >
+  <a href="/projects" aria-label={`Open ${project.title}`} class="mb-3 block">
     {
       resolvedPreviewImage ? (
         <img
@@ -170,10 +154,7 @@ const formatStatus = (value: string) => {
 
   <div class="mb-2 flex items-start justify-between gap-2">
     <h3 class="text-xl leading-tight font-bold text-foreground">
-      <a
-        href={`/projects/${project.slug}`}
-        class="hover:text-primary hover:underline"
-      >
+      <a href="/projects" class="hover:text-primary hover:underline">
         {project.cardEmoji && <span class="mr-1">{project.cardEmoji}</span>}
         {project.title}
       </a>
@@ -184,6 +165,14 @@ const formatStatus = (value: string) => {
       {formatStatus(statusKey)}
     </span>
   </div>
+
+  {
+    project.subtitle && (
+      <p class="mb-2 text-sm leading-snug font-semibold text-primary/90">
+        {project.subtitle}
+      </p>
+    )
+  }
 
   {
     project.hackathonName && (
@@ -215,7 +204,7 @@ const formatStatus = (value: string) => {
     statusKey === "archived" &&
       (project.replacementUrl || project.replacementLabel) && (
         <p class="mb-2 flex flex-wrap items-center gap-2 text-sm">
-          <span class="rounded-full border border-violet-300/50 bg-violet-100/55 px-2.5 py-1 text-[11px] font-semibold tracking-wider text-violet-900 uppercase dark:border-violet-700/50 dark:bg-violet-900/25 dark:text-violet-200">
+          <span class="rounded-full border border-primary/35 bg-primary/10 px-2.5 py-1 text-[11px] font-semibold tracking-wider text-primary uppercase">
             Next up
           </span>
           {project.replacementUrl ? (
@@ -237,7 +226,7 @@ const formatStatus = (value: string) => {
   {
     buildsOnPairs.length > 0 && (
       <div class="mb-3 flex flex-wrap items-center gap-2 text-sm">
-        <span class="rounded-full border border-pink-300/50 bg-pink-100/55 px-2.5 py-1 text-[11px] font-semibold tracking-wider text-pink-900 uppercase dark:border-pink-700/50 dark:bg-pink-900/25 dark:text-pink-200">
+        <span class="rounded-full border border-primary/35 bg-primary/10 px-2.5 py-1 text-[11px] font-semibold tracking-wider text-primary uppercase">
           Builds On
         </span>
         {buildsOnPairs.map((item) =>
@@ -287,6 +276,25 @@ const formatStatus = (value: string) => {
       <p class="mb-3 line-clamp-3 rounded-lg border border-border bg-muted/20 px-3.5 py-2.5 text-sm font-medium text-muted-foreground">
         {project.statusNote}
       </p>
+    )
+  }
+
+  {
+    (project.lessonsLearned || project.pending) && (
+      <div class="mb-3 space-y-2 rounded-lg border border-border bg-muted/20 px-3.5 py-2.5 text-sm">
+        {project.lessonsLearned && (
+          <p>
+            <span class="font-semibold text-foreground">Learned:</span>{" "}
+            <span class="text-muted-foreground">{project.lessonsLearned}</span>
+          </p>
+        )}
+        {project.pending && (
+          <p>
+            <span class="font-semibold text-foreground">Pending:</span>{" "}
+            <span class="text-muted-foreground">{project.pending}</span>
+          </p>
+        )}
+      </div>
     )
   }
 

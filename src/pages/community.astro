@@ -1,0 +1,378 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import projectOverrides from "@/content/data/project-overrides.json";
+import {
+  applyProjectOverride,
+  normalizeProject,
+} from "@/utils/project-normalize";
+
+const orgs = await getCollection("orgs");
+const initialOrg = orgs[0];
+const orgSummaries = await getCollection("orgSummaries");
+const renderedDescriptions = await Promise.all(
+  orgs.map(async (org) => {
+    const summary = orgSummaries.find(
+      (item) => item.data.slug === org.data.slug,
+    );
+    return summary ? await render(summary) : null;
+  }),
+);
+const localProjects = await getCollection("projects");
+let githubProjects: any[] = [];
+try {
+  githubProjects =
+    (await import("../content/projects/github.json")).default || [];
+} catch {}
+const allProjects = [
+  ...localProjects.map((project) =>
+    normalizeProject({ ...project.data, slug: project.id }),
+  ),
+  ...githubProjects.map((project) => normalizeProject(project)),
+];
+const projectsForOrg = (org: (typeof orgs)[number]) => {
+  const related = new Set(org.data.relatedProjects || []);
+  return allProjects
+    .filter((project) => related.has(project.slug))
+    .map((project) => applyProjectOverride(project, projectOverrides));
+};
+---
+
+<Layout
+  title="Community Involvement"
+  description="Student organizations, workshops, teaching, and engineering community work."
+  fixedContent={true}
+>
+  <div
+    class="animate-in fade-in mx-auto flex h-full min-h-0 w-full max-w-[1500px] flex-col px-4 py-5 duration-700 md:px-6 md:py-6"
+  >
+    <header
+      class="mb-4 flex shrink-0 items-center justify-between border-b border-primary/20 pb-4"
+    >
+      <div>
+        <p class="text-xs font-bold tracking-[0.3em] text-primary uppercase">
+          Community
+        </p>
+        <h1
+          class="text-3xl font-black tracking-tight text-foreground md:text-5xl"
+        >
+          Community Involvement (WIP)
+        </h1>
+      </div>
+      <a
+        href="/professional-development"
+        class="rounded-xl border border-primary/35 bg-primary/10 px-4 py-2 text-sm font-bold text-primary hover:border-primary"
+        >Professional Development (WIP) →</a
+      >
+    </header>
+
+    <div
+      class="grid min-h-0 flex-1 gap-4 lg:grid-cols-[minmax(18rem,0.8fr)_minmax(0,1.8fr)]"
+    >
+      <aside
+        class="min-h-0 overflow-y-auto rounded-3xl border border-primary/25 bg-primary/5 p-3"
+      >
+        <div class="mb-3 px-3 py-2">
+          <p class="text-xs font-bold tracking-[0.25em] text-primary uppercase">
+            Organizations
+          </p>
+          <p class="mt-1 text-sm text-muted-foreground">
+            Select a community to explore.
+          </p>
+        </div>
+        <div class="space-y-2">
+          {
+            orgs.map((org, index) => (
+              <button
+                type="button"
+                class:list={[
+                  "org-select group w-full rounded-2xl border p-4 text-left transition-all hover:-translate-y-0.5",
+                  index === 0
+                    ? "is-selected border-primary/70 bg-primary/15"
+                    : "border-border bg-card/65",
+                ]}
+                data-org-id={org.id}
+                aria-pressed={index === 0 ? "true" : "false"}
+              >
+                <div class="mb-3 flex items-start justify-between gap-3">
+                  <div class="flex items-center gap-3">
+                    {org.data.logo ? (
+                      <img
+                        src={org.data.logo}
+                        alt=""
+                        class="h-12 w-12 rounded-full border border-border object-cover"
+                      />
+                    ) : (
+                      <span class="flex h-12 w-12 items-center justify-center rounded-xl border border-primary/30 bg-primary/10 text-sm font-black text-primary">
+                        {org.data.title
+                          .split(/\s+/)
+                          .map((word: string) => word[0])
+                          .join("")
+                          .slice(0, 3)}
+                      </span>
+                    )}
+                    <span class="text-lg font-black text-foreground">
+                      {org.data.title.replace(
+                        " at the University of Houston",
+                        "",
+                      )}
+                    </span>
+                  </div>
+                  {org.data.period && (
+                    <span class="shrink-0 text-right text-xs leading-tight font-bold text-primary">
+                      {org.data.period}
+                    </span>
+                  )}
+                </div>
+                <span class="block text-sm leading-relaxed text-muted-foreground">
+                  {org.data.description}
+                </span>
+              </button>
+            ))
+          }
+        </div>
+      </aside>
+
+      <section
+        class="min-h-0 overflow-y-auto rounded-3xl border border-border bg-card/70 p-5 md:p-8"
+      >
+        {
+          orgs.map((org, index) => {
+            const DescriptionContent = renderedDescriptions[index]?.Content;
+            return (
+              <article
+                class:list={["org-document", index === 0 ? "" : "hidden"]}
+                data-org-document={org.id}
+              >
+                <header class="mb-6 flex flex-wrap items-start justify-between gap-5 border-b border-border pb-5">
+                  <div class="flex items-center gap-4">
+                    {org.data.logo && (
+                      <img
+                        src={org.data.logo}
+                        alt={`${org.data.title} logo`}
+                        class="h-20 w-20 rounded-full border border-border object-cover"
+                      />
+                    )}
+                    <div>
+                      <>
+                        <p class="mb-2 text-xs font-bold tracking-[0.25em] text-primary uppercase">
+                          Organization
+                        </p>
+                        <h2 class="text-3xl font-black text-foreground md:text-5xl">
+                          {org.data.title}
+                        </h2>
+                      </>
+                    </div>
+                  </div>
+                </header>
+                <nav
+                  class="org-content-tabs mb-6 flex gap-2 overflow-x-auto"
+                  aria-label={`${org.data.title} sections`}
+                >
+                  {[
+                    ["description", "Description"],
+                    ["timeline", "My journey"],
+                    ...org.data.customSections.map(
+                      (
+                        section: CollectionEntry<"orgs">["data"]["customSections"][number],
+                      ) => [section.key, section.title],
+                    ),
+                    ["projects", "Related projects"],
+                  ].map(([key, label], tabIndex) => (
+                    <button
+                      type="button"
+                      class:list={[
+                        "org-content-tab min-w-max rounded-xl border px-3 py-2 text-sm font-bold",
+                        tabIndex === 0
+                          ? "is-active border-primary bg-primary/15 text-primary"
+                          : "border-border bg-muted/15 text-muted-foreground",
+                      ]}
+                      data-org-tab={key}
+                      aria-pressed={tabIndex === 0 ? "true" : "false"}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                  {org.data.website && (
+                    <a
+                      href={org.data.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="min-w-max rounded-xl border border-primary/35 bg-primary/10 px-3 py-2 text-sm font-bold text-primary"
+                    >
+                      Website →
+                    </a>
+                  )}
+                </nav>
+                <div class="org-content-panel" data-org-panel="description">
+                  {DescriptionContent ? (
+                    <div class="article-content prose max-w-none dark:prose-invert">
+                      <DescriptionContent />
+                    </div>
+                  ) : (
+                    <p class="max-w-4xl text-lg leading-relaxed text-muted-foreground">
+                      {org.data.description}
+                    </p>
+                  )}
+                </div>
+                <div class="org-content-panel hidden" data-org-panel="timeline">
+                  <div class="space-y-5">
+                    {org.data.positions.length > 0 ? (
+                      org.data.positions.map(
+                        (
+                          position: CollectionEntry<"orgs">["data"]["positions"][number],
+                        ) => (
+                          <article class="border-l-2 border-primary/40 pl-5">
+                            <div class="flex flex-wrap items-baseline justify-between gap-2">
+                              <h3 class="text-xl font-black text-foreground">
+                                {position.title}
+                              </h3>
+                              <p class="text-sm text-muted-foreground">
+                                {position.startDate.toLocaleDateString(
+                                  "en-US",
+                                  { year: "numeric", month: "short" },
+                                )}{" "}
+                                –{" "}
+                                {position.endDate
+                                  ? position.endDate.toLocaleDateString(
+                                      "en-US",
+                                      { year: "numeric", month: "short" },
+                                    )
+                                  : "Present"}
+                              </p>
+                            </div>
+                            {position.summary && (
+                              <p class="mt-2 text-base leading-relaxed text-muted-foreground">
+                                {position.summary}
+                              </p>
+                            )}
+                          </article>
+                        ),
+                      )
+                    ) : (
+                      <p class="text-muted-foreground">
+                        Add involvement entries to the organization data file.
+                      </p>
+                    )}
+                  </div>
+                </div>
+                {org.data.customSections.map(
+                  (
+                    section: CollectionEntry<"orgs">["data"]["customSections"][number],
+                  ) => (
+                    <div
+                      class="org-content-panel hidden"
+                      data-org-panel={section.key}
+                    >
+                      <div class="grid gap-5 md:grid-cols-[1fr_0.8fr]">
+                        {section.images.length > 0 ? (
+                          <div class="grid gap-3 sm:grid-cols-2">
+                            {section.images.map((image: string) => (
+                              <img
+                                src={image}
+                                alt={`${section.title} at ${org.data.title}`}
+                                loading="lazy"
+                                class="aspect-[4/3] w-full rounded-2xl border border-border object-cover"
+                              />
+                            ))}
+                          </div>
+                        ) : (
+                          <div class="flex min-h-40 items-center justify-center rounded-2xl border border-dashed border-border text-sm text-muted-foreground">
+                            Add photos for this section here.
+                          </div>
+                        )}
+                        <p class="text-lg leading-relaxed text-muted-foreground">
+                          {section.summary}
+                        </p>
+                      </div>
+                    </div>
+                  ),
+                )}
+                <div class="org-content-panel hidden" data-org-panel="projects">
+                  {projectsForOrg(org).length > 0 ? (
+                    <div class="grid gap-4 md:grid-cols-2">
+                      {projectsForOrg(org).map((project) => (
+                        <ProjectCard project={project} />
+                      ))}
+                    </div>
+                  ) : (
+                    <div class="flex min-h-48 items-center justify-center rounded-2xl border border-dashed border-border bg-muted/15 text-sm font-bold tracking-[0.2em] text-muted-foreground uppercase">
+                      Coming soon
+                    </div>
+                  )}
+                </div>
+              </article>
+            );
+          })
+        }
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const initializeCommunity = () => {
+    const selectors = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(".org-select"),
+    );
+    const documents = Array.from(
+      document.querySelectorAll<HTMLElement>(".org-document"),
+    );
+    if (selectors.length === 0) return;
+
+    selectors.forEach((selector) =>
+      selector.addEventListener("click", () => {
+        const id = selector.dataset.orgId || "";
+        selectors.forEach((candidate) => {
+          const selected = candidate.dataset.orgId === id;
+          candidate.classList.toggle("is-selected", selected);
+          candidate.classList.toggle("border-primary/70", selected);
+          candidate.classList.toggle("bg-primary/15", selected);
+          candidate.classList.toggle("border-border", !selected);
+          candidate.classList.toggle("bg-card/65", !selected);
+          candidate.style.borderColor = "";
+          candidate.style.background = "";
+          candidate.setAttribute("aria-pressed", String(selected));
+        });
+
+        documents.forEach((document) =>
+          document.classList.toggle(
+            "hidden",
+            document.dataset.orgDocument !== id,
+          ),
+        );
+      }),
+    );
+
+    documents.forEach((document) => {
+      const tabs = Array.from(
+        document.querySelectorAll<HTMLButtonElement>(".org-content-tab"),
+      );
+      const panels = Array.from(
+        document.querySelectorAll<HTMLElement>(".org-content-panel"),
+      );
+      tabs.forEach((tab) =>
+        tab.addEventListener("click", () => {
+          const key = tab.dataset.orgTab || "description";
+          tabs.forEach((candidate) => {
+            const selected = candidate.dataset.orgTab === key;
+            candidate.classList.toggle("is-active", selected);
+            candidate.classList.toggle("border-primary", selected);
+            candidate.classList.toggle("bg-primary/15", selected);
+            candidate.classList.toggle("text-primary", selected);
+            candidate.classList.toggle("border-border", !selected);
+            candidate.classList.toggle("bg-muted/15", !selected);
+            candidate.classList.toggle("text-muted-foreground", !selected);
+            candidate.setAttribute("aria-pressed", String(selected));
+          });
+          panels.forEach((panel) =>
+            panel.classList.toggle("hidden", panel.dataset.orgPanel !== key),
+          );
+        }),
+      );
+    });
+  };
+
+  document.addEventListener("astro:page-load", initializeCommunity);
+</script>

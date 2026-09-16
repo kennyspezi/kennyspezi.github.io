@@ -12,7 +12,7 @@ interface Props {
 }
 
 const { images, sectionKey = "section", variant = "grid" } = Astro.props;
-const galleryImages =
+const galleryImages: ImageItem[] =
   images && images.length > 0 ? images : [{ src: "", alt: "", caption: "" }];
 
 const heroImage = galleryImages[0] || { src: "", alt: "", caption: "" };
@@ -29,21 +29,21 @@ const heroImage = galleryImages[0] || { src: "", alt: "", caption: "" };
             loading="lazy"
             class="absolute inset-0 h-full w-full object-cover opacity-25"
           />
-          <div class="absolute inset-0 bg-gradient-to-b from-white/70 to-white/40 dark:from-neutral-950/75 dark:to-neutral-950/45" />
+          <div class="absolute inset-0 bg-gradient-to-b from-background/30 to-background/80" />
         </>
       ) : (
-        <div class="absolute inset-0 flex items-center justify-center border-2 border-dashed border-primary/30 bg-primary/5 text-xs text-neutral-500 dark:text-neutral-400">
+        <div class="absolute inset-0 flex items-center justify-center border-2 border-dashed border-primary/30 bg-primary/5 text-xs text-muted-foreground">
           Hero image placeholder ({sectionKey})
         </div>
       )}
 
-      <div class="absolute bottom-3 left-3 rounded-full bg-white/70 px-3 py-1 text-[11px] text-neutral-600 shadow-sm dark:bg-neutral-900/70 dark:text-neutral-300">
+      <div class="absolute bottom-3 left-3 rounded-full border border-border/40 bg-card/80 px-3 py-1 text-[11px] text-muted-foreground shadow-sm">
         Set in src/content/data/site-images.json → {sectionKey}[0].src
       </div>
     </section>
   ) : (
     <section class="mb-10">
-      <p class="mb-3 text-xs text-neutral-500 dark:text-neutral-400">
+      <p class="mb-3 text-xs text-muted-foreground">
         Add image paths in{" "}
         <span class="font-medium">src/content/data/site-images.json</span> under
         key <span class="font-medium">{sectionKey}</span> using /assets/...
@@ -52,7 +52,7 @@ const heroImage = galleryImages[0] || { src: "", alt: "", caption: "" };
 
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {galleryImages.map((image) => (
-          <figure class="dark:bg-bg-secondary-dark rounded-2xl border border-primary/15 bg-white/80 p-3 backdrop-blur-sm">
+          <figure class="rounded-2xl border border-primary/25 bg-card/70 p-3 backdrop-blur-sm">
             {image.src && image.src.trim().length > 0 ? (
               <img
                 src={image.src}
@@ -61,12 +61,12 @@ const heroImage = galleryImages[0] || { src: "", alt: "", caption: "" };
                 loading="lazy"
               />
             ) : (
-              <div class="flex h-48 w-full items-center justify-center rounded-xl border-2 border-dashed border-primary/30 bg-primary/5 text-xs text-neutral-500 dark:text-neutral-400">
+              <div class="flex h-48 w-full items-center justify-center rounded-xl border-2 border-dashed border-primary/30 bg-primary/5 text-xs text-muted-foreground">
                 Image placeholder ({sectionKey})
               </div>
             )}
             {image.caption && (
-              <figcaption class="mt-2 text-xs text-neutral-500 dark:text-neutral-400">
+              <figcaption class="mt-2 text-xs text-muted-foreground">
                 {image.caption}
               </figcaption>
             )}

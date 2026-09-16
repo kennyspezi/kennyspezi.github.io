@@ -22,56 +22,45 @@
 .sidebar-toggle:focus {
   outline: 2px solid var(--primary);
 }
+
+/* Keep route changes from adding a different-looking active navigation surface. */
+aside[data-pagefind-ignore="all"] nav a[aria-current="page"] {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @custom-variant dark (&:where(.dark, .dark *));
 
 @import "./theme.css";
 
-/* Slightly reduce the base scale on larger screens to match the requested zoomed-out feel. */
 html {
-  font-size: 16px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 14px;
-  }
-}
-
-@media (min-width: 1280px) {
-  html {
-    font-size: 13px;
-  }
+  font-size: 17px;
 }
 
 .cute-theme-bg {
   background-image:
     radial-gradient(
       circle at 14% 18%,
-      oklch(0.77 0.17 48 / 0.16) 0,
+      rgba(202, 55, 43, 0.23) 0,
       transparent 22rem
     ),
     radial-gradient(
       circle at 80% 12%,
-      oklch(0.7 0.15 330 / 0.14) 0,
+      rgba(37, 66, 82, 0.32) 0,
       transparent 19rem
     ),
     radial-gradient(
       circle at 68% 75%,
-      oklch(0.7 0.16 286 / 0.14) 0,
+      rgba(249, 152, 47, 0.2) 0,
       transparent 24rem
     ),
     radial-gradient(
       circle at 24% 82%,
-      oklch(0.26 0.06 258 / 0.18) 0,
+      rgba(202, 55, 43, 0.18) 0,
       transparent 24rem
     ),
-    linear-gradient(
-      180deg,
-      color-mix(in oklch, var(--background) 88%, oklch(0.9 0.04 30) 12%),
-      var(--background)
-    );
+    linear-gradient(180deg, rgba(23, 28, 45, 0.95), var(--background));
   background-attachment: fixed;
 }
 

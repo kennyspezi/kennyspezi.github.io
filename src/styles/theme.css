@@ -1,47 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --background: oklch(0.975 0.02 52);
-  --foreground: oklch(0.23 0.05 272);
+  --background: #171c2d;
+  --foreground: #f5f1eb;
 
-  --card: oklch(0.99 0.01 35);
-  --card-foreground: oklch(0.22 0.05 272);
+  --card: #1f2e3f;
+  --card-foreground: #f5f1eb;
 
-  --primary: oklch(0.68 0.2 45);
-  --primary-foreground: oklch(0.18 0.04 272);
+  --primary: #e85d4a;
+  --primary-foreground: #1a2235;
 
-  --muted: oklch(0.95 0.02 24);
-  --muted-foreground: oklch(0.42 0.06 286);
+  --muted: #1b2b3d;
+  --muted-foreground: #f5b27d;
 
-  --border: oklch(0.9 0.03 286);
-  --shadow-main: 0 18px 48px -18px oklch(0.26 0.07 272 / 0.18);
+  --border: #f4a567;
+  --shadow-main: 0 34px 72px -22px rgba(15, 22, 36, 0.8);
 
-  --callout-info: oklch(0.66 0.16 278);
-  --callout-warning: oklch(0.76 0.17 52);
-  --callout-danger: oklch(0.68 0.18 20);
-  --callout-success: oklch(0.68 0.12 330);
-}
-
-.dark {
-  --background: oklch(0.16 0.05 270);
-  --foreground: oklch(0.93 0.02 38);
-
-  --card: oklch(0.21 0.045 268);
-  --card-foreground: oklch(0.92 0.02 38);
-
-  --primary: oklch(0.76 0.18 48);
-  --primary-foreground: oklch(0.17 0.04 270);
-
-  --muted: oklch(0.26 0.04 292);
-  --muted-foreground: oklch(0.78 0.03 22);
-
-  --border: oklch(0.33 0.05 290);
-  --shadow-main: 0 34px 72px -22px oklch(0.02 0.03 270 / 0.7);
-
-  --callout-info: oklch(0.72 0.17 278);
-  --callout-warning: oklch(0.8 0.17 52);
-  --callout-danger: oklch(0.72 0.17 24);
-  --callout-success: oklch(0.74 0.14 340);
+  --callout-info: #254252;
+  --callout-warning: #f7a45a;
+  --callout-danger: #ca372b;
+  --callout-success: #f4a567;
 }
 
 @theme inline {

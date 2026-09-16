@@ -1,5 +1,11 @@
 export interface GitHubProject {
   title: string;
+  subtitle?: string;
+  checklist?: Array<{
+    key: string;
+    status: "done" | "inprogress" | "todo";
+    title: string;
+  }>;
   description: string;
   tech: string[];
   tags: string[];
@@ -20,6 +26,10 @@ export interface GitHubProject {
   buildsOnLabels?: string[];
   buildsOnUrls?: string[];
   repo?: string;
+  startDate?: string;
+  endDate?: string;
+  lessonsLearned?: string;
+  pending?: string;
   updatedAt?: string;
   previewImage?: string;
   images?: string[];
@@ -34,20 +44,32 @@ export interface GitHubProject {
   forkedFromUrl?: string;
 }
 
-export function getProjectOverride(project: any, overrides: any = {}) {
+export function getProjectOverride(
+  project: any,
+  overrides: any = {},
+): Record<string, any> {
   const repoKey = String(project.repo || project.links?.github || "")
     .replace(/^https?:\/\/github\.com\//, "")
     .toLowerCase();
   const slugKey = String(project.slug || "").toLowerCase();
-  const repoOverrides = Object.fromEntries(
+  const titleKey = String(project.title || "")
+    .trim()
+    .toLowerCase();
+  const repoOverrides: Record<string, any> = Object.fromEntries(
     Object.entries(overrides?.repos || {}).map(([key, value]) => [
       String(key).toLowerCase(),
       value,
     ]),
   );
-  const slugOverrides = Object.fromEntries(
+  const slugOverrides: Record<string, any> = Object.fromEntries(
     Object.entries(overrides?.slugs || {}).map(([key, value]) => [
       String(key).toLowerCase(),
+      value,
+    ]),
+  );
+  const titleOverrides: Record<string, any> = Object.fromEntries(
+    Object.entries(overrides?.titles || {}).map(([key, value]) => [
+      String(key).trim().toLowerCase(),
       value,
     ]),
   );
@@ -55,7 +77,58 @@ export function getProjectOverride(project: any, overrides: any = {}) {
   return {
     ...(repoKey ? repoOverrides[repoKey] || {} : {}),
     ...(slugKey ? slugOverrides[slugKey] || {} : {}),
+    ...(titleKey ? titleOverrides[titleKey] || {} : {}),
   };
+}
+
+export function projectDateValue(value: unknown): number {
+  if (!value) return 0;
+  if (value instanceof Date) return value.getTime();
+
+  const text = String(value).trim();
+  if (text.toLowerCase() === "current" || text.toLowerCase() === "present") {
+    return Number.MAX_SAFE_INTEGER;
+  }
+
+  const semester = text.match(/^(spring|summer|fall|winter)\s+(\d{4})$/i);
+  if (semester) {
+    const monthByTerm: Record<string, number> = {
+      winter: 0,
+      spring: 2,
+      summer: 5,
+      fall: 8,
+    };
+    return new Date(
+      Number(semester[2]),
+      monthByTerm[semester[1].toLowerCase()],
+      1,
+    ).getTime();
+  }
+
+  const parsed = new Date(text).getTime();
+  return Number.isNaN(parsed) ? 0 : parsed;
+}
+
+export function normalizeChecklist(value: unknown) {
+  const entries = Array.isArray(value)
+    ? value.map((item, index) => [String(index + 1), item])
+    : value && typeof value === "object"
+      ? Object.entries(value)
+      : [];
+
+  return entries.flatMap(([key, item]) => {
+    if (!item || typeof item !== "object") return [];
+    const record = item as Record<string, unknown>;
+    const rawStatus = String(record.status || "todo").toLowerCase();
+    const status =
+      rawStatus === "done"
+        ? "done"
+        : rawStatus === "inprogress" || rawStatus === "in-progress"
+          ? "inprogress"
+          : "todo";
+    const title = String(record.title || "").trim();
+    return title ? [{ key, status, title }] : [];
+  });
 }
 
 export function applyProjectOverride(project: any, overrides: any = {}) {
@@ -107,6 +180,12 @@ export function normalizeProject(
     manual: isManual || !!p.manual,
     links: p.links || {},
     status: p.status || "idea",
+    subtitle: p.subtitle || "",
+    checklist: normalizeChecklist(p.checklist),
+    startDate: p.startDate,
+    endDate: p.endDate,
+    lessonsLearned: p.lessonsLearned || "",
+    pending: p.pending || "",
     title: p.title || "Untitled",
     description: p.description || "",
   };

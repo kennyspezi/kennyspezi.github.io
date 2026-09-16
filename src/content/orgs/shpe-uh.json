@@ -1,0 +1,25 @@
+{
+  "slug": "shpe-uh",
+  "title": "SHPE at the University of Houston",
+  "description": "A community for Hispanic students and professionals in engineering, science, technology, and mathematics.",
+  "website": "https://www.shpeuh.com/",
+  "logo": "/assets/orgs/shpe-uh/logo.jpg",
+  "period": "Fall 2026 - Ongoing",
+  "tags": ["students", "community", "professional-development", "engineering"],
+  "repoLinks": [],
+  "accent": "#f9982f",
+  "accentSoft": "rgba(249, 152, 47, 0.12)",
+  "relatedProjects": [],
+  "positions": [
+    {
+      "title": "Project Committee Volunteer",
+      "startDate": "08-26-2026",
+      "summary": "Help students stay on track during SHPE workshops."
+    },
+    {
+      "title": "MentorSHPE Mentor",
+      "startDate": "08-26-2026",
+      "summary": "TBD"
+    }
+  ]
+}

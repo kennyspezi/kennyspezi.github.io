@@ -1,8 +1,8 @@
 [
-  "kennyspezi/astro-theme-breeze",
-  "kennyspezi/bt-headphones",
   "kennyspezi/heatindextracker",
-  "kennyspezi/ionic-drone",
-  "kennyspezi/port-oscope",
-  "kennyspezi/yapbot"
+  "kennyspezi/kennyspezi.github.io",
+  "kennyspezi/battlebots",
+  "kennyspezi/esp32-iot-r5",
+  "kennyspezi/radio-powersupply",
+  "MAST-2026/medical-autonomous-streamlined-triage"
 ]

@@ -38,6 +38,15 @@ const projects = defineCollection({
   schema: z.object({
     slug: z.string().optional(),
     title: z.string(),
+    subtitle: z.string().optional(),
+    checklist: z
+      .record(
+        z.object({
+          status: z.enum(["done", "inprogress", "in-progress", "todo"]),
+          title: z.string(),
+        }),
+      )
+      .optional(),
     description: z.string().optional(),
     tech: z.array(z.string()).optional().default([]),
     tags: z.array(z.string()).optional().default([]),
@@ -46,6 +55,9 @@ const projects = defineCollection({
         homepage: z.string().url().optional(),
         github: z.string().url().optional(),
         demo: z.string().url().optional(),
+        schematic: z.string().url().optional(),
+        bom: z.string().url().optional(),
+        designFiles: z.string().url().optional(),
       })
       .optional(),
     status: z
@@ -64,6 +76,10 @@ const projects = defineCollection({
       ])
       .default("idea"),
     contributorsWanted: z.boolean().optional(),
+    startDate: z.string().optional(),
+    endDate: z.string().optional(),
+    lessonsLearned: z.string().optional(),
+    pending: z.string().optional(),
     manual: z.boolean().optional(),
     cardEmoji: z.string().optional(),
     statusNote: z.string().optional(),
@@ -175,10 +191,32 @@ const orgs = defineCollection({
     description: z.string(),
     tags: z.array(z.string()).default([]),
     website: z.string().url().optional(),
+    period: z.string().optional(),
     repoLinks: z.array(z.string()).default([]),
     logo: z.string().optional(),
     heroImage: z.string().optional(),
+    accent: z.string().optional(),
+    accentSoft: z.string().optional(),
     relatedProjects: z.array(z.string()).default([]),
+    customSections: z
+      .array(
+        z.object({
+          key: z.string(),
+          title: z.string(),
+          summary: z.string(),
+          images: z.array(z.string()).default([]),
+        }),
+      )
+      .default([]),
+    contributionGroups: z
+      .array(
+        z.object({
+          title: z.string(),
+          summary: z.string(),
+          images: z.array(z.string()).default([]),
+        }),
+      )
+      .default([]),
     positions: z
       .array(
         z.object({
@@ -204,6 +242,21 @@ const orgSummaries = defineCollection({
   }),
 });
 
+const professionalDevelopment = defineCollection({
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/professional-development",
+  }),
+  schema: z.object({
+    section: z.enum(["experiences", "goals"]),
+    title: z.string(),
+    period: z.string().optional(),
+    summary: z.string().optional().default(""),
+    logo: z.string().optional(),
+    order: z.number().default(0),
+  }),
+});
+
 export const collections = {
   posts,
   projects,
@@ -214,4 +267,5 @@ export const collections = {
   projectJournal,
   orgs,
   orgSummaries,
+  professionalDevelopment,
 };

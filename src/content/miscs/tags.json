@@ -6,6 +6,7 @@
   { "name": "Battery Systems", "slug": "battery-systems" },
   { "name": "Bluetooth", "slug": "bluetooth" },
   { "name": "Combat Robotics", "slug": "combat-robotics" },
+  { "name": "Career", "slug": "career" },
   { "name": "Embedded Systems", "slug": "embedded-systems" },
   { "name": "Electronics", "slug": "electronics" },
   { "name": "Git", "slug": "git" },
@@ -23,8 +24,10 @@
   { "name": "Project Journals", "slug": "project-journals" },
   { "name": "RF", "slug": "rf-systems" },
   { "name": "Robotics", "slug": "robotics" },
+  { "name": "Rockets", "slug": "rockets" },
   { "name": "Satellites", "slug": "satellites" },
   { "name": "Sensors", "slug": "sensors" },
   { "name": "Signal Processing", "slug": "signal-processing" },
-  { "name": "Wireless Systems", "slug": "wireless-systems" }
+  { "name": "Wireless Systems", "slug": "wireless-systems" },
+  { "name": "Life", "slug": "life" }
 ]

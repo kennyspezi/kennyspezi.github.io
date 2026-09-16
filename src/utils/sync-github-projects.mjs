@@ -521,12 +521,12 @@ const run = async () => {
       let readme = "";
       let images = [];
       try {
-        // Try to fetch README.md from GitHub
-        const readmeRes = await fetch(
-          `https://raw.githubusercontent.com/${repo.full_name}/${defaultBranch}/README.md`,
+        // Fetch README through the API to avoid stale raw-content CDN responses.
+        const readmeData = await fetchJson(
+          `https://api.github.com/repos/${repo.full_name}/contents/README.md?ref=${encodeURIComponent(defaultBranch)}`,
         );
-        if (readmeRes.ok) {
-          readme = await readmeRes.text();
+        if (readmeData.encoding === "base64" && readmeData.content) {
+          readme = Buffer.from(readmeData.content, "base64").toString("utf-8");
           const rewritten = rewriteMarkdownLinks(
             readme,
             repo.full_name,
@@ -556,16 +556,24 @@ const run = async () => {
         commits = [];
       }
 
-      // Merge in overrides (by repo full_name and by slug)
+      // Merge in overrides by repo, slug, or the current human-readable title.
       const slug = toSlug(repo.name);
+      const titleOverride =
+        Object.entries(existingOverrides?.titles || {}).find(
+          ([key]) =>
+            String(key).trim().toLowerCase() === repo.name.trim().toLowerCase(),
+        )?.[1] || {};
       const override = {
         ...(existingOverrides?.repos?.[repo.full_name] || {}),
         ...(existingOverrides?.slugs?.[slug] || {}),
+        ...titleOverride,
       };
 
       const project = {
         slug,
-        title: repo.name,
+        title: override.title || repo.name,
+        subtitle: override.subtitle,
+        checklist: override.checklist,
         description: repo.description || "No description provided yet.",
         repo: repo.full_name,
         status: override.status || (repo.archived ? "archived" : "idea"),
@@ -594,6 +602,10 @@ const run = async () => {
         commits,
         cardEmoji: override.cardEmoji,
         statusNote: override.statusNote,
+        startDate: override.startDate,
+        endDate: override.endDate,
+        lessonsLearned: override.lessonsLearned,
+        pending: override.pending,
         links: {
           github: repo.html_url,
           homepage: repo.homepage || undefined,
@@ -635,10 +647,21 @@ const run = async () => {
   const nextOverrides = {
     _notes: existingOverrides?._notes || {
       howToUse:
-        "Set custom project metadata per repo here. Use full GitHub repo names under repos or project slugs under slugs. Useful fields include status, statusNote, tags, tech, contributorsWanted, cardEmoji, hackathonName, hackathonUrl, replacementLabel, replacementUrl, buildsOnLabels, buildsOnUrls, forkedFrom, forkedFromUrl, previewImage, images, and links.",
+        "Set custom project metadata by repo, slug, or human-readable title. Use titles when you want a stable manual label for a synced repository. Useful fields include title, status, startDate, endDate, lessonsLearned, pending, statusNote, tags, tech, contributorsWanted, cardEmoji, previewImage, images, and links.",
       fieldGuide: {
+        title: "Manual display title for the project.",
+        subtitle: "Short subtitle shown below the project title.",
+        checklist:
+          "Keyed object of checklist entries with status (done, inprogress, or todo) and title.",
         status: "One of the allowed status values below.",
         statusNote: "Small note shown on project cards and project pages.",
+        startDate:
+          "Exact date or semester label such as Fall 2026, Summer 2026, or Winter 2027; used for timeline ordering.",
+        endDate:
+          "Optional exact date or semester label for completion or pause. Use current or present for ongoing work.",
+        lessonsLearned:
+          "Short description of the skills or technical lessons learned.",
+        pending: "Short description of the next milestone or unfinished work.",
         tags: "Array of short topical labels.",
         tech: "Array of tools/languages/hardware labels.",
         contributorsWanted: "Boolean flag for collaboration.",
@@ -672,6 +695,7 @@ const run = async () => {
     },
     repos: seededRepoOverrides,
     slugs: existingOverrides?.slugs || {},
+    titles: existingOverrides?.titles || {},
   };
 
   await writeFile(
