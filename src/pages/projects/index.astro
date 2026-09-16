@@ -158,10 +158,10 @@ const escapeJson = (value: unknown) =>
     class="animate-in fade-in mx-auto flex h-full min-h-0 w-full max-w-[1500px] flex-col px-4 py-6 duration-700 md:px-6 md:py-8"
   >
     <div
-      class="grid min-h-0 flex-1 gap-4 lg:grid-cols-[minmax(20rem,0.8fr)_minmax(0,1.8fr)]"
+      class="grid min-h-0 min-w-0 flex-1 gap-4 max-md:grid-rows-[auto_minmax(0,1fr)] lg:grid-cols-[minmax(20rem,0.8fr)_minmax(0,1.8fr)]"
     >
       <aside
-        class="flex min-h-0 flex-col rounded-3xl border border-primary/25 bg-primary/5 p-3"
+        class="flex min-h-0 flex-col rounded-3xl border border-primary/25 bg-primary/5 p-3 max-md:max-h-[35vh] max-md:overflow-y-auto"
       >
         <header class="mb-4 shrink-0 border-b border-primary/15 px-3 pt-3 pb-4">
           <h1
@@ -175,15 +175,22 @@ const escapeJson = (value: unknown) =>
           <p class="text-xs font-bold tracking-[0.25em] text-primary uppercase">
             Timeline
           </p><span class="text-xs text-muted-foreground"
-            >{timelineProjects.length} entries</span>
+            >{timelineProjects.length} entries</span
+          >
         </div>
-        <div class="min-h-0 flex-1 overflow-y-auto pr-1">
-          <ol class="space-y-2">
+        <div
+          class="min-h-0 flex-1 overflow-y-auto pr-1 max-md:flex-none max-md:overflow-x-auto max-md:overflow-y-hidden max-md:pb-1"
+        >
+          <ol
+            class="space-y-2 max-md:flex max-md:w-max max-md:gap-2 max-md:space-y-0"
+          >
             {
               projectsWithReadmes.map((project, index) => (
-                <li>
+                <li class="max-md:w-[min(68vw,16rem)] max-md:flex-none">
                   <button
                     type="button"
+                    title={project.title}
+                    aria-label={project.title}
                     class:list={[
                       "project-timeline-item group w-full rounded-2xl border p-4 text-left transition-all hover:-translate-y-0.5 hover:border-primary/70",
                       index === 0
@@ -216,36 +223,6 @@ const escapeJson = (value: unknown) =>
             }
           </ol>
         </div>
-
-        <nav
-          aria-label="More portfolio sections"
-          class="mt-4 flex shrink-0 gap-2 overflow-x-auto border-t border-primary/15 pt-4"
-        >
-          <a
-            href="/community"
-            class="min-w-max flex-1 rounded-xl border border-primary/30 bg-primary/10 px-3 py-2 transition-colors hover:border-primary hover:bg-primary/15"
-          >
-            <span
-              class="block text-[9px] font-bold tracking-[0.15em] text-primary uppercase"
-              >Community</span
-            >
-            <span class="mt-1 block text-sm font-black text-foreground"
-              >Involvement →</span
-            >
-          </a>
-          <a
-            href="/professional-development"
-            class="min-w-max flex-1 rounded-xl border border-primary/35 bg-primary/10 px-3 py-2 transition-colors hover:border-primary hover:bg-primary/15"
-          >
-            <span
-              class="block text-[9px] font-bold tracking-[0.15em] text-primary uppercase"
-              >Professional</span
-            >
-            <span class="mt-1 block text-sm font-black text-foreground"
-              >Development →</span
-            >
-          </a>
-        </nav>
       </aside>
 
       <section

@@ -80,7 +80,7 @@ const renderedEntries = await Promise.all(
       class="grid min-h-0 flex-1 gap-4 lg:grid-cols-[minmax(20rem,0.8fr)_minmax(0,1.8fr)]"
     >
       <aside
-        class="min-h-0 overflow-y-auto rounded-3xl border border-primary/25 bg-primary/5 p-3"
+        class="min-h-0 overflow-y-auto rounded-3xl border border-primary/25 bg-primary/5 p-3 max-md:overflow-x-auto max-md:overflow-y-hidden"
       >
         {
           (["experiences", "goals"] as const).map((section) => {
@@ -89,7 +89,7 @@ const renderedEntries = await Promise.all(
             return (
               <div
                 class:list={[
-                  "entry-section-list",
+                  "entry-section-list max-md:w-max",
                   section !== initialSection && "hidden",
                 ]}
                 data-section-list={section}
@@ -104,12 +104,14 @@ const renderedEntries = await Promise.all(
                       : "What I am working toward next."}
                   </p>
                 </div>
-                <div class="space-y-2">
+                <div class="space-y-2 max-md:flex max-md:w-max max-md:gap-2 max-md:space-y-0">
                   {sectionEntries.map((entry, index) => (
                     <button
                       type="button"
+                      title={entry.data.title}
+                      aria-label={entry.data.title}
                       class:list={[
-                        "entry-select group w-full rounded-2xl border p-4 text-left transition-all hover:-translate-y-0.5 hover:border-primary/70",
+                        "entry-select group flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl border p-2 text-left transition-all hover:-translate-y-0.5 hover:border-primary/70 max-md:w-[min(30vw,8rem)] max-md:flex-none",
                         index === 0
                           ? "is-selected border-primary/70 bg-primary/15"
                           : "border-border bg-card/65",
@@ -118,26 +120,23 @@ const renderedEntries = await Promise.all(
                       data-entry-section={section}
                       aria-pressed={index === 0 ? "true" : "false"}
                     >
-                      <div class="flex items-center gap-3">
-                        {"logo" in entry.data && entry.data.logo && (
-                          <img
-                            src={entry.data.logo}
-                            alt=""
-                            class="h-10 w-10 shrink-0 rounded-full border border-border object-cover"
-                          />
-                        )}
-                        <span class="block text-lg font-black text-foreground group-hover:text-primary">
-                          {entry.data.title}
-                        </span>
-                      </div>
-                      {entry.data.period && (
-                        <span class="mt-1 block text-sm font-semibold text-primary">
-                          {entry.data.period}
+                      {"logo" in entry.data && entry.data.logo ? (
+                        <img
+                          src={entry.data.logo}
+                          alt={entry.data.title}
+                          class="h-full w-full rounded-xl object-cover"
+                        />
+                      ) : entry.data.title.startsWith("Amazon") ? (
+                        <img
+                          src="/assets/orgs/amazon/logo.jpg"
+                          alt="Amazon"
+                          class="h-full w-full rounded-xl object-cover"
+                        />
+                      ) : (
+                        <span class="text-4xl" aria-hidden="true">
+                          🎓
                         </span>
                       )}
-                      <span class="mt-2 block text-sm leading-relaxed text-muted-foreground">
-                        {entry.data.summary}
-                      </span>
                     </button>
                   ))}
                 </div>

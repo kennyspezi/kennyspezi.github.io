@@ -1,8 +1,6 @@
 ---
 import site from "@/config/site";
 import { Icon } from "astro-icon/components";
-import SearchBox from "@/components/layout/SearchBox.astro";
-import SearchModal from "@/components/blocks/SearchModal.astro";
 import { getPublishedPosts } from "@/utils/post";
 
 interface Props {
@@ -18,13 +16,16 @@ const navigation = site.navigation.filter(
 
 <aside
   class:list={[
-    "flex w-full flex-col border-b border-border bg-card p-5 shadow-[inset_0_1px_0_rgba(244,165,103,0.25),inset_0_0_0_1px_rgba(202,55,43,0.12)] transition-[width,padding] duration-300 ease-out md:border-r md:border-b-0",
+    "flex w-full flex-col border-b border-border bg-card p-3 shadow-[inset_0_1px_0_rgba(244,165,103,0.25),inset_0_0_0_1px_rgba(202,55,43,0.12)] transition-[width,padding] duration-300 ease-out md:border-r md:border-b-0 md:p-5",
     compact ? "md:w-20" : "md:w-48",
   ]}
   data-pagefind-ignore="all"
 >
   <div
-    class:list={["mb-4 flex", compact ? "justify-center" : "justify-center"]}
+    class:list={[
+      "mb-3 flex max-md:hidden md:mb-4",
+      compact ? "justify-center" : "justify-center",
+    ]}
   >
     <a
       href="/"
@@ -44,12 +45,10 @@ const navigation = site.navigation.filter(
     </a>
   </div>
 
-  {!compact && <SearchBox />}
-
   <nav
     class:list={[
-      "no-scrollbar flex flex-1 flex-wrap overflow-x-auto max-md:justify-between md:flex-col md:overflow-x-visible",
-      compact ? "items-center gap-4 md:gap-4" : "gap-2.5 md:gap-2.5",
+      "no-scrollbar flex flex-nowrap overflow-x-auto max-md:justify-start md:flex-1 md:flex-col md:overflow-x-visible",
+      compact ? "items-center gap-4 md:gap-4" : "gap-2 md:gap-2.5",
     ]}
   >
     {
@@ -67,7 +66,7 @@ const navigation = site.navigation.filter(
               "group flex rounded-2xl border border-transparent transition-all duration-250 hover:border-primary/20 hover:bg-primary/10",
               compact
                 ? "h-12 w-12 items-center justify-center p-0"
-                : "min-w-24 items-center gap-2.5 px-3.5 py-2.5",
+                : "min-w-max items-center gap-2 px-3 py-2 md:min-w-24 md:gap-2.5 md:px-3.5 md:py-2.5",
             ]}
             title={item.name}
             aria-label={item.name}
@@ -95,7 +94,7 @@ const navigation = site.navigation.filter(
 
   <div
     class:list={[
-      "mt-8 flex items-center md:mt-10",
+      "mt-3 flex items-center md:mt-10",
       compact ? "flex-col justify-center gap-4" : "justify-between",
     ]}
   >
@@ -123,6 +122,4 @@ const navigation = site.navigation.filter(
       }
     </div>
   </div>
-
-  {!compact && <SearchModal />}
 </aside>

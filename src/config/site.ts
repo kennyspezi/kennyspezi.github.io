@@ -10,7 +10,7 @@ const meta = {
     "kennyspezi, electronics, student, projects, tinkering, learning, engineering, electrical engineering, hobbyist",
   mail: "kennyspezi@proton.me",
   linkedin: "https://www.linkedin.com/in/karla-kenny-madrigal/",
-  resume: "/assets/resume.pdf",
+  resume: "/assets/karlaMadrigal_resume.pdf",
   url: import.meta.env.PUBLIC_SITE_URL || "https://kennyspezi.github.io/",
 } as const;
 

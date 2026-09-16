@@ -71,7 +71,7 @@ const projectsForOrg = (org: (typeof orgs)[number]) => {
       class="grid min-h-0 flex-1 gap-4 lg:grid-cols-[minmax(18rem,0.8fr)_minmax(0,1.8fr)]"
     >
       <aside
-        class="min-h-0 overflow-y-auto rounded-3xl border border-primary/25 bg-primary/5 p-3"
+        class="min-h-0 overflow-y-auto rounded-3xl border border-primary/25 bg-primary/5 p-3 max-md:overflow-x-auto max-md:overflow-y-hidden"
       >
         <div class="mb-3 px-3 py-2">
           <p class="text-xs font-bold tracking-[0.25em] text-primary uppercase">
@@ -81,13 +81,15 @@ const projectsForOrg = (org: (typeof orgs)[number]) => {
             Select a community to explore.
           </p>
         </div>
-        <div class="space-y-2">
+        <div
+          class="space-y-2 max-md:flex max-md:w-max max-md:gap-2 max-md:space-y-0"
+        >
           {
             orgs.map((org, index) => (
               <button
                 type="button"
                 class:list={[
-                  "org-select group w-full rounded-2xl border p-4 text-left transition-all hover:-translate-y-0.5",
+                  "org-select group flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl border p-2 text-left transition-all hover:-translate-y-0.5 max-md:w-24 max-md:flex-none",
                   index === 0
                     ? "is-selected border-primary/70 bg-primary/15"
                     : "border-border bg-card/65",
@@ -95,39 +97,24 @@ const projectsForOrg = (org: (typeof orgs)[number]) => {
                 data-org-id={org.id}
                 aria-pressed={index === 0 ? "true" : "false"}
               >
-                <div class="mb-3 flex items-start justify-between gap-3">
-                  <div class="flex items-center gap-3">
-                    {org.data.logo ? (
-                      <img
-                        src={org.data.logo}
-                        alt=""
-                        class="h-12 w-12 rounded-full border border-border object-cover"
-                      />
-                    ) : (
-                      <span class="flex h-12 w-12 items-center justify-center rounded-xl border border-primary/30 bg-primary/10 text-sm font-black text-primary">
-                        {org.data.title
-                          .split(/\s+/)
-                          .map((word: string) => word[0])
-                          .join("")
-                          .slice(0, 3)}
-                      </span>
-                    )}
-                    <span class="text-lg font-black text-foreground">
-                      {org.data.title.replace(
-                        " at the University of Houston",
-                        "",
-                      )}
-                    </span>
-                  </div>
-                  {org.data.period && (
-                    <span class="shrink-0 text-right text-xs leading-tight font-bold text-primary">
-                      {org.data.period}
-                    </span>
-                  )}
-                </div>
-                <span class="block text-sm leading-relaxed text-muted-foreground">
-                  {org.data.description}
-                </span>
+                {org.data.logo ? (
+                  <img
+                    src={org.data.logo}
+                    alt={org.data.title}
+                    class="h-full w-full rounded-xl object-cover"
+                  />
+                ) : (
+                  <span
+                    class="text-2xl font-black text-primary"
+                    aria-hidden="true"
+                  >
+                    {org.data.title
+                      .split(/\s+/)
+                      .map((word: string) => word[0])
+                      .join("")
+                      .slice(0, 3)}
+                  </span>
+                )}
               </button>
             ))
           }
