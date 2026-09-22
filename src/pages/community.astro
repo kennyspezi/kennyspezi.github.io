@@ -81,15 +81,13 @@ const projectsForOrg = (org: (typeof orgs)[number]) => {
             Select a community to explore.
           </p>
         </div>
-        <div
-          class="space-y-2 max-md:flex max-md:w-max max-md:gap-2 max-md:space-y-0"
-        >
+        <div class="flex flex-wrap gap-2 max-md:w-max max-md:flex-nowrap">
           {
             orgs.map((org, index) => (
               <button
                 type="button"
                 class:list={[
-                  "org-select group flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl border p-2 text-left transition-all hover:-translate-y-0.5 max-md:w-16 max-md:flex-none",
+                  "org-select group flex aspect-square w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border p-2 text-left transition-all hover:-translate-y-0.5",
                   index === 0
                     ? "is-selected border-primary/70 bg-primary/15"
                     : "border-border bg-card/65",
