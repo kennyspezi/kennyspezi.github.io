@@ -17,5 +17,8 @@ I have more to say about my experience but I'll add all of that later.
 ![Mepong](../../../public/assets/orgs/ieeeuh/mepong.gif)
 ![Pong](../../../public/assets/orgs/ieeeuh/pong.gif)
 ![Soldering workshop battery](../../../public/assets/orgs/ieeeuh/soldering_ws_battery.gif)
+![PCBWS](../../../public/assets/orgs/ieeeuh/me_pcb_workshop.jpg)
 ![KiCad plugins workshop](../../../public/assets/orgs/ieeeuh/ws-f25-kicadplugins.png)
 ![Fall soldering workshop](../../../public/assets/orgs/ieeeuh/ws_f25_solder2.jpg)
+![Circuit Speed Dating Flyer1](../../../public/assets/orgs/ieeeuh/555_timer_csd.jpg)
+![IEEEHOU](../../../public/assets/orgs/ieeeuh/ieeehou-1.jpg)

@@ -71,9 +71,9 @@ const projectsForOrg = (org: (typeof orgs)[number]) => {
       class="grid min-h-0 flex-1 gap-4 lg:grid-cols-[minmax(18rem,0.8fr)_minmax(0,1.8fr)]"
     >
       <aside
-        class="min-h-0 overflow-y-auto rounded-3xl border border-primary/25 bg-primary/5 p-3 max-md:overflow-x-auto max-md:overflow-y-hidden"
+        class="min-h-0 overflow-y-auto rounded-3xl border border-primary/25 bg-primary/5 p-3 max-md:overflow-x-auto max-md:overflow-y-hidden max-md:p-2"
       >
-        <div class="mb-3 px-3 py-2">
+        <div class="mb-3 px-3 py-2 max-md:hidden">
           <p class="text-xs font-bold tracking-[0.25em] text-primary uppercase">
             Organizations
           </p>
@@ -89,7 +89,7 @@ const projectsForOrg = (org: (typeof orgs)[number]) => {
               <button
                 type="button"
                 class:list={[
-                  "org-select group flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl border p-2 text-left transition-all hover:-translate-y-0.5 max-md:w-24 max-md:flex-none",
+                  "org-select group flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl border p-2 text-left transition-all hover:-translate-y-0.5 max-md:w-16 max-md:flex-none",
                   index === 0
                     ? "is-selected border-primary/70 bg-primary/15"
                     : "border-border bg-card/65",

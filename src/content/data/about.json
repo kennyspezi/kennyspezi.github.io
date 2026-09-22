@@ -1,36 +1,15 @@
 {
-  "title": "About Kenny",
   "intro": "Electrical engineering student at the University of Houston, builder of embedded systems, flight software experiments, and big technical side quests.",
-  "homeGif": "/assets/me.gif",
+  "homeGif": "/assets/me.jpg",
   "profile": {
     "name": "Karla \"Kenny\" Madrigal",
     "pronouns": "she/they",
-    "location": "Houston, Texas",
-    "bio": [
-      "I care most about building systems that feel real: hardware that gets tested, software that gets validated, and projects that teach me how to turn an idea into a working thing.",
-      "Right now I'm narrowing my focus after stretching myself across too many student org responsibilities and workshops. I'm learning to be more intentional with my time and more specific about the kind of engineering work I want to do."
-    ]
+    "location": "Houston, Texas"
   },
   "buttons": {
     "resumeLabel": "Resume",
     "resumeHref": "/assets/karlaMadrigal_resume.pdf",
     "emailLabel": "Email Me",
     "emailHref": "mailto:kennyspezi@proton.me"
-  },
-  "playlist": {
-    "title": "A Playlist :^]",
-    "description": "Put a Spotify playlist, album, or mix here.",
-    "embedUrl": "https://open.spotify.com/embed/playlist/37i9dQZF1Fx0OpIJWWe6qp?utm_source=generator",
-    "fallbackLink": ""
-  },
-  "story": {
-    "heading": "What I'm looking for in my career",
-    "paragraphs": [
-      "I’m looking for work where I can stay close to hardware, be part of the design and validation loop, and contribute to systems that have real physical constraints. I’m especially interested in embedded systems, low-level electronics, and the intersection of firmware, signal design, and product development.",
-      "I care about projects that are messy but meaningful: ground systems, flight electronics, sensing networks, communications infrastructure, and any problem where hardware, software, and testing all have to work together. I want to build things with real engineering rigor, not just polished demos.",
-      "At this point in my career, I’m trying to get more intentional about what I want to do long term. I’m drawn to work that blends systems thinking, hands-on debugging, and technical communication. I’d like to be in environments where I can keep learning from people who build things deeply, and where iteration is part of the process instead of a sign of failure.",
-      "I’m also learning that a strong technical career isn’t only about being able to code or prototype fast. It’s about being able to choose the right problems, define constraints, and keep moving when the design gets hard. I want to keep building toward that kind of engineering work.",
-      "For the moment, my focus is getting grounded again: doing better in class, being more selective with commitments, and working on a few projects that actually push my understanding forward. My current focus is a ground control station and flight computer for an L1 rocket, with the long-term goal of building a stronger path between student projects and the kind of engineering work I want to do after graduation."
-    ]
   }
 }

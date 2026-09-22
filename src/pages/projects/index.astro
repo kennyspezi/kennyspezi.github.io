@@ -161,9 +161,11 @@ const escapeJson = (value: unknown) =>
       class="grid min-h-0 min-w-0 flex-1 gap-4 max-md:grid-rows-[auto_minmax(0,1fr)] lg:grid-cols-[minmax(20rem,0.8fr)_minmax(0,1.8fr)]"
     >
       <aside
-        class="flex min-h-0 flex-col rounded-3xl border border-primary/25 bg-primary/5 p-3 max-md:max-h-[35vh] max-md:overflow-y-auto"
+        class="flex min-h-0 flex-col rounded-3xl border border-primary/25 bg-primary/5 p-3 max-md:p-2"
       >
-        <header class="mb-4 shrink-0 border-b border-primary/15 px-3 pt-3 pb-4">
+        <header
+          class="mb-4 shrink-0 border-b border-primary/15 px-3 pt-3 pb-4 max-md:hidden"
+        >
           <h1
             class="mb-2 text-3xl font-black tracking-tight text-foreground md:text-4xl"
           >
@@ -171,7 +173,9 @@ const escapeJson = (value: unknown) =>
           </h1>
         </header>
 
-        <div class="mb-3 flex shrink-0 items-center justify-between px-3 py-2">
+        <div
+          class="mb-3 flex shrink-0 items-center justify-between px-3 py-2 max-md:hidden"
+        >
           <p class="text-xs font-bold tracking-[0.25em] text-primary uppercase">
             Timeline
           </p><span class="text-xs text-muted-foreground"
@@ -179,47 +183,65 @@ const escapeJson = (value: unknown) =>
           >
         </div>
         <div
-          class="min-h-0 flex-1 overflow-y-auto pr-1 max-md:flex-none max-md:overflow-x-auto max-md:overflow-y-hidden max-md:pb-1"
+          class="min-h-0 flex-1 overflow-y-auto pr-1 max-md:flex-none max-md:overflow-x-auto max-md:overflow-y-hidden"
         >
           <ol
             class="space-y-2 max-md:flex max-md:w-max max-md:gap-2 max-md:space-y-0"
           >
             {
-              projectsWithReadmes.map((project, index) => (
-                <li class="max-md:w-[min(68vw,16rem)] max-md:flex-none">
-                  <button
-                    type="button"
-                    title={project.title}
-                    aria-label={project.title}
-                    class:list={[
-                      "project-timeline-item group w-full rounded-2xl border p-4 text-left transition-all hover:-translate-y-0.5 hover:border-primary/70",
-                      index === 0
-                        ? "is-selected border-primary/70 bg-primary/15"
-                        : "border-border bg-card/65",
-                    ]}
-                    data-project={escapeJson(project)}
-                    aria-pressed={index === 0 ? "true" : "false"}
-                  >
-                    <span class="mb-2 block text-xs font-bold tracking-[0.15em] text-primary uppercase">
-                      {project.startDate || "Date pending"}
-                    </span>
-                    <span class="block text-lg font-black text-foreground group-hover:text-primary">
-                      {project.cardEmoji && (
-                        <span class="mr-1">{project.cardEmoji}</span>
+              projectsWithReadmes.map((project, index) => {
+                const thumbnail = project.previewImage || project.images?.[0];
+                return (
+                  <li class="max-md:w-16 max-md:flex-none">
+                    <button
+                      type="button"
+                      title={project.title}
+                      aria-label={project.title}
+                      class:list={[
+                        "project-timeline-item group w-full rounded-2xl border p-4 text-left transition-all hover:-translate-y-0.5 hover:border-primary/70 max-md:flex max-md:aspect-square max-md:items-center max-md:justify-center max-md:overflow-hidden max-md:p-1",
+                        index === 0
+                          ? "is-selected border-primary/70 bg-primary/15"
+                          : "border-border bg-card/65",
+                      ]}
+                      data-project={escapeJson(project)}
+                      aria-pressed={index === 0 ? "true" : "false"}
+                    >
+                      {thumbnail ? (
+                        <img
+                          src={thumbnail}
+                          alt={project.title}
+                          loading="lazy"
+                          class="hidden h-full w-full rounded-xl object-cover max-md:block md:hidden"
+                        />
+                      ) : (
+                        <span
+                          class="hidden text-3xl max-md:block md:hidden"
+                          aria-hidden="true"
+                        >
+                          {project.cardEmoji || "⚙️"}
+                        </span>
                       )}
-                      {project.title}
-                    </span>
-                    {project.subtitle && (
-                      <span class="mt-1 block text-sm leading-snug text-muted-foreground">
-                        {project.subtitle}
+                      <span class="mb-2 block text-xs font-bold tracking-[0.15em] text-primary uppercase max-md:hidden">
+                        {project.startDate || "Date pending"}
                       </span>
-                    )}
-                    <span class="mt-1 block text-sm text-muted-foreground">
-                      {project.status || "idea"}
-                    </span>
-                  </button>
-                </li>
-              ))
+                      <span class="block text-lg font-black text-foreground group-hover:text-primary max-md:hidden">
+                        {project.cardEmoji && (
+                          <span class="mr-1">{project.cardEmoji}</span>
+                        )}
+                        {project.title}
+                      </span>
+                      {project.subtitle && (
+                        <span class="mt-1 block text-sm leading-snug text-muted-foreground max-md:hidden">
+                          {project.subtitle}
+                        </span>
+                      )}
+                      <span class="mt-1 block text-sm text-muted-foreground max-md:hidden">
+                        {project.status || "idea"}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })
             }
           </ol>
         </div>
