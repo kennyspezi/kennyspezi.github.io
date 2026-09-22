@@ -104,41 +104,66 @@ const renderedEntries = await Promise.all(
                       : "What I am working toward next."}
                   </p>
                 </div>
-                <div class="flex flex-wrap gap-2 max-md:w-max max-md:flex-nowrap">
-                  {sectionEntries.map((entry, index) => (
-                    <button
-                      type="button"
-                      title={entry.data.title}
-                      aria-label={entry.data.title}
-                      class:list={[
-                        "entry-select group flex aspect-square w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border p-2 text-left transition-all hover:-translate-y-0.5 hover:border-primary/70",
-                        index === 0
-                          ? "is-selected border-primary/70 bg-primary/15"
-                          : "border-border bg-card/65",
-                      ]}
-                      data-entry-id={entry.id}
-                      data-entry-section={section}
-                      aria-pressed={index === 0 ? "true" : "false"}
-                    >
-                      {"logo" in entry.data && entry.data.logo ? (
-                        <img
-                          src={entry.data.logo}
-                          alt={entry.data.title}
-                          class="h-full w-full rounded-xl object-cover"
-                        />
-                      ) : entry.data.title.startsWith("Amazon") ? (
-                        <img
-                          src="/assets/orgs/amazon/logo.jpg"
-                          alt="Amazon"
-                          class="h-full w-full rounded-xl object-cover"
-                        />
-                      ) : (
-                        <span class="text-4xl" aria-hidden="true">
-                          🎓
+                <div class="space-y-2 max-md:flex max-md:w-max max-md:flex-nowrap max-md:gap-2 max-md:space-y-0">
+                  {sectionEntries.map((entry, index) => {
+                    const logoSrc =
+                      "logo" in entry.data && entry.data.logo
+                        ? entry.data.logo
+                        : entry.data.title.startsWith("Amazon")
+                          ? "/assets/orgs/amazon/logo.jpg"
+                          : "";
+                    return (
+                      <button
+                        type="button"
+                        title={entry.data.title}
+                        aria-label={entry.data.title}
+                        class:list={[
+                          "entry-select group w-full rounded-2xl border p-4 text-left transition-all hover:-translate-y-0.5 hover:border-primary/70 max-md:flex max-md:aspect-square max-md:w-16 max-md:shrink-0 max-md:items-center max-md:justify-center max-md:overflow-hidden max-md:p-1",
+                          index === 0
+                            ? "is-selected border-primary/70 bg-primary/15"
+                            : "border-border bg-card/65",
+                        ]}
+                        data-entry-id={entry.id}
+                        data-entry-section={section}
+                        aria-pressed={index === 0 ? "true" : "false"}
+                      >
+                        {logoSrc ? (
+                          <img
+                            src={logoSrc}
+                            alt={entry.data.title}
+                            class="hidden h-full w-full rounded-xl object-cover max-md:block md:hidden"
+                          />
+                        ) : (
+                          <span
+                            class="hidden text-3xl max-md:block md:hidden"
+                            aria-hidden="true"
+                          >
+                            🎓
+                          </span>
+                        )}
+                        <div class="hidden items-center gap-3 md:flex">
+                          {logoSrc && (
+                            <img
+                              src={logoSrc}
+                              alt=""
+                              class="h-10 w-10 shrink-0 rounded-full border border-border object-cover"
+                            />
+                          )}
+                          <span class="block text-lg font-black text-foreground group-hover:text-primary">
+                            {entry.data.title}
+                          </span>
+                        </div>
+                        {entry.data.period && (
+                          <span class="mt-1 hidden text-sm font-semibold text-primary md:block">
+                            {entry.data.period}
+                          </span>
+                        )}
+                        <span class="mt-2 hidden text-sm leading-relaxed text-muted-foreground md:block">
+                          {entry.data.summary}
                         </span>
-                      )}
-                    </button>
-                  ))}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             );
