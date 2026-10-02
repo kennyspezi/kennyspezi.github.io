@@ -2,10 +2,7 @@
 slug: sensor-matrix-tile
 title: Sensor Matrix Tile
 subtitle: Photodiode matrix with multiplexed readout to interface with MCU.
-description: >-
-  led matrices that are responsive to a photodiode matrix overlayed on top of
-  them. started as a project for IEEE-UH, now it's a little exercise. I plan for
-  the system to be able to scale up and have connectivity across multiple tiles.
+description: No description provided yet.
 repo: kennyspezi/sensor-matrix-tile
 status: building-paused
 contributorsWanted: false
@@ -18,7 +15,7 @@ tags:
   - photodiodes
   - sensors
 isFork: false
-updatedAt: "2026-09-16T19:06:56Z"
+updatedAt: "2026-09-16T19:51:19Z"
 stars: 0
 forks: 0
 previewImage: >-

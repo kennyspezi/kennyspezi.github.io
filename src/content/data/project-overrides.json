@@ -39,15 +39,6 @@
     ]
   },
   "repos": {
-    "kennyspezi/dulce-the-micromouse": {
-      "title": "Dulce the Micromouse: Schematic and PCB",
-      "subtitle": "Autonomous maze-solving robot PCB.",
-      "startDate": "Fall 2024",
-      "cardEmoji": "🐭",
-      "status": "archived",
-      "replacementLabel": "omnibot",
-      "replacementUrl": "/projects"
-    },
     "kennyspezi/sensor-matrix-tile": {
       "title": "Sensor Matrix Tile",
       "subtitle": "Photodiode matrix with multiplexed readout to interface with MCU.",
@@ -56,6 +47,15 @@
       "status": "building-paused",
       "lessonsLearned": "Multiplexers, transimpedance amplifiers, analog front ends, and logic-level translation.",
       "pending": "Revisit the matrix with a cleaner sensing target, improved analog validation, and a tested revision."
+    },
+    "kennyspezi/dulce-the-micromouse": {
+      "title": "Dulce the Micromouse: Schematic and PCB",
+      "subtitle": "Autonomous maze-solving robot PCB.",
+      "startDate": "Fall 2024",
+      "cardEmoji": "🐭",
+      "status": "archived",
+      "replacementLabel": "omnibot",
+      "replacementUrl": "/projects"
     },
     "kennyspezi/snitch-flight-computer": {
       "title": "Snitch the Flight Computer",
